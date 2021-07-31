@@ -1,1 +1,28 @@
-<p>account-list works!</p>
+<h3>Account List</h3>
+
+<table class="table table-hover">
+  <thead>
+  <tr>
+    <th>#</th>
+    <th>Username</th>
+    <th>Full Name</th>
+    <th>Email</th>
+    <th>Phone</th>
+    <th>Status</th>
+    <th>Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let account of accounts; index as i">
+    <td>{{i + 1}}</td>
+    <td>{{account.username}}</td>
+    <td>{{account.fullName}}</td>
+    <td>{{account.email}}</td>
+    <td>{{account.phone}}</td>
+    <td style="color: green" *ngIf="isCheck">Active</td>
+    <td style="color: red" *ngIf="!isCheck">Blocked</td>
+    <td *ngIf="!isCheck"></td>
+    <td *ngIf="isCheck"><a class="btn btn-danger" [routerLink]="['/accounts/block',account.id]">Block</a></td>
+  </tr>
+  </tbody>
+</table>

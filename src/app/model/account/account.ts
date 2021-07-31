@@ -6,8 +6,9 @@ export interface Account {
   phone?: string;
   birthday?: string;
   role?: any;
-  avatar?: string;
   fullName?: string;
   address?: string;
   favorite?: string;
+  avatar?: string;
+  isActive?: number;
 }

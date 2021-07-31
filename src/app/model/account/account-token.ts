@@ -6,9 +6,10 @@ export interface AccountToken {
   phone?: string;
   birthday?: string;
   role?: any;
-  avatar?: string;
   fullName?: string;
   address?: string;
   favorite?: string;
+  isActive?: number;
+  avatar?: string;
   accessToken?: string;
 }
