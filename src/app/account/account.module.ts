@@ -4,19 +4,22 @@ import {CommonModule} from '@angular/common';
 import {AccountRoutingModule} from './account-routing.module';
 import {AccountUpdateComponent} from './account-update/account-update.component';
 import {AccountListComponent} from './account-list/account-list.component';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { AccountBlockComponent } from './account-block/account-block.component';
 
 
 @NgModule({
   declarations: [
     AccountUpdateComponent,
-    AccountListComponent
+    AccountListComponent,
+    AccountBlockComponent,
   ],
-    imports: [
-        CommonModule,
-        AccountRoutingModule,
-        ReactiveFormsModule,
-    ]
+  imports: [
+    CommonModule,
+    AccountRoutingModule,
+    ReactiveFormsModule,
+    FormsModule
+  ]
 })
 export class AccountModule {
 }

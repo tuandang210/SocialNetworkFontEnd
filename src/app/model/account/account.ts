@@ -10,5 +10,5 @@ export interface Account {
   address?: string;
   favorite?: string;
   avatar?: string;
-  isActive?: number;
+  active?: boolean;
 }

@@ -12,17 +12,17 @@ import {finalize} from 'rxjs/operators';
 })
 export class AccountUpdateComponent implements OnInit {
   accountForm: FormGroup = new FormGroup({
+    username: new FormControl(),
+    password: new FormControl(),
     phone: new FormControl(),
     fullName: new FormControl(),
     address: new FormControl(),
     favorite: new FormControl(),
-    isActive: new FormControl()
+    active: new FormControl()
   });
   id: number;
   selectedImg = null;
   imgSrc = '';
-  isNull = false;
-  isOld = true;
 
   constructor(private accountService: AccountService,
               private activatedRoute: ActivatedRoute,
@@ -36,16 +36,18 @@ export class AccountUpdateComponent implements OnInit {
   ngOnInit() {
   }
 
-  private getAccount(id: number) {
+  public getAccount(id: number) {
     return this.accountService.findById(id).subscribe(account => {
       this.accountForm = new FormGroup({
-        id: new FormControl(account.id),
-        username: new FormControl(account.username),
-        fullName: new FormControl(account.fullName),
-        address: new FormControl(account.address),
-        phone: new FormControl(account.phone),
-        favorite: new FormControl(account.favorite),
-      });
+          id: new FormControl(account.id),
+          username: new FormControl(account.username),
+          fullName: new FormControl(account.fullName),
+          address: new FormControl(account.address),
+          phone: new FormControl(account.phone),
+          favorite: new FormControl(account.favorite)
+        }
+      );
+      this.imgSrc = account.avatar;
     });
   }
 
@@ -59,9 +61,16 @@ export class AccountUpdateComponent implements OnInit {
             this.imgSrc = url;
             const account = this.accountForm.value;
             account.avatar = url;
-            this.accountService.findById(id).subscribe(account1 => {
-              account1.avatar = account.avatar;
+            this.accountForm = new FormGroup({
+              id: new FormControl(account.id),
+              username: new FormControl(account.username),
+              fullName: new FormControl(account.fullName),
+              address: new FormControl(account.address),
+              phone: new FormControl(account.phone),
+              favorite: new FormControl(account.favorite),
+              avatar: new FormControl(account.avatar)
             });
+            console.log(account);
             this.accountService.updateAccount(id, account).subscribe();
             alert('Cập nhật thành công');
           });
@@ -89,10 +98,5 @@ export class AccountUpdateComponent implements OnInit {
     } else {
       this.selectedImg = null;
     }
-  }
-
-  checkNull() {
-    this.isNull = true;
-    this.isOld = false;
   }
 }

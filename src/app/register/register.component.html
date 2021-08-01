@@ -1,0 +1,33 @@
+<h3>Register</h3>
+<form [formGroup]="accountForm" (ngSubmit)="submit()">
+  <table>
+    <tr>
+      <th>Username</th>
+      <td><input type="text" formControlName="username"></td>
+    </tr>
+    <tr>
+      <th>Password</th>
+      <td><input type="password" formControlName="password"></td>
+    </tr>
+    <tr>
+      <th>Confirm Password</th>
+      <td><input type="password" formControlName="confirmPassword"></td>
+    </tr>
+    <tr>
+      <th>Email</th>
+      <td><input type="text" formControlName="email"></td>
+    </tr>
+    <tr>
+      <th>Phone</th>
+      <td><input type="text" formControlName="phone"></td>
+    </tr>
+    <tr>
+      <th>Birthday</th>
+      <td><input type="text" formControlName="birthday"></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><button>Tạo mới</button></td>
+    </tr>
+  </table>
+</form>
