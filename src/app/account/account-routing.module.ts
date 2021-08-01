@@ -5,12 +5,13 @@ import {AccountUpdateComponent} from './account-update/account-update.component'
 
 
 const routes: Routes = [{
-  path: '',
+  path: 'list',
   component: AccountListComponent
 }, {
-  path: 'update',
+  path: 'update/:id',
   component: AccountUpdateComponent
-}];
+}
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

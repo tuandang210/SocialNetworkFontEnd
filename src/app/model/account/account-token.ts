@@ -9,7 +9,7 @@ export interface AccountToken {
   fullName?: string;
   address?: string;
   favorite?: string;
-  isActive?: number;
+  active?: boolean;
   avatar?: string;
   accessToken?: string;
 }

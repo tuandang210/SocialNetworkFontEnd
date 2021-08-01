@@ -1,7 +1,8 @@
-import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
 import {LoginComponent} from './login/login.component';
 import {AuthGuard} from './helper/auth-guard';
+import {RegisterComponent} from './register/register.component';
 
 
 const routes: Routes = [{
@@ -16,6 +17,10 @@ const routes: Routes = [{
     path: 'status',
     canActivate: [AuthGuard],
     loadChildren: () => import('./status/status.module').then(module => module.StatusModule)
+  },
+  {
+    path: 'register',
+    component: RegisterComponent
   }
 ];
 
@@ -23,5 +28,4 @@ const routes: Routes = [{
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule {
-}
+export class AppRoutingModule { }

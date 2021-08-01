@@ -19,10 +19,10 @@
     <td>{{account.fullName}}</td>
     <td>{{account.email}}</td>
     <td>{{account.phone}}</td>
-    <td style="color: green" *ngIf="isCheck">Active</td>
-    <td style="color: red" *ngIf="!isCheck">Blocked</td>
-    <td *ngIf="!isCheck"></td>
-    <td *ngIf="isCheck"><a class="btn btn-danger" [routerLink]="['/accounts/block',account.id]">Block</a></td>
+    <td style="color: green" *ngIf="account.active">Active</td>
+    <td style="color: red" *ngIf="!account.active">Blocked</td>
+    <td *ngIf="!account.active"></td>
+    <td *ngIf="account.active"><a class="btn btn-danger" [routerLink]="['/accounts/block',account.id]">Block</a></td>
   </tr>
   </tbody>
 </table>

@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {StatusService} from '../../service/status/status.service';
 import {Status} from '../../model/status-model/status';
-import {AuthenticationService} from '../../service/authentication/authentication.service';
-import {AccountToken} from '../../model/account/account-token';
+
 
 @Component({
   selector: 'app-status-list',
@@ -10,18 +9,14 @@ import {AccountToken} from '../../model/account/account-token';
   styleUrls: ['./status-list.component.css']
 })
 export class StatusListComponent implements OnInit {
-  account: AccountToken = {};
   status: Status[] = [];
   check = false;
 
-  constructor(private statusService: StatusService,
-              private authenticationService: AuthenticationService) {
+  constructor(private statusService: StatusService) {
   }
 
   ngOnInit() {
     this.showStatus();
-    this.account = this.authenticationService.currentUserValue;
-    console.log(this.account);
   }
 
   showStatus() {

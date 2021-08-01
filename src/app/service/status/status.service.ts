@@ -21,6 +21,9 @@ export class StatusService {
   }
 
   createStatus(status: Status): Observable<Status> {
+    status.privacy = {
+      id: status.privacy
+    };
     return this.http.post<Status>(`${API_URL}/status`, status);
   }
 

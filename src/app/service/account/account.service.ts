@@ -19,8 +19,12 @@ export class AccountService {
     return this.http.get<Account[]>(`${API_URL}/accounts`);
   }
 
+  getAllUser(): Observable<Account[]> {
+    return this.http.get<Account[]>(`${API_URL}/accounts/user`);
+  }
+
   createAccount(account: Account): Observable<Account> {
-    return this.http.post<Account>(`${API_URL}/accounts`, account);
+    return this.http.post<Account>(`${API_URL}/accounts/register`, account);
   }
 
   findById(id: number): Observable<Account> {

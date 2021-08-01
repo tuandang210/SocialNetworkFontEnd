@@ -12,11 +12,14 @@ import {SharedModule} from './shared/shared.module';
 import {AngularFireStorageModule} from '@angular/fire/storage';
 import {AngularFireModule} from '@angular/fire';
 import {environment} from '../environments/environment';
+import { RegisterComponent } from './register/register.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,

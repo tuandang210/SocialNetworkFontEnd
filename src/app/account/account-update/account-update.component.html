@@ -7,9 +7,8 @@
     </tr>
     <tr>
       <th>Avatar</th>
-      <td><input type="file" (change)="showPreview($event); checkNull()" #preview></td>
-      <td><img *ngIf="isNull" style="height: 200px; width: 200px; object-fit: cover" [src]="imgSrc" (click)="preview.click()"></td>
-      <td><img *ngIf="isOld" style="height: 200px; width: 200px; object-fit: cover" [src]="accountForm.value.image"></td>
+      <td><input type="file" (change)="showPreview($event)" #preview></td>
+      <td><img style="height: 100px; width: 100px; object-fit: cover" [src]="imgSrc" (click)="preview.click()"></td>
     </tr>
     <tr>
       <th>Full Name</th>

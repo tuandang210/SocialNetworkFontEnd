@@ -24,7 +24,11 @@ export class LoginComponent implements OnInit {
   submit() {
     this.authenticationService.login(this.loginForm.get('username').value, this.loginForm.get('password').value).subscribe(() => {
       alert('Đăng nhập thành công!!');
-      this.router.navigate(['/']);
+      if (this.loginForm.get('username').value === 'admin') {
+        this.router.navigate(['/accounts/list']);
+      } else {
+        this.router.navigate(['/']);
+      }
     });
   }
 }
