@@ -1,0 +1,12 @@
+
+<form #statusForm ="ngForm" (ngSubmit)="createStatus(statusForm)">
+<table border="1px">
+  <div class="form-group" >
+    <label for="inputEmail"></label>
+    <input type="text" class="form-control" id="inputEmail" name="content" required [(ngModel)]="status.content" placeholder="what do you think?">
+    <a *ngIf="statusForm.invalid && isSubmitted">
+    </a>
+  </div>
+  <button type="submit" class="btn btn-primary">Save</button>
+</table>
+</form>
