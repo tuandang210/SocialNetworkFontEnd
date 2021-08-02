@@ -38,4 +38,8 @@ export class StatusService {
   deleteStatus(id: number): Observable<Status> {
     return this.http.delete<Status>(`${API_URL}/status/${id}`);
   }
+
+  findAccountByUsername(username: string): Observable<Account> {
+    return this.http.get<Account>(`${API_URL}/profile?username=${username}`);
+  }
 }

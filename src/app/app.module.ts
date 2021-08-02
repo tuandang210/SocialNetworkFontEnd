@@ -13,6 +13,7 @@ import {AngularFireStorageModule} from '@angular/fire/storage';
 import {AngularFireModule} from '@angular/fire';
 import {environment} from '../environments/environment';
 import { RegisterComponent } from './register/register.component';
+import {ProfileModule} from './profile/profile.module';
 
 
 @NgModule({

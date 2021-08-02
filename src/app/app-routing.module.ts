@@ -5,6 +5,7 @@ import {AuthGuard} from './helper/auth-guard';
 import {RegisterComponent} from './register/register.component';
 
 
+
 const routes: Routes = [{
   path: 'login',
   component: LoginComponent
@@ -21,6 +22,10 @@ const routes: Routes = [{
   {
     path: 'register',
     component: RegisterComponent
+  },
+  {
+    path: 'profile/:username',
+    loadChildren: () => import('./profile/profile.module').then(module => module.ProfileModule)
   }
 ];
 
