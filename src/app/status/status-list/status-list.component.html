@@ -1,8 +1,10 @@
-<h3>Status</h3>
-<button (click)="isCheck()">Ban dang nghi gi</button>
-<app-status-crate *ngIf="check"></app-status-crate>
-<ul class="list-group"  *ngFor="let status of status">
- <li class="list-group-item">{{status.account.username}}</li>
-  <li class="list-group-item" routerLink="/status/edit/{{status.id}}"><a>{{status.content}}</a></li>
-</ul>
+<div>
+  <h3>Status</h3>
+  <button (click)="isCheck()">Ban dang nghi gi</button>
+  <app-status-crate *ngIf="check" (newItemEvent)="getAllStatus($event)"></app-status-crate>
+  <ul class="list-group"  *ngFor="let status of status">
+    <li class="list-group-item">{{status.account.username}}</li>
+    <li class="list-group-item" routerLink="/status/edit/{{status.id}}"><a>{{status.content}}</a></li>
+  </ul>
+</div>
 

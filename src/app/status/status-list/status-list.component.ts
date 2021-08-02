@@ -25,6 +25,10 @@ export class StatusListComponent implements OnInit {
     });
   }
 
+  getAllStatus(status) {
+    this.status = status;
+  }
+
   isCheck() {
     this.check = !this.check;
   }
