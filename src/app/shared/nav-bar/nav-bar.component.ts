@@ -11,6 +11,7 @@ export class NavBarComponent implements OnInit {
   currentAccount: AccountToken = {};
   constructor(private authenticationService: AuthenticationService) {
     this.authenticationService.currentAccountSubject.subscribe(account => {
+      console.log(account);
       this.currentAccount = account;
     });
   }

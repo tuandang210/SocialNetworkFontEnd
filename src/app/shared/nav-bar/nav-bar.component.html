@@ -22,20 +22,27 @@
 
   <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <li class="nav-item"  *ngIf="!currentAccount || currentAccount && currentAccount.username !== 'admin'">
-        <a class="nav-link"  routerLink="/">HOME<span class="sr-only">(current)</span></a>
-      </li>
+
       <li *ngIf="!currentAccount" class="nav-item">
         <a class="nav-link"  routerLink="/login">LOGIN<span class="sr-only">(current)</span></a>
       </li>
       <li *ngIf="currentAccount" class="nav-item">
-        <a class="nav-link" >Welcome {{currentAccount.fullName}}</a>
+        <img style="border-radius: 30px; width: 50px; height: 50px; object-fit: cover" src="{{currentAccount.avatar}}" >
       </li>
-
-
+      <li *ngIf="currentAccount" class="nav-item">
+        <a *ngIf="currentAccount.fullName !== ''" class="nav-link">{{currentAccount.fullName}}</a>
+        <a *ngIf="currentAccount.fullName === ''" class="nav-link">{{currentAccount.username}}</a>
+      </li>
       <li *ngIf="!currentAccount" class="nav-item">
         <a class="nav-link"  routerLink="/register">REGISTER<span class="sr-only">(current)</span></a>
       </li>
+      <li class="nav-item"  *ngIf="!currentAccount || currentAccount && currentAccount.username !== 'admin'">
+        <a class="nav-link"  routerLink="/">HOME<span class="sr-only">(current)</span></a>
+      </li>
+
+
+
+
       <li class="nav-item"  *ngIf="currentAccount && currentAccount.username !== 'admin'">
         <a class="nav-link"  [routerLink]="['/accounts/update',currentAccount.id]">UPDATE<span class="sr-only">(current)</span></a>
       </li>
