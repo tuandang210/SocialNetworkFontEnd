@@ -15,8 +15,8 @@ export class AccountService {
   constructor(private http: HttpClient) {
   }
 
-  getAll(): Observable<Account[]> {
-    return this.http.get<Account[]>(`${API_URL}/accounts`);
+  getAll(offset: number): Observable<Account[]> {
+    return this.http.get<Account[]>(`${API_URL}/accounts/page/${offset}`);
   }
 
   getAllUser(): Observable<Account[]> {
@@ -35,7 +35,7 @@ export class AccountService {
     return this.http.put<Account>(`${API_URL}/accounts/${id}`, account);
   }
 
-  blockAccount(id: number, account: Account): Observable<Account> {
-    return this.http.put<Account>(`${API_URL}/accounts/admin/${id}`, account);
+  blockAccount(id: number): Observable<Account> {
+    return this.http.get<Account>(`${API_URL}/accounts/admin/${id}`);
   }
 }

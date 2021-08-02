@@ -23,10 +23,16 @@ export class LoginComponent implements OnInit {
 
   submit() {
     this.authenticationService.login(this.loginForm.get('username').value, this.loginForm.get('password').value).subscribe(() => {
-      alert('Đăng nhập thành công!!');
-      if (this.loginForm.get('username').value === 'admin') {
-        this.router.navigate(['/accounts/list']);
+      if (this.authenticationService.currentUserValue.active) {
+        alert('Đăng nhập thành công!!');
+        if (this.loginForm.get('username').value === 'admin') {
+          this.router.navigate(['/accounts/list']);
+        } else {
+          this.router.navigate(['/']);
+        }
       } else {
+        alert('Tài khoản của bạn bị khóa!');
+        this.authenticationService.logout();
         this.router.navigate(['/']);
       }
     });

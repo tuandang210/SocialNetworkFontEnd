@@ -22,7 +22,13 @@
     <td style="color: green" *ngIf="account.active">Active</td>
     <td style="color: red" *ngIf="!account.active">Blocked</td>
     <td *ngIf="!account.active"></td>
-    <td *ngIf="account.active"><a class="btn btn-danger" [routerLink]="['/accounts/block',account.id]">Block</a></td>
+    <td *ngIf="account.username === 'admin'"></td>
+    <td *ngIf="account.active && account.username !== 'admin'"><a class="btn btn-danger" (click)="block(account.id)">Block</a></td>
   </tr>
   </tbody>
 </table>
+<div align="center">
+  <button class="btn btn-default color-blue" (click)="previous()">Previous</button>
+  <button type="button" class="btn btn-default text-faded">{{page + 1}} / {{total}}</button>
+  <button class="btn btn-default color-blue" (click)="next()">Next</button>
+</div>
