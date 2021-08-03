@@ -1,1 +1,12 @@
-<p>profile works!</p>
+
+<div style="text-align: center">
+  <div><p>- Avatar :<img style="width: 100px;height: auto" [src]="account.avatar" alt="notFoul"></p></div>
+  <div><p>- User name : {{account.username}}</p></div>
+  <div><p>- Họ và tên : {{account.fullName}}</p></div>
+</div>
+<p>- Địa chỉ : {{account.address}}</p>
+<p>- SĐT : {{account.phone}}</p>
+<p>- Sở thích : {{account.favorite}}</p>
+<p>- Số lượng bạn bè : </p>
+<p *ngIf="MutualFriendsCheck">- Số lượng bạn bè chung : </p>
+<p><button>kết bạn</button></p>
