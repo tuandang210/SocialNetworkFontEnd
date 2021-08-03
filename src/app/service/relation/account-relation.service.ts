@@ -22,7 +22,7 @@ export class AccountRelationService {
   }
 
   getAllFriends(id: number): Observable<Account[]> {
-    return this.http.get<Account[]>(`${API_URL}/relations/${id}/friends`);
+    return this.http.get<Account[]>(`${API_URL}/relations/friends/${id}`);
   }
 
   getAllGuests(id: number): Observable<Account[]> {

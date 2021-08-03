@@ -2,28 +2,48 @@
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
-
-<div class="wrapper fadeInDown">
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+    <path
+      d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+  </symbol>
+</svg>
+<div *ngIf="isLogin" style="width: 250px; position: absolute; margin-left: 75%"
+     class="alert alert-success d-flex align-items-center" role="alert">
+  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
+    <use xlink:href="#check-circle-fill"/>
+  </svg>
+  <div>
+    Logged in successfully!
+  </div>
+</div>
+<div *ngIf="isBlock" align="center" style="width: 600px; position: relative; margin-left: 26.5%"
+     class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong> Warning! </strong> This account has been blocked.
+</div>
+<div *ngIf="isError" align="center" style="width: 600px; position: relative; margin-left: 26.5%"
+     class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong> Warning! </strong> Username or password is wrong, please check again.
+</div>
+<div class="wrapper fadeInDown" style="position: relative">
   <div id="formContent">
     <!-- Tabs Titles -->
-
     <!-- Icon -->
     <div class="fadeIn first">
-      <img style="object-fit: cover; height: 100px; width: 100px" src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png" id="icon" alt="User Icon" />
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/840px-Instagram_logo.svg.png"
+        id="icon" alt="User Icon"/>
     </div>
-
     <!-- Login Form -->
     <form [formGroup]="loginForm" (ngSubmit)="submit()">
       <input type="text" id="login" class="fadeIn second" formControlName="username" placeholder="username">
-      <input type="text" id="password" class="fadeIn third" formControlName="password" placeholder="password">
+      <input type="password" id="password" class="fadeIn third" formControlName="password" placeholder="password">
       <input type="submit" class="fadeIn fourth" value="Log In">
     </form>
-
     <!-- Remind Passowrd -->
     <div id="formFooter">
-      <a class="underlineHover" href="#">Forgot Password?</a>
+      <a class="underlineHover" routerLink="/register">Sign Up</a>
     </div>
-
   </div>
 </div>
 
