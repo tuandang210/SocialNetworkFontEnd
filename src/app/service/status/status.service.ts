@@ -17,7 +17,7 @@ export class StatusService {
   }
 
   getAllStatus(): Observable<Status[]> {
-    return this.http.get<Status[]>(`${API_URL}/status`);
+    return this.http.get<Status[]>(`${API_URL}/status/list`);
   }
 
   createStatus(status: Status): Observable<Status> {

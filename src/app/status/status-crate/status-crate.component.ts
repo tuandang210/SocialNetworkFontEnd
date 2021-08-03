@@ -23,7 +23,6 @@ export class StatusCrateComponent implements OnInit {
               private privacyService: PrivacyService) {
     this.authenticationService.currentAccountSubject.subscribe(account => {
       this.currentAccount = account;
-      console.log(this.currentAccount);
     });
   }
 
