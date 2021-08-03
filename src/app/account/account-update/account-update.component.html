@@ -4,7 +4,7 @@
     <h3>Update Profile</h3>
     <div class="row row-cols-lg-10">
       <div><b>Avatar</b></div>
-      <div><input type="file" (change)="showPreview($event)" #preview></div>
+      <div><input hidden type="file" (change)="showPreview($event)" #preview></div>
       <div><img style="height: 100px; width: 100px; object-fit: cover" [src]="imgSrc" (click)="preview.click()"></div>
     </div>
     <div  class="row row col-lg-10">
