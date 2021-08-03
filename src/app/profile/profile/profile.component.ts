@@ -3,7 +3,6 @@ import {AuthenticationService} from '../../service/authentication/authentication
 import {ActivatedRoute} from '@angular/router';
 import {StatusService} from '../../service/status/status.service';
 import {Status} from '../../model/status-model/status';
-import {AccountService} from '../../service/account/account.service';
 import {AccountRelationService} from '../../service/relation/account-relation.service';
 
 @Component({
@@ -20,10 +19,12 @@ export class ProfileComponent implements OnInit {
   status: Status[] = [];
   totalFriend = 0;
   id2 = -1;
+  id1 = '-1';
   mutualFriendsCheck = false;
-  friendCheck = false;
+  friendCheck = -1;
   loginCheck = false;
   checkOnlyMe = false;
+  friends: Account[] = [];
 
   constructor(private authenticationService: AuthenticationService,
               private activatedRoute: ActivatedRoute,
@@ -39,6 +40,7 @@ export class ProfileComponent implements OnInit {
     this.activatedRoute.paramMap.subscribe(paramMap => {
       const username = paramMap.get('username');
       this.statusService.findAccountByUsername(username).subscribe(account => {
+        this.id1 = account.id;
         this.statusPublic = [];
         this.statusFriendOnlyAndPublic = [];
         this.status = [];
@@ -50,6 +52,8 @@ export class ProfileComponent implements OnInit {
           this.id2 = this.authenticationService.currentUserValue.id;
           // hiện số bạn chung
           this.getMutualFriends(account.id, this.id2);
+          this.checkFriend(account.id, this.id2);
+          this.findAllFriendRequestSent();
         }
         this.account = account;
         this.getStatusByAccount(account.id);
@@ -58,7 +62,7 @@ export class ProfileComponent implements OnInit {
         // @ts-ignore
         if (account.id === this.id2) {
           this.mutualFriendsCheck = false;
-          this.friendCheck = false;
+          this.friendCheck = 2;
           this.loginCheck = true;
           this.checkOnlyMe = true;
         } else {
@@ -75,18 +79,15 @@ export class ProfileComponent implements OnInit {
       // cá nhân profile
       this.status = status;
       // nếu chưa đăng nhập hay chưa kết bạn
-      if (!this.loginCheck || !this.friendCheck) {
-        for (const status1 of status) {
-          if (status1.privacy.name === 'public') {
-            this.statusPublic.push(status1);
-          }
+      for (const status1 of status) {
+        if (status1.privacy.name === 'public') {
+          this.statusPublic.push(status1);
         }
-      } else {
-        // nếu đã đăng nhập và nếu đã là bạn
-        for (const status1 of status) {
-          if (status1.privacy.name === 'friend-only' || status1.privacy.name === 'public') {
-            this.statusFriendOnlyAndPublic.push(status1);
-          }
+      }
+      // nếu đã đăng nhập và nếu đã là bạn
+      for (const status1 of status) {
+        if (status1.privacy.name === 'friend-only' || status1.privacy.name === 'public') {
+          this.statusFriendOnlyAndPublic.push(status1);
         }
       }
     });
@@ -108,6 +109,65 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  checkFriend(id1, id2) {
+    if (id2 !== id1) {
+      this.accountRelationService.getRelation(id1, id2).subscribe(relation => {
+        if (relation.friendStatus.status === 'FRIEND') {
+          this.friendCheck = 1;
+        }
+        if (relation.friendStatus.status === 'GUEST') {
+          this.friendCheck = -1;
+        }
+        if (relation.friendStatus.status === 'PENDING') {
+          this.friendCheck = 0;
+        }
+      }, error => {
+        this.friendCheck = -1;
+      });
+    }
+  }
+
   deleteByStatus(id: number) {
+  }
+
+  sendFriend() {
+    this.accountRelationService.sendFriendRequest(this.id1, this.id2).subscribe(() => {
+      this.friendCheck = 0;
+    });
+  }
+
+  editFriend() {
+    this.accountRelationService.cancelFriendRequest(this.id1, this.id2).subscribe(() => {
+      this.friendCheck = -1;
+    });
+  }
+
+  deleteFriend() {
+    this.accountRelationService.unFriend(this.id1, this.id2).subscribe(() => {
+      this.friendCheck = -1;
+    });
+  }
+
+  acceptFriend() {
+    this.accountRelationService.acceptFriendRequest(this.id1, this.id2).subscribe(() => {
+      console.log('chấp nhận lời mời');
+    });
+  }
+
+  declineFriend() {
+    this.accountRelationService.declineFriendRequest(this.id1, this.id2).subscribe(() => {
+      console.log('từ chối lời mời');
+    });
+  }
+
+  findAllFriendRequestSent() {
+    console.log('đây nha');
+    this.accountRelationService.findAllFriendRequestSent(this.id1).subscribe(friends => {
+      for (const friend of friends) {
+        // @ts-ignore
+        this.friends.push(friend);
+      }
+      console.log(this.friends);
+    });
   }
 }
