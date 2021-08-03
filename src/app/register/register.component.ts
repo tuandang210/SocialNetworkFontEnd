@@ -58,6 +58,7 @@ export class RegisterComponent implements OnInit {
           this.accountService.username1 = this.accountForm.value.username;
           this.accountService.password1 = this.accountForm.value.password;
           this.accountService.createAccount(account).subscribe(() => {
+            this.isDone = true;
             setTimeout(() => {
               this.router.navigate(['/login']);
             }, 1000);
