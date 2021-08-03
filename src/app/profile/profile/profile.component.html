@@ -7,6 +7,28 @@
 <p>- Địa chỉ : {{account.address}}</p>
 <p>- SĐT : {{account.phone}}</p>
 <p>- Sở thích : {{account.favorite}}</p>
-<p>- Số lượng bạn bè : </p>
-<p *ngIf="MutualFriendsCheck">- Số lượng bạn bè chung : </p>
+<p>- Số lượng bạn bè : {{totalFriend}}</p>
+<p *ngIf="mutualFriendsCheck">- Số lượng bạn bè chung : {{mutualFriends}}</p>
 <p><button>kết bạn</button></p>
+<div *ngIf="!loginCheck && !friendCheck">
+  <div class="statusForm" class="col-12 col-md-6 alert-secondary rounded p-4" *ngFor="let s of statusPublic">
+    <li class="list-group-item">{{s.account.username}}</li>
+    <li class="list-group-item">{{s.content}}</li>
+  </div>
+</div>
+<div *ngIf="friendCheck">
+  <div class="statusForm" class="col-12 col-md-6 alert-secondary rounded p-4" *ngFor="let s of statusFriendOnlyAndPublic">
+    <li class="list-group-item">{{s.account.username}}</li>
+    <li class="list-group-item">{{s.content}}</li>
+<!--    <button *ngIf="s.account.id==account.id" routerLink="/status/edit/{{s.id}}">Edit</button>-->
+<!--    <button *ngIf="s.account.id==account.id" (click)="deleteByStatus(s.id)">Delete</button>-->
+  </div>
+</div>
+<div *ngIf="checkOnlyMe">
+  <div class="statusForm" class="col-12 col-md-6 alert-secondary rounded p-4" *ngFor="let s of status">
+    <li class="list-group-item">{{s.account.username}}</li>
+    <li class="list-group-item">{{s.content}}</li>
+    <button *ngIf="s.account.id==account.id" routerLink="/status/edit/{{s.id}}">Edit</button>
+    <button *ngIf="s.account.id==account.id" (click)="deleteByStatus(s.id)">Delete</button>
+  </div>
+</div>
