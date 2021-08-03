@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Account} from '../model/account/account';
 import {AccountService} from '../service/account/account.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -9,18 +10,23 @@ import {AccountService} from '../service/account/account.service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-
   accountForm: FormGroup = new FormGroup({
-    username: new FormControl(),
-    password: new FormControl(),
-    email: new FormControl(),
-    phone: new FormControl(),
-    birthday: new FormControl(),
+    username: new FormControl('', [Validators.required]),
+    password: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(32)]),
+    email: new FormControl('', [Validators.required, Validators.pattern('^[a-z0-9]+@[a-z]+\\.[a-z]{2,6}$')]),
+    phone: new FormControl('', [Validators.pattern('^0+[0-9]{9}$')]),
+    birthday: new FormControl('', [Validators.pattern('^(0?[1-9]|[12][0-9]|3[01])[\\/\\-](0?[1-9]|1[012])[\\/\\-]\\d{4}$')]),
     confirmPassword: new FormControl()
   });
   accounts: Account[] = [];
+  isDone = false;
+  isUsername = false;
+  isPassword = false;
+  isEmail = false;
+  message = '';
 
-  constructor(private accountService: AccountService) {
+  constructor(private accountService: AccountService,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -35,24 +41,53 @@ export class RegisterComponent implements OnInit {
       for (const x of this.accounts) {
         if (x.username === account.username) {
           isAvailable = true;
-          alert('Username đã tồn tại');
+          this.message = 'Username already exist';
+          this.isUsername = true;
+          // alert('Username đã tồn tại');
           break;
         } else if (x.email === account.email) {
           isAvailable = true;
-          alert('Email đã tồn tại');
+          this.message = 'Email already exist';
+          this.isEmail = true;
+          // alert('Email đã tồn tại');
           break;
         }
       }
       if (!isAvailable) {
         if (account.password === account.confirmPassword) {
+          this.accountService.username1 = this.accountForm.value.username;
+          this.accountService.password1 = this.accountForm.value.password;
           this.accountService.createAccount(account).subscribe(() => {
-            this.accountForm.reset();
-            alert('Tạo mới thành công!');
+            setTimeout(() => {
+              this.router.navigate(['/login']);
+            }, 1000);
           });
         } else {
-          alert('Mật khẩu không trùng nhau');
+          this.message = 'No duplicate password';
+          this.isPassword = true;
+          // alert('Mật khẩu không trùng nhau');
         }
       }
     });
+  }
+
+  get username() {
+    return this.accountForm.get('username');
+  }
+
+  get password() {
+    return this.accountForm.get('password');
+  }
+
+  get email() {
+    return this.accountForm.get('email');
+  }
+
+  get birthday() {
+    return this.accountForm.get('birthday');
+  }
+
+  get phone() {
+    return this.accountForm.get('phone');
   }
 }
