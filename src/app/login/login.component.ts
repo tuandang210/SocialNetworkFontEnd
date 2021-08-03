@@ -32,11 +32,11 @@ export class LoginComponent implements OnInit {
         if (this.loginForm.get('username').value === 'admin') {
           setTimeout(() => {
             this.router.navigate(['/accounts/list']);
-          }, 1000);
+          }, 100);
         } else {
           setTimeout(() => {
             this.router.navigate(['/profile/' + this.loginForm.get('username').value]);
-          }, 1000);
+          }, 100);
         }
       } else if (this.authenticationService.currentUserValue.active === false) {
         // alert('Tài khoản của bạn bị khóa!');
