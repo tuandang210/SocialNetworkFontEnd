@@ -1,34 +1,28 @@
-<h3>Update Profile</h3>
+
 <form [formGroup]="accountForm" (ngSubmit)="updateAccount(id)">
-  <table>
-    <tr>
-      <th>Username</th>
-      <td><input readonly type="text" formControlName="username"></td>
-    </tr>
-    <tr>
-      <th>Avatar</th>
-      <td><input type="file" (change)="showPreview($event)" #preview></td>
-      <td><img style="height: 100px; width: 100px; object-fit: cover" [src]="imgSrc" (click)="preview.click()"></td>
-    </tr>
-    <tr>
-      <th>Full Name</th>
-      <td><input type="text" formControlName="fullName"></td>
-    </tr>
-    <tr>
-      <th>Address</th>
-      <td><input type="text" formControlName="address"></td>
-    </tr>
-    <tr>
-      <th>Phone</th>
-      <td><input type="text" formControlName="phone"></td>
-    </tr>
-    <tr>
-      <th>Favorite</th>
-      <td><textarea cols="50" rows="3" type="text" formControlName="favorite"></textarea></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td><button>Update</button></td>
-    </tr>
-  </table>
+  <div align="center" class="container">
+    <h3>Update Profile</h3>
+    <div class="row row-cols-lg-10">
+      <div><b>Avatar</b></div>
+      <div><input type="file" (change)="showPreview($event)" #preview></div>
+      <div><img style="height: 100px; width: 100px; object-fit: cover" [src]="imgSrc" (click)="preview.click()"></div>
+    </div>
+    <div  class="row row col-lg-10">
+      <div  class="col row-cols-sm-8"><b>Username </b> <input readonly type="text" formControlName="username"></div>
+      <div  class="col row-cols-sm-8"><b>Full Name</b> <input type="text" formControlName="fullName"></div>
+    </div>
+
+    <div class="row row col-lg-10">
+      <div class="col row-cols-sm-8"><b>Address</b> <input type="text" formControlName="address"></div>
+      <div class="col row-cols-sm-8"><b>Phone</b> <input type="text" formControlName="phone"></div>
+    </div>
+    <div>
+      <div><b>Favorite</b></div>
+      <div><textarea placeholder=" Write something ..." cols="109" rows="3" type="text" formControlName="favorite"></textarea></div>
+    </div>
+    <div>
+
+      <div><button class="btn btn-primary">Update</button></div>
+    </div>
+  </div>
 </form>
