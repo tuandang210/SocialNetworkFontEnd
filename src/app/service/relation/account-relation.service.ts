@@ -48,37 +48,37 @@ export class AccountRelationService {
    */
 
   // Tìm danh sách lời mời kết bạn mình đã gửi
-  findAllFriendRequestReceived(id: number): Observable<Account[]> {
+  findAllFriendRequestReceived(id): Observable<Account[]> {
     return this.http.get<Account[]>(`${API_URL}/relations/${id}/sent`);
   }
 
   // Tìm danh sách lời mời kết bạn mình đã nhận
-  findAllFriendRequestSent(id: number): Observable<Account[]> {
+  findAllFriendRequestSent(id): Observable<Account[]> {
     return this.http.get<Account[]>(`${API_URL}/relations/${id}/received`);
   }
 
   // Gửi lời mời kết bạn
-  sendFriendRequest(id1: number, id2: number): Observable<Relation> {
-    return this.http.put<Relation>(`${API_URL} / relations /${id1}/request/${id2}`, {});
+  sendFriendRequest(id1, id2): Observable<Relation> {
+    return this.http.put<Relation>(`${API_URL}/relations/${id1}/request/${id2}`, {});
   }
 
   // Xóa lời mời kết bạn đã gửi
-  cancelFriendRequest(id1: number, id2: number): Observable<Relation> {
-    return this.http.put<Relation>(`${API_URL} / relations /${id1}/cancel/${id2}`, {});
+  cancelFriendRequest(id1, id2): Observable<Relation> {
+    return this.http.put<Relation>(`${API_URL}/relations/${id1}/cancel/${id2}`, {});
   }
 
   // Nhận lời mời kết bạn
-  acceptFriendRequest(id1: number, id2: number): Observable<Relation> {
-    return this.http.put<Relation>(`${API_URL} / relations /${id1}/accept/${id2}`, {});
+  acceptFriendRequest(id1, id2): Observable<Relation> {
+    return this.http.put<Relation>(`${API_URL}/relations/${id1}/accept/${id2}`, {});
   }
 
   // Từ chối lời mời kết bạn
-  declineFriendRequest(id1: number, id2: number): Observable<Relation> {
-    return this.http.put<Relation>(`${API_URL} / relations /${id1}/decline/${id2}`, {});
+  declineFriendRequest(id1, id2): Observable<Relation> {
+    return this.http.put<Relation>(`${API_URL}/relations/${id1}/decline/${id2}`, {});
   }
 
   // Bỏ kết bạn
-  unFriend(id1: number, id2: number): Observable<Relation> {
-    return this.http.put<Relation>(`${API_URL} / relations /${id1}/unfriend/${id2}`, {});
+  unFriend(id1, id2): Observable<Relation> {
+    return this.http.put<Relation>(`${API_URL}/relations/${id1}/unfriend/${id2}`, {});
   }
 }
