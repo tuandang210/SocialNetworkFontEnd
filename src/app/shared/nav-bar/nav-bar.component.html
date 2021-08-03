@@ -33,16 +33,12 @@
         <a *ngIf="currentAccount.fullName !== ''" class="nav-link">{{currentAccount.fullName}}</a>
         <a *ngIf="currentAccount.fullName === ''" class="nav-link">{{currentAccount.username}}</a>
       </li>
-      <li *ngIf="!currentAccount" class="nav-item">
-        <a class="nav-link"  routerLink="/register">REGISTER<span class="sr-only">(current)</span></a>
-      </li>
+<!--      <li *ngIf="!currentAccount" class="nav-item">-->
+<!--        <a class="nav-link"  routerLink="/register">REGISTER<span class="sr-only">(current)</span></a>-->
+<!--      </li>-->
       <li class="nav-item"  *ngIf="!currentAccount || currentAccount && currentAccount.username !== 'admin'">
         <a class="nav-link"  routerLink="/">HOME<span class="sr-only">(current)</span></a>
       </li>
-
-
-
-
       <li class="nav-item"  *ngIf="currentAccount && currentAccount.username !== 'admin'">
         <a class="nav-link"  [routerLink]="['/accounts/update',currentAccount.id]">UPDATE<span class="sr-only">(current)</span></a>
       </li>

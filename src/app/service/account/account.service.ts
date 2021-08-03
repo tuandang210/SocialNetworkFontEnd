@@ -11,8 +11,26 @@ const API_URL = `${environment.apiUrl}`;
 })
 export class AccountService {
   accounts: Account[] = [];
+  username = '';
+  password = '';
 
   constructor(private http: HttpClient) {
+  }
+
+  get username1() {
+    return this.username;
+  }
+
+  set username1(username) {
+    this.username = username;
+  }
+
+  get password1() {
+    return this.password;
+  }
+
+  set password1(password) {
+    this.password = password;
   }
 
   getAll(offset: number): Observable<Account[]> {
