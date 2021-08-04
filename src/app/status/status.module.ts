@@ -13,10 +13,10 @@ import { StatusEditComponent } from './status-edit/status-edit.component';
     exports: [
         StatusCrateComponent
     ],
-    imports: [
-        CommonModule,
-        StatusRoutingModule,
-        FormsModule
-    ]
+  imports: [
+    CommonModule,
+    StatusRoutingModule,
+    FormsModule,
+  ]
 })
 export class StatusModule { }
