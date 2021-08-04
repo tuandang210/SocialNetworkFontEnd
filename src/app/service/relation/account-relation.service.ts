@@ -23,22 +23,22 @@ export class AccountRelationService {
   }
 
   // Tìm tất cả bạn bè
-  getAllFriends(id: number): Observable<Account[]> {
+  getAllFriends(id): Observable<Account[]> {
     return this.http.get<Account[]>(`${API_URL}/relations/friends/${id}`);
   }
 
   // Tìm tất cả khách
-  getAllGuests(id: number): Observable<Account[]> {
+  getAllGuests(id): Observable<Account[]> {
     return this.http.get<Account[]>(`${API_URL}/relations/${id}/guests`);
   }
 
   // Tìm mối quan hệ giữa 2 tài khoản
-  getRelation(id1: number, id2: number): Observable<Relation> {
+  getRelation(id1, id2): Observable<Relation> {
     return this.http.get<Relation>(`${API_URL}/relations/${id1}/${id2}`);
   }
 
   // Tìm bạn chung
-  getMutualFriends(id1: number, id2: number): Observable<Account[]> {
+  getMutualFriends(id1, id2): Observable<Account[]> {
     return this.http.get<Account[]>(`${API_URL}/relations/${id1}/${id2}/friends`);
   }
 

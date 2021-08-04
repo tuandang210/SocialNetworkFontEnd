@@ -46,4 +46,19 @@ export class StatusService {
   getStatusByAccountId(id): Observable<Status[]> {
     return this.http.get<Status[]>(API_URL + '/status/account/' + id);
   }
+
+  /* Các API hiển thị bảng tin
+  */
+  // lấy về danh sách các bài đăng public
+  getAllPublicStatus(): Observable<Status[]> {
+    return this.http.get<Status[]>(API_URL + '/status/public');
+  }
+  // lấy về danh sách các bài đăng của bạn bè, truyền vào id được lưu trong localStorage
+  getAllFriendStatus(id): Observable<Status[]> {
+    return this.http.get<Status[]>(API_URL + '/status/friends' + id);
+  }
+  // Lấy về danh sách bài đăng của bạn bè và các bài đăng công khai, truyền vào id được lưu trong localStorage
+  getNewsFeed(id): Observable<Status[]> {
+    return this.http.get<Status[]>(API_URL + '/status/newsfeed' + id);
+  }
 }
