@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ProfileRoutingModule } from './profile-routing.module';
 import {ProfileComponent} from './profile/profile.component';
 import {FormsModule} from '@angular/forms';
+import {StatusModule} from '../status/status.module';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import {FormsModule} from '@angular/forms';
     imports: [
         CommonModule,
         ProfileRoutingModule,
-        FormsModule
+        FormsModule,
+        StatusModule
     ]
 })
 export class ProfileModule { }
