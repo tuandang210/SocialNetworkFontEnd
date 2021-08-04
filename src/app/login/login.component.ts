@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
   isLogin = false;
   isBlock = false;
   isError = false;
+  passwordType = 'password';
   constructor(private authenticationService: AuthenticationService,
               private router: Router,
               private accountService: AccountService) {
@@ -52,5 +53,10 @@ export class LoginComponent implements OnInit {
         this.isError = false;
       }, 5000);
     });
+  }
+
+  hideShowPassword() {
+    this.passwordType = this.passwordType === 'text' ? 'password' : 'text';
+    // this.passwordIcon = this.passwordIcon === 'hide' ? 'show' : 'hide';
   }
 }

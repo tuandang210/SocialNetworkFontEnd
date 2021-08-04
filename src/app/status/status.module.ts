@@ -9,11 +9,14 @@ import { StatusEditComponent } from './status-edit/status-edit.component';
 
 
 @NgModule({
-  declarations: [StatusListComponent, StatusCrateComponent, StatusEditComponent],
-    imports: [
-        CommonModule,
-        StatusRoutingModule,
-        FormsModule
-    ]
+    declarations: [StatusListComponent, StatusCrateComponent, StatusEditComponent],
+    exports: [
+        StatusCrateComponent
+    ],
+  imports: [
+    CommonModule,
+    StatusRoutingModule,
+    FormsModule,
+  ]
 })
 export class StatusModule { }
