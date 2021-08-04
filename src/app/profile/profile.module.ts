@@ -8,9 +8,12 @@ import {StatusModule} from '../status/status.module';
 
 
 @NgModule({
-  declarations: [
-    ProfileComponent
-  ],
+    declarations: [
+        ProfileComponent
+    ],
+    exports: [
+        ProfileComponent
+    ],
     imports: [
         CommonModule,
         ProfileRoutingModule,

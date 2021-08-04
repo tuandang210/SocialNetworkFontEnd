@@ -14,7 +14,6 @@ import {AccountToken} from '../../model/account/account-token';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  @Output() newItemEvent = new EventEmitter();
   // @ts-ignore
   account: Account = {};
   mutualFriends = 0;
@@ -50,9 +49,6 @@ export class ProfileComponent implements OnInit {
       const username = paramMap.get('username');
       this.statusService.findAccountByUsername(username).subscribe(account => {
         this.id2 = account.id;
-        this.statusPublic = [];
-        this.statusFriendOnlyAndPublic = [];
-        this.status = [];
         this.mutualFriends = 0;
         // check xem đã đăng nhập chưa
         if (this.authenticationService.currentUserValue) {
@@ -86,6 +82,9 @@ export class ProfileComponent implements OnInit {
   }
 
   getStatusByAccount(id) {
+    this.statusPublic = [];
+    this.statusFriendOnlyAndPublic = [];
+    this.status = [];
     this.statusService.getStatusByAccountId(id).subscribe(status => {
       // cá nhân profile
       this.status = status;
@@ -166,8 +165,8 @@ export class ProfileComponent implements OnInit {
 
   // chấp nhận lời mời
   acceptFriend(id) {
-    console.log('ok');
     this.accountRelationService.acceptFriendRequest(this.id1, id).subscribe(() => {
+      this.ngOnInit();
       this.friendCheck = 1;
     });
   }
@@ -175,12 +174,15 @@ export class ProfileComponent implements OnInit {
   // từ chối lời mời
   declineFriend(id) {
     this.accountRelationService.declineFriendRequest(this.id1, id).subscribe(() => {
+      this.ngOnInit();
       this.friendCheck = -1;
     });
   }
 
+ // chấp nhận lời mời
   acceptFriend1() {
     this.accountRelationService.acceptFriendRequest(this.id1, this.id2).subscribe(() => {
+      this.ngOnInit();
       this.friendCheck = 1;
     });
   }
@@ -188,11 +190,13 @@ export class ProfileComponent implements OnInit {
   // từ chối lời mời
   declineFriend1() {
     this.accountRelationService.declineFriendRequest(this.id1, this.id2).subscribe(() => {
+      this.ngOnInit();
       this.friendCheck = -1;
     });
   }
 
   findAllFriendRequestSent() {
+    this.requestSent = [];
     this.accountRelationService.findAllFriendRequestSent(this.id1).subscribe(friends => {
       for (const friend of friends) {
         // @ts-ignore
@@ -217,29 +221,22 @@ export class ProfileComponent implements OnInit {
   saveStatus() {
     this.statusService.editStatus(this.status1, this.status1.id).subscribe(() => {
       this.getStatusByAccount(this.id2);
-      console.log('edit ok');
     });
   }
 
   deleteByStatus(id: number) {
     this.statusService.deleteStatus(id).subscribe(() => {
       this.getStatusByAccount(this.id2);
-      console.log('delete ok');
     });
   }
 
   createStatus() {
     this.getStatusByAccount(this.id2);
-    this.showFormStatus();
   }
 
   showPrivacy() {
     this.privacyService.showPrivacy().subscribe(privacy => {
       this.privacyS = privacy;
     });
-  }
-
-  showFormStatus() {
-    this.checkShowStatusForm = !this.checkShowStatusForm;
   }
 }
