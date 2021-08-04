@@ -23,22 +23,22 @@ export class AccountRelationService {
   }
 
   // Tìm tất cả bạn bè
-  getAllFriends(id: number): Observable<Account[]> {
+  getAllFriends(id): Observable<Account[]> {
     return this.http.get<Account[]>(`${API_URL}/relations/friends/${id}`);
   }
 
   // Tìm tất cả khách
-  getAllGuests(id: number): Observable<Account[]> {
+  getAllGuests(id): Observable<Account[]> {
     return this.http.get<Account[]>(`${API_URL}/relations/${id}/guests`);
   }
 
   // Tìm mối quan hệ giữa 2 tài khoản
-  getRelation(id1: number, id2: number): Observable<Relation> {
+  getRelation(id1, id2): Observable<Relation> {
     return this.http.get<Relation>(`${API_URL}/relations/${id1}/${id2}`);
   }
 
   // Tìm bạn chung
-  getMutualFriends(id1: number, id2: number): Observable<Account[]> {
+  getMutualFriends(id1, id2): Observable<Account[]> {
     return this.http.get<Account[]>(`${API_URL}/relations/${id1}/${id2}/friends`);
   }
 
@@ -48,37 +48,37 @@ export class AccountRelationService {
    */
 
   // Tìm danh sách lời mời kết bạn mình đã gửi
-  findAllFriendRequestReceived(id: number): Observable<Account[]> {
+  findAllFriendRequestReceived(id): Observable<Account[]> {
     return this.http.get<Account[]>(`${API_URL}/relations/${id}/sent`);
   }
 
   // Tìm danh sách lời mời kết bạn mình đã nhận
-  findAllFriendRequestSent(id: number): Observable<Account[]> {
+  findAllFriendRequestSent(id): Observable<Account[]> {
     return this.http.get<Account[]>(`${API_URL}/relations/${id}/received`);
   }
 
   // Gửi lời mời kết bạn
-  sendFriendRequest(id1: number, id2: number): Observable<Relation> {
-    return this.http.put<Relation>(`${API_URL} / relations /${id1}/request/${id2}`, {});
+  sendFriendRequest(id1, id2): Observable<Relation> {
+    return this.http.put<Relation>(`${API_URL}/relations/${id1}/request/${id2}`, {});
   }
 
   // Xóa lời mời kết bạn đã gửi
-  cancelFriendRequest(id1: number, id2: number): Observable<Relation> {
-    return this.http.put<Relation>(`${API_URL} / relations /${id1}/cancel/${id2}`, {});
+  cancelFriendRequest(id1, id2): Observable<Relation> {
+    return this.http.put<Relation>(`${API_URL}/relations/${id1}/cancel/${id2}`, {});
   }
 
   // Nhận lời mời kết bạn
-  acceptFriendRequest(id1: number, id2: number): Observable<Relation> {
-    return this.http.put<Relation>(`${API_URL} / relations /${id1}/accept/${id2}`, {});
+  acceptFriendRequest(id1, id2): Observable<Relation> {
+    return this.http.put<Relation>(`${API_URL}/relations/${id1}/accept/${id2}`, {});
   }
 
   // Từ chối lời mời kết bạn
-  declineFriendRequest(id1: number, id2: number): Observable<Relation> {
-    return this.http.put<Relation>(`${API_URL} / relations /${id1}/decline/${id2}`, {});
+  declineFriendRequest(id1, id2): Observable<Relation> {
+    return this.http.put<Relation>(`${API_URL}/relations/${id1}/decline/${id2}`, {});
   }
 
   // Bỏ kết bạn
-  unFriend(id1: number, id2: number): Observable<Relation> {
-    return this.http.put<Relation>(`${API_URL} / relations /${id1}/unfriend/${id2}`, {});
+  unFriend(id1, id2): Observable<Relation> {
+    return this.http.put<Relation>(`${API_URL}/relations/${id1}/unfriend/${id2}`, {});
   }
 }
