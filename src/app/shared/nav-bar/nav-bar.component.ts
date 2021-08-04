@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthenticationService} from '../../service/authentication/authentication.service';
 import {AccountToken} from '../../model/account/account-token';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-nav-bar',
@@ -9,9 +10,9 @@ import {AccountToken} from '../../model/account/account-token';
 })
 export class NavBarComponent implements OnInit {
   currentAccount: AccountToken = {};
-  constructor(private authenticationService: AuthenticationService) {
+
+  constructor(private authenticationService: AuthenticationService, private router: Router) {
     this.authenticationService.currentAccountSubject.subscribe(account => {
-      console.log(account);
       this.currentAccount = account;
     });
   }
@@ -21,5 +22,9 @@ export class NavBarComponent implements OnInit {
 
   logout() {
     this.authenticationService.logout();
+  }
+
+  search(value: string) {
+    this.router.navigateByUrl('/profile/' + value);
   }
 }

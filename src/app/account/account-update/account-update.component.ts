@@ -4,6 +4,7 @@ import {AccountService} from '../../service/account/account.service';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {finalize} from 'rxjs/operators';
+import {AuthenticationService} from '../../service/authentication/authentication.service';
 
 @Component({
   selector: 'app-account-update',
@@ -23,10 +24,12 @@ export class AccountUpdateComponent implements OnInit {
   id: number;
   selectedImg = null;
   imgSrc = '';
+  oldAvatar = '';
 
   constructor(private accountService: AccountService,
               private activatedRoute: ActivatedRoute,
-              private angularFireStorage: AngularFireStorage) {
+              private angularFireStorage: AngularFireStorage,
+              private authenticationService: AuthenticationService) {
     this.activatedRoute.paramMap.subscribe((paramMap: ParamMap) => {
       this.id = +paramMap.get('id');
       this.getAccount(this.id);
@@ -58,6 +61,7 @@ export class AccountUpdateComponent implements OnInit {
       this.angularFireStorage.upload(filePath, this.selectedImg).snapshotChanges().pipe(
         finalize(() => {
           fileRef.getDownloadURL().subscribe(url => {
+
             this.imgSrc = url;
             const account = this.accountForm.value;
             account.avatar = url;
@@ -67,14 +71,20 @@ export class AccountUpdateComponent implements OnInit {
               fullName: new FormControl(account.fullName),
               address: new FormControl(account.address),
               phone: new FormControl(account.phone),
-              favorite: new FormControl(account.favorite),
-              avatar: new FormControl(account.avatar)
+              favorite: new FormControl(account.favorite)
             });
-            console.log(account);
+            this.authenticationService.currentUserValue.avatar = url;
+            this.authenticationService.currentUserValue.fullName = account.fullName;
             this.accountService.updateAccount(id, account).subscribe();
             alert('Cập nhật thành công');
           });
         })).subscribe();
+    } else {
+      const account = this.accountForm.value;
+      account.avatar = this.authenticationService.currentUserValue.avatar;
+      this.authenticationService.currentUserValue.fullName = account.fullName;
+      this.accountService.updateAccount(id, account).subscribe();
+      alert('Cập nhật thành công');
     }
   }
 
