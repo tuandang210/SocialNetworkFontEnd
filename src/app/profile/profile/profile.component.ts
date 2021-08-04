@@ -1,9 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {AuthenticationService} from '../../service/authentication/authentication.service';
 import {ActivatedRoute} from '@angular/router';
 import {StatusService} from '../../service/status/status.service';
 import {Status} from '../../model/status-model/status';
 import {AccountRelationService} from '../../service/relation/account-relation.service';
+import {Privacy} from '../../model/privacy/privacy';
+import {PrivacyService} from '../../service/privacy/privacy.service';
+import {AccountToken} from '../../model/account/account-token';
 
 @Component({
   selector: 'app-profile',
@@ -11,36 +14,42 @@ import {AccountRelationService} from '../../service/relation/account-relation.se
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
+  @Output() newItemEvent = new EventEmitter();
   // @ts-ignore
   account: Account = {};
   mutualFriends = 0;
   statusPublic: Status[] = [];
   statusFriendOnlyAndPublic: Status[] = [];
   status: Status[] = [];
+  status1: Status = {};
   totalFriend = 0;
-  id2 = -1;
-  id1 = '-1';
+  id2 = -1 + '';
+  id1 = -1;
   mutualFriendsCheck = false;
   friendCheck = -1;
   loginCheck = false;
   checkOnlyMe = false;
-  friends: Account[] = [];
+  checkShowStatusForm = false;
+  requestSent: Account[] = [];
+  privacyS: Privacy[] = [];
 
   constructor(private authenticationService: AuthenticationService,
               private activatedRoute: ActivatedRoute,
               private statusService: StatusService,
-              private accountRelationService: AccountRelationService) {
+              private accountRelationService: AccountRelationService,
+              private privacyService: PrivacyService) {
   }
 
   ngOnInit() {
     this.getAccountByUsername();
+    this.showPrivacy();
   }
 
   getAccountByUsername() {
     this.activatedRoute.paramMap.subscribe(paramMap => {
       const username = paramMap.get('username');
       this.statusService.findAccountByUsername(username).subscribe(account => {
-        this.id1 = account.id;
+        this.id2 = account.id;
         this.statusPublic = [];
         this.statusFriendOnlyAndPublic = [];
         this.status = [];
@@ -49,10 +58,12 @@ export class ProfileComponent implements OnInit {
         if (this.authenticationService.currentUserValue) {
           this.loginCheck = true;
           this.mutualFriendsCheck = true;
-          this.id2 = this.authenticationService.currentUserValue.id;
+          this.id1 = this.authenticationService.currentUserValue.id;
           // hiện số bạn chung
-          this.getMutualFriends(account.id, this.id2);
-          this.checkFriend(account.id, this.id2);
+          this.getMutualFriends(account.id, this.id1);
+          // trạng thái quan hệ
+          this.checkFriend(account.id, this.id1);
+          // danh sách lời mời kết bạn đã nhan
           this.findAllFriendRequestSent();
         }
         this.account = account;
@@ -60,7 +71,7 @@ export class ProfileComponent implements OnInit {
 
         // lấy ra status theo id
         // @ts-ignore
-        if (account.id === this.id2) {
+        if (this.id2 === this.id1) {
           this.mutualFriendsCheck = false;
           this.friendCheck = 2;
           this.loginCheck = true;
@@ -69,7 +80,7 @@ export class ProfileComponent implements OnInit {
           this.checkOnlyMe = false;
         }
         // lấy ra tổng số lương bạn theo id
-        this.getTotalFriend(account.id);
+        this.getTotalFriend(this.id2);
       });
     });
   }
@@ -91,6 +102,10 @@ export class ProfileComponent implements OnInit {
         }
       }
     });
+  }
+
+  checkRequestSent() {
+    // check xem account này đã nằm trong danh sách bạn hay chưa
   }
 
   getTotalFriend(id) {
@@ -127,47 +142,103 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  deleteByStatus(id: number) {
-  }
-
+  // gửi lời mời kết bạn
   sendFriend() {
     this.accountRelationService.sendFriendRequest(this.id1, this.id2).subscribe(() => {
       this.friendCheck = 0;
     });
   }
 
-  editFriend() {
+  // hủy lời mời đã gửi
+  cancelRequest() {
     this.accountRelationService.cancelFriendRequest(this.id1, this.id2).subscribe(() => {
       this.friendCheck = -1;
     });
   }
 
+  // hủy kết bạn
   deleteFriend() {
     this.accountRelationService.unFriend(this.id1, this.id2).subscribe(() => {
       this.friendCheck = -1;
     });
   }
 
-  acceptFriend() {
-    this.accountRelationService.acceptFriendRequest(this.id1, this.id2).subscribe(() => {
-      console.log('chấp nhận lời mời');
+  // chấp nhận lời mời
+  acceptFriend(id) {
+    console.log('ok');
+    this.accountRelationService.acceptFriendRequest(this.id1, id).subscribe(() => {
+      this.friendCheck = 1;
     });
   }
 
-  declineFriend() {
+  // từ chối lời mời
+  declineFriend(id) {
+    this.accountRelationService.declineFriendRequest(this.id1, id).subscribe(() => {
+      this.friendCheck = -1;
+    });
+  }
+
+  acceptFriend1() {
+    this.accountRelationService.acceptFriendRequest(this.id1, this.id2).subscribe(() => {
+      this.friendCheck = 1;
+    });
+  }
+
+  // từ chối lời mời
+  declineFriend1() {
     this.accountRelationService.declineFriendRequest(this.id1, this.id2).subscribe(() => {
-      console.log('từ chối lời mời');
+      this.friendCheck = -1;
     });
   }
 
   findAllFriendRequestSent() {
-    console.log('đây nha');
     this.accountRelationService.findAllFriendRequestSent(this.id1).subscribe(friends => {
       for (const friend of friends) {
         // @ts-ignore
-        this.friends.push(friend);
+        this.requestSent.push(friend);
       }
-      console.log(this.friends);
+      for (const friend of this.requestSent) {
+        // @ts-ignore
+        if (friend.id === this.id2) {
+          this.friendCheck = 4;
+          break;
+        }
+      }
     });
+  }
+
+  addIdStatus(id: number) {
+    this.statusService.getById(id).subscribe(status => {
+      this.status1 = status;
+    });
+  }
+
+  saveStatus() {
+    this.statusService.editStatus(this.status1, this.status1.id).subscribe(() => {
+      this.getStatusByAccount(this.id2);
+      console.log('edit ok');
+    });
+  }
+
+  deleteByStatus(id: number) {
+    this.statusService.deleteStatus(id).subscribe(() => {
+      this.getStatusByAccount(this.id2);
+      console.log('delete ok');
+    });
+  }
+
+  createStatus() {
+    this.getStatusByAccount(this.id2);
+    this.showFormStatus();
+  }
+
+  showPrivacy() {
+    this.privacyService.showPrivacy().subscribe(privacy => {
+      this.privacyS = privacy;
+    });
+  }
+
+  showFormStatus() {
+    this.checkShowStatusForm = !this.checkShowStatusForm;
   }
 }

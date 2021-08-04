@@ -2,17 +2,21 @@
   <div><p>- Avatar :<img style="width: 100px;height: auto" [src]="account.avatar" alt="notFoul"></p></div>
   <div><p>- User name : {{account.username}}</p></div>
   <div><p>- Họ và tên : {{account.fullName}}</p></div>
-  <div  class="dropdown">
-    <button style="width: 300px" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-      Dropdown button
-    </button>
-    <ul style="width: 500px" *ngFor="let fr of friends" class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-      <li>
-        <div>
-          {{fr.username}} đã gửi lời mời kết bạn <button style="width: 20px"  >Chấp nhận</button><button>Từ chối lời mời</button>
-        </div>
-      </li>
-    </ul>
+  <div>
+    <div *ngIf="id1 == id2">
+      <button type="button" class="btn btn-primary" (click)="showFormStatus()">Create
+        status
+      </button>
+      <app-status-crate *ngIf="checkShowStatusForm" (newItemEvent)="createStatus()"></app-status-crate>
+      <p>số lượng lời mời kết bạn đã nhận :{{requestSent.length}}</p>
+      <ul style="width: 500px" *ngFor="let fr of requestSent">
+        <li>
+          <p>{{fr.username}} đã gửi lời mời kết bạn</p>
+          <button (click)="acceptFriend(fr.id)">Chấp nhận</button>
+          <button (click)="declineFriend(fr.id)">Từ chối lời mời</button>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>
 <p>- Địa chỉ : {{account.address}}</p>
@@ -25,10 +29,16 @@
     <button (click)="sendFriend()">kết bạn</button>
   </p>
   <p *ngIf="friendCheck===1">
-    <button (click)="deleteFriend()" >Hủy kết bạn</button>
+    <button (click)="deleteFriend()">Hủy kết bạn</button>
   </p>
   <p *ngIf="friendCheck===0">
-    <button (click)="editFriend()" >Đã gửi lời mời</button>
+    <button (click)="cancelRequest()">Đã gửi lời mời</button>
+  </p>
+  <p *ngIf="friendCheck===4">
+    <button (click)="acceptFriend1()">Chấp nhận lời mời</button>
+  </p>
+  <p *ngIf="friendCheck===4">
+    <button (click)="declineFriend1()">Từ chối lời mời</button>
   </p>
 </div>
 <div *ngIf="friendCheck<1 || !loginCheck">
@@ -48,7 +58,51 @@
   <div class="statusForm" class="col-12 col-md-6 alert-secondary rounded p-4" *ngFor="let s of status">
     <li class="list-group-item">{{s.account.username}}</li>
     <li class="list-group-item">{{s.content}}</li>
-    <button *ngIf="s.account.id==account.id" routerLink="/status/edit/{{s.id}}">Edit</button>
-    <button *ngIf="s.account.id==account.id" (click)="deleteByStatus(s.id)">Delete</button>
+    <button type="button" class="btn btn-primary" (click)="addIdStatus(s.id)" data-bs-toggle="modal"
+            data-bs-target="#exampleModal">Edit
+    </button>
+    <button type="button" class="btn btn-primary" (click)="addIdStatus(s.id)" data-bs-toggle="modal"
+            data-bs-target="#deleteStatus">Delete
+    </button>
   </div>
 </div>
+<!-- Modal edit-->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input [(ngModel)]="status1.content">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" data-bs-dismiss="modal" (click)="saveStatus()" class="btn btn-primary">Save changes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--modal delete-->
+<div class="modal fade" id="deleteStatus" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteStatusLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        xóa nhé bạn ơi
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" data-bs-dismiss="modal" (click)="deleteByStatus(status1.id)" class="btn btn-primary">
+          delete Status
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
