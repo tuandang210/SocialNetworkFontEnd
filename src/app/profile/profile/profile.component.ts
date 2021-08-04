@@ -89,6 +89,7 @@ export class ProfileComponent implements OnInit {
     this.statusService.getStatusByAccountId(id).subscribe(status => {
       // cá nhân profile
       this.status = status;
+      console.log(status);
       // nếu chưa đăng nhập hay chưa kết bạn
       for (const status1 of status) {
         if (status1.privacy.name === 'public') {

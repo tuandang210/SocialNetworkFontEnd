@@ -16,16 +16,12 @@ export class StatusListComponent implements OnInit {
   check = false;
   account: AccountToken = JSON.parse(localStorage.getItem('account'));
 
-  constructor(private statusService: StatusService,
-              private activatedRoute: ActivatedRoute) {
-    this.activatedRoute.paramMap.subscribe(paramMap => {
-      const id = paramMap.get('id');
-      this.getById(id);
-    });
+  constructor(private statusService: StatusService) {
   }
 
   ngOnInit() {
     this.showStatus();
+    this.getById(this.account.id);
   }
 
   showStatus() {
@@ -34,8 +30,8 @@ export class StatusListComponent implements OnInit {
     });
   }
 
-  getAllStatus(status) {
-    this.status = status;
+  getAllStatus() {
+    this.ngOnInit();
   }
 
   isCheck() {
@@ -63,6 +59,11 @@ export class StatusListComponent implements OnInit {
   }
 
   getById(id) {
-    this.statusService.getById(id).subscribe(status => this.status1 = status);
+    this.statusService.getById(id).subscribe(status => {
+      this.status1 = status;
+      console.log(status);
+    }, error => {
+      console.log(error);
+    });
   }
 }
