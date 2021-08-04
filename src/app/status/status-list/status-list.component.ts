@@ -12,6 +12,7 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class StatusListComponent implements OnInit {
   status: Status[] = [];
+  status1: Status = {};
   check = false;
   account: AccountToken = JSON.parse(localStorage.getItem('account'));
 
@@ -19,6 +20,7 @@ export class StatusListComponent implements OnInit {
               private activatedRoute: ActivatedRoute) {
     this.activatedRoute.paramMap.subscribe(paramMap => {
       const id = paramMap.get('id');
+      this.getById(id);
     });
   }
 
@@ -55,5 +57,14 @@ export class StatusListComponent implements OnInit {
       this.showStatus1();
       alert('success');
     });
+  }
+  updateStatus(id) {
+    this.statusService.editStatus(this.status1, id).subscribe(() => {
+      this.showStatus1();
+      alert('success');
+    });
+  }
+  getById(id) {
+    this.statusService.getById(id).subscribe(status => this.status1 = status);
   }
 }
