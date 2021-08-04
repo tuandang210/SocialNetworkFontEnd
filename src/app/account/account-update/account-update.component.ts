@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AccountService} from '../../service/account/account.service';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {AngularFireStorage} from '@angular/fire/storage';
@@ -15,16 +15,17 @@ export class AccountUpdateComponent implements OnInit {
   accountForm: FormGroup = new FormGroup({
     username: new FormControl(),
     password: new FormControl(),
-    phone: new FormControl(),
-    fullName: new FormControl(),
-    address: new FormControl(),
+    phone: new FormControl('', [Validators.pattern('^0+[0-9]{9}$'), Validators.required]),
+    fullName: new FormControl('', [Validators.pattern('^[a-zA-Z]{1,}(?: [a-zA-Z]+){0,2}$'), Validators.required]),
+    address: new FormControl('', [Validators.required]),
     favorite: new FormControl(),
     active: new FormControl()
   });
   id: number;
   selectedImg = null;
   imgSrc = '';
-  oldAvatar = '';
+  isDone = false;
+  isError = false;
 
   constructor(private accountService: AccountService,
               private activatedRoute: ActivatedRoute,
@@ -44,9 +45,10 @@ export class AccountUpdateComponent implements OnInit {
       this.accountForm = new FormGroup({
           id: new FormControl(account.id),
           username: new FormControl(account.username),
-          fullName: new FormControl(account.fullName),
-          address: new FormControl(account.address),
-          phone: new FormControl(account.phone),
+          password: new FormControl(account.password, [Validators.required, Validators.minLength(6), Validators.maxLength(32)]),
+          fullName: new FormControl(account.fullName, [Validators.pattern('^[a-zA-Z]{1,}(?: [a-zA-Z]+){0,2}$'), Validators.required]),
+          address: new FormControl(account.address, [Validators.required]),
+          phone: new FormControl(account.phone, [Validators.pattern('^0+[0-9]{9}$'), Validators.required]),
           favorite: new FormControl(account.favorite)
         }
       );
@@ -68,23 +70,33 @@ export class AccountUpdateComponent implements OnInit {
             this.accountForm = new FormGroup({
               id: new FormControl(account.id),
               username: new FormControl(account.username),
-              fullName: new FormControl(account.fullName),
-              address: new FormControl(account.address),
-              phone: new FormControl(account.phone),
+              password: new FormControl(account.password, [Validators.required, Validators.minLength(6), Validators.maxLength(32)]),
+              fullName: new FormControl(account.fullName, [Validators.pattern('^[a-zA-Z]{1,}(?: [a-zA-Z]+){0,2}$'), Validators.required]),
+              phone: new FormControl(account.phone, [Validators.pattern('^0+[0-9]{9}$'), Validators.required]),
+              address: new FormControl(account.address, [Validators.required]),
               favorite: new FormControl(account.favorite)
             });
             this.authenticationService.currentUserValue.avatar = url;
             this.authenticationService.currentUserValue.fullName = account.fullName;
             this.accountService.updateAccount(id, account).subscribe();
-            alert('Cập nhật thành công');
+            this.isDone = true;
+            setTimeout(() => {
+              this.isDone = false;
+            }, 2000);
           });
         })).subscribe();
     } else {
       const account = this.accountForm.value;
       account.avatar = this.authenticationService.currentUserValue.avatar;
       this.authenticationService.currentUserValue.fullName = account.fullName;
-      this.accountService.updateAccount(id, account).subscribe();
-      alert('Cập nhật thành công');
+      this.accountService.updateAccount(id, account).subscribe(() => {
+        this.isDone = true;
+        setTimeout(() => {
+          this.isDone = false;
+        }, 2000);
+      }, error => {
+        this.isError = true;
+      });
     }
   }
 
@@ -108,5 +120,21 @@ export class AccountUpdateComponent implements OnInit {
     } else {
       this.selectedImg = null;
     }
+  }
+
+  get email() {
+    return this.accountForm.get('email');
+  }
+
+  get address() {
+    return this.accountForm.get('address');
+  }
+
+  get phone() {
+    return this.accountForm.get('phone');
+  }
+
+  get fullName() {
+    return this.accountForm.get('fullName');
   }
 }

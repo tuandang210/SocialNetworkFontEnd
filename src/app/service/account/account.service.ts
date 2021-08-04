@@ -3,6 +3,7 @@ import {environment} from '../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Account} from '../../model/account/account';
+import {ChangePassworkAccount} from '../../model/account/change-passwork-account';
 
 const API_URL = `${environment.apiUrl}`;
 
@@ -55,5 +56,9 @@ export class AccountService {
 
   blockAccount(id: number): Observable<Account> {
     return this.http.get<Account>(`${API_URL}/accounts/admin/${id}`);
+  }
+
+  updatePassword(account: ChangePassworkAccount, id: number): Observable<Account> {
+    return this.http.put<Account>(`${API_URL}/accounts/password/${id}`, account);
   }
 }
