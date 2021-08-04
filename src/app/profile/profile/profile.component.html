@@ -55,9 +55,7 @@
 </div>
 <div *ngIf="checkOnlyMe">
   <div class="statusForm" class="col-12 col-md-6 alert-secondary rounded p-4" *ngFor="let s of status">
-    <div>
-      <p></p>
-    </div>
+   <li>{{s.privacy.name}}</li>
     <li class="list-group-item">{{s.account.username}}</li>
     <li class="list-group-item">{{s.content}}</li>
     <button type="button" class="btn btn-primary" (click)="addIdStatus(s.id)" data-bs-toggle="modal"
@@ -115,14 +113,31 @@
         <h5 class="modal-title" id="createModalLabel">Modal title</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <label for="button">
-        <div class="modal-body">
-          <app-status-crate (newItemEvent)="createStatus()"></app-status-crate>
+      <form #statusForm ="ngForm" (ngSubmit)="createStatus(statusForm)">
+      <div class="modal-body">
+            <table border="1px">
+              <div class="form-group" >
+                <label for="inputEmail"></label>
+                <textarea class="form-control beautify-textarea" cols="100" rows="2" type="text" class="form-control" id="inputEmail" name="content" required [(ngModel)]="status.content" placeholder="what do you think?"></textarea>
+                <a *ngIf="statusForm.invalid">
+                </a>
+              </div>
+              <div>
+                <input hidden type="text" name="account" [(ngModel)]="currentAccount">
+              </div>
+              <div>
+                <select name="privacy" [(ngModel)]="status2.privacy">
+                  <option *ngFor="let privacy of privacy" [value]="privacy.id">{{privacy.name}}</option>
+                </select>
+              </div>
+
+            </table>
         </div>
-      </label>
       <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
         <button id="button" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
+      </form>
     </div>
   </div>
 </div>
