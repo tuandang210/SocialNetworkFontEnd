@@ -1,28 +1,76 @@
-
-<form [formGroup]="accountForm" (ngSubmit)="updateAccount(id)">
-  <div align="center" class="container">
-    <h3>Update Profile</h3>
-    <div class="row row-cols-lg-10">
-      <div><b>Avatar</b></div>
-      <div><input hidden type="file" (change)="showPreview($event)" #preview></div>
-      <div><img style="height: 100px; width: 100px; object-fit: cover" [src]="imgSrc" (click)="preview.click()"></div>
-    </div>
-    <div  class="row row col-lg-10">
-      <div  class="col row-cols-sm-8"><b>Username </b> <input readonly type="text" formControlName="username"></div>
-      <div  class="col row-cols-sm-8"><b>Full Name</b> <input type="text" formControlName="fullName"></div>
-    </div>
-
-    <div class="row row col-lg-10">
-      <div class="col row-cols-sm-8"><b>Address</b> <input type="text" formControlName="address"></div>
-      <div class="col row-cols-sm-8"><b>Phone</b> <input type="text" formControlName="phone"></div>
-    </div>
-    <div>
-      <div><b>Favorite</b></div>
-      <div><textarea placeholder=" Write something ..." cols="109" rows="3" type="text" formControlName="favorite"></textarea></div>
-    </div>
-    <div>
-
-      <div><button class="btn btn-primary">Update</button></div>
-    </div>
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+  </symbol>
+</svg>
+<div *ngIf="isDone" style="width: 600px; margin-left: 26%" class="alert alert-success d-flex align-items-center" role="alert">
+  <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+  <div>
+    Success!
   </div>
-</form>
+</div>
+<div>
+  <form [formGroup]="accountForm" (ngSubmit)="updateAccount(id)">
+    <div align="center" class="container">
+      <h3>Update Profile</h3>
+<!--      <a class="btn btn-info" routerLink="/accounts/password/{{accountForm.value.id}}">Change Password</a>-->
+
+      <div class="row row-cols-lg-10">
+        <div><b>Avatar</b></div>
+        <div><input hidden type="file" (change)="showPreview($event)" #preview></div>
+        <div><img style="height: 100px; width: 100px; object-fit: cover" [src]="imgSrc" (click)="preview.click()"></div>
+      </div>
+      <div class="row row col-lg-10">
+        <div class="col row-cols-sm-8"><b>Username </b> <input readonly type="text" formControlName="username"></div>
+        <div class="col row-cols-sm-8"><b>Full Name <span style="color:red;">*</span></b> <input type="text" formControlName="fullName">
+          <div style="width: 90%" class="col row-cols-sm-8 alert alert-warning"
+               *ngIf="fullName.invalid && (fullName.dirty || fullName.touched)">
+
+            <div class="row-cols-4" *ngIf="fullName.errors?.pattern">
+              Wrong format! Please check again.
+            </div>
+            <div class="row-cols-4" *ngIf="fullName.errors?.required">
+              Full name is required.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row row col-lg-10">
+        <div class="col row-cols-sm-8"><b>Address  <span style="color:red;">*</span></b> <input type="text" formControlName="address">
+            <div style="width: 90%" class="alert alert-warning"
+                 *ngIf="address.invalid && (address.dirty || address.touched)">
+
+              <div class="row-cols-4" *ngIf="address.errors?.required">
+                Email is required.
+              </div>
+            </div>
+
+        </div>
+        <div class="col row-cols-sm-8"><b>Phone  <span style="color:red;">*</span></b> <input type="text" formControlName="phone">
+          <div style="width: 90%" class=" alert alert-warning"
+               *ngIf="phone.invalid && (phone.dirty || phone.touched)">
+
+            <div class="row-cols-4" *ngIf="phone.errors?.pattern">
+              Phone starts with 0 and include 10 numbers.
+            </div>
+            <div class="row-cols-4" *ngIf="phone.errors?.required">
+              Phone is required.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div><b>Favorite</b></div>
+        <div><textarea placeholder=" Write something ..." cols="109" rows="3" type="text"
+                       formControlName="favorite"></textarea></div>
+      </div>
+      <div>
+
+        <div>
+          <button class="btn btn-primary">Update</button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+</div>
