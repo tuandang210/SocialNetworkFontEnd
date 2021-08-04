@@ -3,7 +3,6 @@ import {FormControl, FormGroup} from '@angular/forms';
 import {AuthenticationService} from '../service/authentication/authentication.service';
 import {Router} from '@angular/router';
 import {AccountService} from '../service/account/account.service';
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -17,7 +16,6 @@ export class LoginComponent implements OnInit {
   isLogin = false;
   isBlock = false;
   isError = false;
-
   constructor(private authenticationService: AuthenticationService,
               private router: Router,
               private accountService: AccountService) {
@@ -34,11 +32,11 @@ export class LoginComponent implements OnInit {
         if (this.loginForm.get('username').value === 'admin') {
           setTimeout(() => {
             this.router.navigate(['/accounts/list']);
-          }, 1000);
+          }, 100);
         } else {
           setTimeout(() => {
             this.router.navigate(['/profile/' + this.loginForm.get('username').value]);
-          }, 1000);
+          }, 100);
         }
       } else if (this.authenticationService.currentUserValue.active === false) {
         // alert('Tài khoản của bạn bị khóa!');

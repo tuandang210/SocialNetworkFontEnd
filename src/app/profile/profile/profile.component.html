@@ -1,1 +1,54 @@
-<p>profile works!</p>
+<div style="text-align: center">
+  <div><p>- Avatar :<img style="width: 100px;height: auto" [src]="account.avatar" alt="notFoul"></p></div>
+  <div><p>- User name : {{account.username}}</p></div>
+  <div><p>- Họ và tên : {{account.fullName}}</p></div>
+  <div  class="dropdown">
+    <button style="width: 300px" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+      Dropdown button
+    </button>
+    <ul style="width: 500px" *ngFor="let fr of friends" class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+      <li>
+        <div>
+          {{fr.username}} đã gửi lời mời kết bạn <button style="width: 20px"  >Chấp nhận</button><button>Từ chối lời mời</button>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+<p>- Địa chỉ : {{account.address}}</p>
+<p>- SĐT : {{account.phone}}</p>
+<p>- Sở thích : {{account.favorite}}</p>
+<p>- Số lượng bạn bè : {{totalFriend}}</p>
+<p *ngIf="mutualFriendsCheck">- Số lượng bạn bè chung : {{mutualFriends}}</p>
+<div *ngIf="!checkOnlyMe && loginCheck">
+  <p *ngIf="friendCheck===-1">
+    <button (click)="sendFriend()">kết bạn</button>
+  </p>
+  <p *ngIf="friendCheck===1">
+    <button (click)="deleteFriend()" >Hủy kết bạn</button>
+  </p>
+  <p *ngIf="friendCheck===0">
+    <button (click)="editFriend()" >Đã gửi lời mời</button>
+  </p>
+</div>
+<div *ngIf="friendCheck<1 || !loginCheck">
+  <div class="statusForm" class="col-12 col-md-6 alert-secondary rounded p-4" *ngFor="let s of statusPublic">
+    <li class="list-group-item">{{s.account.username}}</li>
+    <li class="list-group-item">{{s.content}}</li>
+  </div>
+</div>
+<div *ngIf="friendCheck===1">
+  <div class="statusForm" class="col-12 col-md-6 alert-secondary rounded p-4"
+       *ngFor="let s of statusFriendOnlyAndPublic">
+    <li class="list-group-item">{{s.account.username}}</li>
+    <li class="list-group-item">{{s.content}}</li>
+  </div>
+</div>
+<div *ngIf="checkOnlyMe">
+  <div class="statusForm" class="col-12 col-md-6 alert-secondary rounded p-4" *ngFor="let s of status">
+    <li class="list-group-item">{{s.account.username}}</li>
+    <li class="list-group-item">{{s.content}}</li>
+    <button *ngIf="s.account.id==account.id" routerLink="/status/edit/{{s.id}}">Edit</button>
+    <button *ngIf="s.account.id==account.id" (click)="deleteByStatus(s.id)">Delete</button>
+  </div>
+</div>

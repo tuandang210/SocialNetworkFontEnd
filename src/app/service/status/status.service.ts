@@ -42,4 +42,8 @@ export class StatusService {
   findAccountByUsername(username: string): Observable<Account> {
     return this.http.get<Account>(`${API_URL}/profile?username=${username}`);
   }
+
+  getStatusByAccountId(id): Observable<Status[]> {
+    return this.http.get<Status[]>(API_URL + '/status/account/' + id);
+  }
 }
