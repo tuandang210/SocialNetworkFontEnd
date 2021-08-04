@@ -17,7 +17,7 @@ export class StatusService {
   }
 
   getAllStatus(): Observable<Status[]> {
-    return this.http.get<Status[]>(`${API_URL}/status/list`);
+    return this.http.get<Status[]>(`${API_URL}/status`);
   }
 
   createStatus(status: Status): Observable<Status> {
@@ -55,10 +55,10 @@ export class StatusService {
   }
   // lấy về danh sách các bài đăng của bạn bè, truyền vào id được lưu trong localStorage
   getAllFriendStatus(id): Observable<Status[]> {
-    return this.http.get<Status[]>(API_URL + '/status/friends' + id);
+    return this.http.get<Status[]>(API_URL + '/status/friends/' + id);
   }
   // Lấy về danh sách bài đăng của bạn bè và các bài đăng công khai, truyền vào id được lưu trong localStorage
   getNewsFeed(id): Observable<Status[]> {
-    return this.http.get<Status[]>(API_URL + '/status/newsfeed' + id);
+    return this.http.get<Status[]>(API_URL + '/status/newsfeed/' + id);
   }
 }

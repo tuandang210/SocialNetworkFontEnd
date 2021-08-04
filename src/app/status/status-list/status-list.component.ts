@@ -29,12 +29,8 @@ export class StatusListComponent implements OnInit {
   }
 
   showStatus() {
-    this.statusService.getAllStatus().subscribe(status => {
-      for (const s of status) {
-        if (s.privacy.name !== 'only-me') {
-          this.status.push(s);
-        }
-      }
+    this.statusService.getNewsFeed(this.account.id).subscribe(status => {
+      this.status = status;
     });
   }
 
@@ -46,24 +42,26 @@ export class StatusListComponent implements OnInit {
     this.check = !this.check;
   }
 
-  showStatus1() {
-    this.statusService.getAllStatus().subscribe(status1 => {
-      this.status = status1;
-    });
-  }
+  // showStatus1() {
+  //   this.statusService.getAllStatus().subscribe(status1 => {
+  //     this.status = status1;
+  //   });
+  // }
 
   deleteByStatus(id) {
     this.statusService.deleteStatus(id).subscribe(() => {
-      this.showStatus1();
+      this.showStatus();
       alert('success');
     });
   }
+
   updateStatus(id) {
     this.statusService.editStatus(this.status1, id).subscribe(() => {
-      this.showStatus1();
+      this.showStatus();
       alert('success');
     });
   }
+
   getById(id) {
     this.statusService.getById(id).subscribe(status => this.status1 = status);
   }

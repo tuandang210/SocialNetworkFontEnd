@@ -17,6 +17,7 @@ export class StatusCrateComponent implements OnInit {
   status: Status = {};
   privacy: Privacy[] = [];
   isSubmitted = false;
+  account: AccountToken = JSON.parse(localStorage.getItem('account'));
 
   constructor(private statusService: StatusService,
               private authenticationService: AuthenticationService,
@@ -52,7 +53,7 @@ export class StatusCrateComponent implements OnInit {
   }
 
   findAllStatus() {
-    this.statusService.getAllStatus().subscribe(status => {
+    this.statusService.getNewsFeed(this.account.id).subscribe(status => {
       this.addNewItem(status);
     });
   }
