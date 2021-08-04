@@ -21,6 +21,7 @@ export class ProfileComponent implements OnInit {
   statusFriendOnlyAndPublic: Status[] = [];
   status: Status[] = [];
   status1: Status = {};
+  status2: Status = {};
   totalFriend = 0;
   id2 = -1 + '';
   id1 = -1;
@@ -30,7 +31,8 @@ export class ProfileComponent implements OnInit {
   checkOnlyMe = false;
   checkShowStatusForm = false;
   requestSent: Account[] = [];
-  privacyS: Privacy[] = [];
+  privacy: Privacy[] = [];
+  currentAccount: AccountToken = {};
 
   constructor(private authenticationService: AuthenticationService,
               private activatedRoute: ActivatedRoute,
@@ -178,7 +180,7 @@ export class ProfileComponent implements OnInit {
     });
   }
 
- // chấp nhận lời mời
+  // chấp nhận lời mời
   acceptFriend1() {
     this.accountRelationService.acceptFriendRequest(this.id1, this.id2).subscribe(() => {
       this.ngOnInit();
@@ -197,6 +199,9 @@ export class ProfileComponent implements OnInit {
   findAllFriendRequestSent() {
     this.requestSent = [];
     this.accountRelationService.findAllFriendRequestSent(this.id1).subscribe(friends => {
+      if (!friends) {
+        return;
+      }
       for (const friend of friends) {
         // @ts-ignore
         this.requestSent.push(friend);
@@ -229,13 +234,16 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  createStatus() {
-    this.getStatusByAccount(this.id2);
+  createStatus(formStatus) {
+    formStatus.value.account.id = this.id1;
+    this.statusService.createStatus(formStatus.value).subscribe(() => {
+      this.getStatusByAccount(this.id2);
+    });
   }
 
   showPrivacy() {
     this.privacyService.showPrivacy().subscribe(privacy => {
-      this.privacyS = privacy;
+      this.privacy = privacy;
     });
   }
 }
