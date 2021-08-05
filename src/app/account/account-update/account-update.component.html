@@ -18,7 +18,7 @@
       <div class="row row-cols-lg-10">
         <div><b>Ảnh Đại Diện</b></div>
         <div><input hidden type="file" (change)="showPreview($event)" #preview></div>
-        <div><img style="height: 100px; width: 100px; object-fit: cover; border-radius: 50px" [src]="imgSrc" (click)="preview.click()"></div>
+        <div><img style="height: 100px; width: 100px;border: 1px solid whitesmoke; object-fit: cover; border-radius: 50px" [src]="imgSrc" (click)="preview.click()"></div>
       </div>
       <div class="row row col-lg-10">
         <div class="col row-cols-sm-8"><b>Tài Khoản </b> <input readonly type="text" formControlName="username"></div>

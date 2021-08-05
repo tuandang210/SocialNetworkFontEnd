@@ -217,22 +217,22 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     });
   }
 
-  saveStatus() {
+  saveStatus(id1, id2) {
     this.statusService.editStatus(this.status1, this.status1.id).subscribe(() => {
-      this.ngAfterViewInit();
+      this.getStatus(id1, id2);
     });
   }
 
-  deleteByStatus(id: number) {
+  deleteByStatus(id: number, id1, id2) {
     this.statusService.deleteStatus(id).subscribe(() => {
-      this.ngAfterViewInit();
+      this.getStatus(id1, id2);
     });
   }
 
-  createStatus(formStatus) {
+  createStatus(formStatus, id1, id2) {
     formStatus.value.account.id = this.id1;
     this.statusService.createStatus(formStatus.value).subscribe(() => {
-      this.ngAfterViewInit();
+      this.getStatus(id1, id2);
     });
   }
 
