@@ -49,16 +49,42 @@ export class StatusService {
 
   /* Các API hiển thị bảng tin
   */
+
   // lấy về danh sách các bài đăng public
   getAllPublicStatus(): Observable<Status[]> {
     return this.http.get<Status[]>(API_URL + '/status/public');
   }
+
   // lấy về danh sách các bài đăng của bạn bè, truyền vào id được lưu trong localStorage
   getAllFriendStatus(id): Observable<Status[]> {
     return this.http.get<Status[]>(API_URL + '/status/friends/' + id);
   }
+
   // Lấy về danh sách bài đăng của bạn bè và các bài đăng công khai, truyền vào id được lưu trong localStorage
   getNewsFeed(id): Observable<Status[]> {
     return this.http.get<Status[]>(API_URL + '/status/newsfeed/' + id);
+  }
+
+  /* Các API hiển thị trang cá nhân của người khác tuỳ theo quan hệ
+   */
+
+  // Nếu là trang của khách, truyền vào id của khách
+  getAllPublicStatusOfGuestPagination(id, size): Observable<Status[]> {
+    return this.http.get<Status[]>(`${API_URL}/status/public/${id}?size=${size}`);
+  }
+
+  // Nếu là trang của bạn bè, truyền vào id của bạn bè đó
+  getAllStatusOfFriendPagination(id, size): Observable<Status[]> {
+    return this.http.get<Status[]>(`${API_URL}/status/friends/${id}?size=${size}`);
+  }
+
+  // Nếu là trang chính mình, truyền vào id lưu trong localStorage
+  getAllStatusOfMySelfPagination(id, size): Observable<Status[]> {
+    return this.http.get<Status[]>(`${API_URL}/status/account/${id}?size=${size}`);
+  }
+
+  // Bảng tin có phân trang, truyền vào id lưu trong localStorage
+  getNewsfeedPagination(id, size): Observable<Status[]> {
+    return this.http.get<Status[]>(`${API_URL}/status/newsfeed/${id}?size=${size}`);
   }
 }

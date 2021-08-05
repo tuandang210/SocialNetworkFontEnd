@@ -38,6 +38,7 @@ export class StatusListComponent implements OnInit {
     this.check = !this.check;
   }
 
+
   // showStatus1() {
   //   this.statusService.getAllStatus().subscribe(status1 => {
   //     this.status = status1;
@@ -61,7 +62,6 @@ export class StatusListComponent implements OnInit {
   getById(id) {
     this.statusService.getById(id).subscribe(status => {
       this.status1 = status;
-      console.log(status);
     }, error => {
       console.log(error);
     });

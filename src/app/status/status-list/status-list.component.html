@@ -1,12 +1,40 @@
-<div id="news" align="center">
-  <h3>Status</h3>
-  <button (click)="isCheck()">Ban dang nghi gi</button>
-  <app-status-crate *ngIf="check" (newItemEvent)="getAllStatus()"></app-status-crate>
-  <div class="statusForm" class="col-12 col-md-6 alert-secondary rounded p-4" *ngFor="let s of status">
-    <div class="card-header h6"><h4>{{s.account.username}}</h4></div>
-    <li class="list-group-item">{{s.content}}</li>
-    <button  type="button" class="btn btn-primary" *ngIf="s.account.id==account.id" (click)="getById(s.id)" data-bs-toggle="modal" data-bs-target="#exampleModal">Edit</button>
-    <button  type="button" class="btn btn-danger" *ngIf="s.account.id==account.id" (click)="deleteByStatus(s.id)">Delete</button>
+<div>
+  <div style="width: 48%; float: left; margin-left: 170px">
+    <a class="btn" (click)="isCheck()" style="font-size: 15px;">Bạn đang nghĩ gì thế?</a>
+    <br>
+    <app-status-crate *ngIf="check" (newItemEvent)="getAllStatus()"></app-status-crate>
+    <div *ngFor="let s of status">
+      <div style="border: 1px solid #d9d9d9; border-radius: 3px">
+        <div style="margin-left: 10px; margin-top: 8px"><img
+          style="width: 37px; height: 37px;border: 2px solid hotpink; object-fit: cover; border-radius: 30px"
+          src="{{s.account.avatar}}">
+          &nbsp;<b>{{s.account.username}}</b>
+        </div>
+        <div style="margin-left: 10px">
+          <p style="margin-top: 12px;">{{s.content}}</p>
+        </div>
+        <div *ngIf="s.time < 60" style="margin-left: 10px">
+          <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{s.time}} Phút Trước</p>
+        </div>
+        <div *ngIf="s.time >= 60" style="margin-left: 10px">
+          <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{(s.time - s.time%60) / 60}} Giờ Trước</p>
+        </div>
+        <div *ngIf="s.time >= 1440" style="margin-left: 10px">
+          <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{(s.time - s.time%1440) / 1440}} Ngày Trước</p>
+        </div>
+        <button type="button" class="btn btn-light" *ngIf="s.account.id==account.id" (click)="getById(s.id)"
+                data-bs-toggle="modal" data-bs-target="#exampleModal">Edit
+        </button>
+        <button type="button" class="btn btn-light" *ngIf="s.account.id==account.id" (click)="deleteByStatus(s.id)">
+          Delete
+        </button>
+      </div>
+
+      <br>
+    </div>
+  </div>
+  <div style="width: 51%">
+
   </div>
 </div>
 
@@ -22,7 +50,9 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" (click)="updateStatus(status1.id)" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
+        <button type="button" (click)="updateStatus(status1.id)" class="btn btn-primary" data-bs-dismiss="modal">Save
+          changes
+        </button>
       </div>
     </div>
   </div>
