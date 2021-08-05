@@ -40,45 +40,7 @@
     <button (click)="declineFriend1()">Từ chối lời mời</button>
   </p>
 </div>
-<div *ngIf="friendCheck<1 || !loginCheck">
-  <div class="statusForm alert-secondary rounded p-4" *ngFor="let s of statusPublic">
-    <ul>
-      <li >{{s.account.username}}</li>
-      <li>{{s.content}}</li>
-    </ul>
-  </div>
-</div>
-<div *ngIf="friendCheck===1">
-  <div class="statusForm alert-secondary rounded p-4"
-       *ngFor="let s of statusFriendOnlyAndPublic">
-   <ul>
-     <li >{{s.account.username}}</li>
-     <li >{{s.content}}</li>
-   </ul>
-  </div>
-</div>
-<div *ngIf="checkOnlyMe">
-<<<<<<< HEAD
-  <div class="statusForm" class="col-12 col-md-6 alert-secondary rounded p-4" *ngFor="let s of status">
-    <li>{{s.privacy.name}}</li>
-    <li class="list-group-item">{{s.account.username}}</li>
-    <li class="list-group-item">{{s.content}}</li>
-=======
-  <div class="statusForm alert-secondary rounded p-4" *ngFor="let s of status">
-   <ul>
-     <li>{{s.privacy.name}}</li>
-     <li >{{s.account.username}}</li>
-     <li >{{s.content}}</li>
-   </ul>
->>>>>>> f739e80e4bb462eba04a0928a7f8d62d3b0bcd66
-    <button type="button" class="btn btn-primary" (click)="addIdStatus(s.id)" data-bs-toggle="modal"
-            data-bs-target="#exampleModal">Edit
-    </button>
-    <button type="button" class="btn btn-primary" (click)="addIdStatus(s.id)" data-bs-toggle="modal"
-            data-bs-target="#deleteStatus">Delete
-    </button>
-  </div>
-</div>
+
 <!-- Modal edit-->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -132,7 +94,7 @@
             <div class="form-group">
               <label for="inputEmail"></label>
               <textarea class="form-control beautify-textarea" cols="100" rows="2" type="text" class="form-control"
-                        id="inputEmail" name="content" required [(ngModel)]="status.content"
+                        id="inputEmail" name="content" required [(ngModel)]="status2.content"
                         placeholder="what do you think?"></textarea>
               <a *ngIf="statusForm.invalid">
               </a>
@@ -156,5 +118,39 @@
     </div>
   </div>
 </div>
-
-
+<div class="frame" (scroll)="scrolled(id1, id2)" #scrollFrame>
+  <div *ngIf="friendCheck<1 || !loginCheck">
+    <div class="statusForm alert-secondary rounded p-4" *ngFor="let s of statusPublic" class="item">
+      <ul>
+        <li>{{s.privacy.name}}</li>
+        <li>{{s.account.username}}</li>
+        <li>{{s.content}}</li>
+      </ul>
+    </div>
+  </div>
+  <div *ngIf="friendCheck===1">
+    <div class="statusForm alert-secondary rounded p-4"
+         *ngFor="let s of statusFriendOnlyAndPublic" class="item">
+      <ul>
+        <li>{{s.privacy.name}}</li>
+        <li>{{s.account.username}}</li>
+        <li>{{s.content}}</li>
+      </ul>
+    </div>
+  </div>
+  <div *ngIf="checkOnlyMe">
+    <div class="statusForm alert-secondary rounded p-4" *ngFor="let s of status.content" class="item">
+      <ul>
+        <li>{{s.privacy.name}}</li>
+        <li>{{s.account.username}}</li>
+        <li>{{s.content}}</li>
+      </ul>
+      <button type="button" class="btn btn-primary" (click)="addIdStatus(s.id)" data-bs-toggle="modal"
+              data-bs-target="#exampleModal">Edit
+      </button>
+      <button type="button" class="btn btn-primary" (click)="addIdStatus(s.id)" data-bs-toggle="modal"
+              data-bs-target="#deleteStatus">Delete
+      </button>
+    </div>
+  </div>
+</div>
