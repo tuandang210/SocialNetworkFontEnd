@@ -53,9 +53,9 @@ export class StatusCrateComponent implements OnInit {
   }
 
   findAllStatus() {
-    this.statusService.getNewsFeed(this.account.id).subscribe(status => {
-      this.addNewItem(status);
-    });
+    // this.statusService.getNewsfeedPagination(this.account.id).subscribe(status => {
+    //   this.addNewItem(status);
+    // });
   }
 
   getFormatDate() {
