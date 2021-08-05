@@ -115,12 +115,12 @@
               <p *ngIf="friendCheck===1">
                 <button class="btn btn-secondary" (click)="deleteFriend()">Hủy kết bạn</button>
               </p>
-              <p *ngIf="friendCheck===0">
-                <button class="btn btn-secondary" (click)="cancelRequest()">Đã gửi lời mời</button>
-              </p>
               <p *ngIf="friendCheck===4">
                 <button class="btn btn-primary" (click)="acceptFriend1()">Chấp nhận</button>&nbsp;
                 <button class="btn btn-secondary" (click)="declineFriend1()">Từ chối</button>
+              </p>
+              <p *ngIf="friendCheck===0">
+                <button class="btn btn-secondary" (click)="cancelRequest()">Đã gửi lời mời</button>
               </p>
             </div>
             <div style="float: left" *ngIf="id1 == id2">

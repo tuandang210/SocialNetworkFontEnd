@@ -42,7 +42,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   friendCheck = -1;
   loginCheck = false;
   checkOnlyMe = false;
-  requestSent: Account[] = [];
+  requestSent: AccountToken[] = [];
   privacy: Privacy[] = [];
   currentAccount: AccountToken = {};
   @ViewChild('scrollFrame', {static: false}) scrollFrame: ElementRef;
@@ -194,14 +194,10 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   findAllFriendRequestSent(id) {
     this.requestSent = [];
     this.accountRelationService.findAllFriendRequestSent(id).subscribe(friends => {
-      console.log(id);
       if (!this.loginCheck) {
         return;
       }
-      for (const friend of friends) {
-        // @ts-ignore
-        this.requestSent.push(friend);
-      }
+      this.requestSent = friends;
       for (const friend of this.requestSent) {
         // @ts-ignore
         if (friend.id === this.id2) {
