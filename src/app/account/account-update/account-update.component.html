@@ -6,68 +6,68 @@
 <div *ngIf="isDone" style="width: 600px; margin-left: 26%" class="alert alert-success d-flex align-items-center" role="alert">
   <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
   <div>
-    Success!
+    Thành công!
   </div>
 </div>
 <div>
   <form [formGroup]="accountForm" (ngSubmit)="updateAccount(id)">
     <div align="center" class="container">
-      <h3>Update Profile</h3>
+      <h3>Hồ Sơ Cá Nhân</h3>
 <!--      <a class="btn btn-info" routerLink="/accounts/password/{{accountForm.value.id}}">Change Password</a>-->
 
       <div class="row row-cols-lg-10">
-        <div><b>Avatar</b></div>
+        <div><b>Ảnh Đại Diện</b></div>
         <div><input hidden type="file" (change)="showPreview($event)" #preview></div>
-        <div><img style="height: 100px; width: 100px; object-fit: cover" [src]="imgSrc" (click)="preview.click()"></div>
+        <div><img style="height: 100px; width: 100px; object-fit: cover; border-radius: 50px" [src]="imgSrc" (click)="preview.click()"></div>
       </div>
       <div class="row row col-lg-10">
-        <div class="col row-cols-sm-8"><b>Username </b> <input readonly type="text" formControlName="username"></div>
-        <div class="col row-cols-sm-8"><b>Full Name <span style="color:red;">*</span></b> <input type="text" formControlName="fullName">
+        <div class="col row-cols-sm-8"><b>Tài Khoản </b> <input readonly type="text" formControlName="username"></div>
+        <div class="col row-cols-sm-8"><b>Tên Đầy Đủ <span style="color:red;">*</span></b> <input type="text" formControlName="fullName">
           <div style="width: 90%" class="col row-cols-sm-8 alert alert-warning"
                *ngIf="fullName.invalid && (fullName.dirty || fullName.touched)">
 
             <div class="row-cols-4" *ngIf="fullName.errors?.pattern">
-              Wrong format! Please check again.
+              Sai cấu trúc, làm ơn hãy kiểm tra lại.
             </div>
             <div class="row-cols-4" *ngIf="fullName.errors?.required">
-              Full name is required.
+              Tên đầy đủ không được để trống.
             </div>
           </div>
         </div>
       </div>
       <div class="row row col-lg-10">
-        <div class="col row-cols-sm-8"><b>Address  <span style="color:red;">*</span></b> <input type="text" formControlName="address">
+        <div class="col row-cols-sm-8"><b>Địa Chỉ  <span style="color:red;">*</span></b> <input type="text" formControlName="address">
             <div style="width: 90%" class="alert alert-warning"
                  *ngIf="address.invalid && (address.dirty || address.touched)">
 
               <div class="row-cols-4" *ngIf="address.errors?.required">
-                Email is required.
+                Địa chỉ không được để trống
               </div>
             </div>
 
         </div>
-        <div class="col row-cols-sm-8"><b>Phone  <span style="color:red;">*</span></b> <input type="text" formControlName="phone">
+        <div class="col row-cols-sm-8"><b>Số Điện Thoại  <span style="color:red;">*</span></b> <input type="text" formControlName="phone">
           <div style="width: 90%" class=" alert alert-warning"
                *ngIf="phone.invalid && (phone.dirty || phone.touched)">
 
             <div class="row-cols-4" *ngIf="phone.errors?.pattern">
-              Phone starts with 0 and include 10 numbers.
+              Số điện thoại bắt đầu từ 0 và gồm 10 số.
             </div>
             <div class="row-cols-4" *ngIf="phone.errors?.required">
-              Phone is required.
+              Số điện thoại không được để trống.
             </div>
           </div>
         </div>
       </div>
       <div>
-        <div><b>Favorite</b></div>
-        <div><textarea placeholder=" Write something ..." cols="109" rows="3" type="text"
+        <div><b>Sở Thích</b></div>
+        <div><textarea style="border: 1px solid #d9d9d9; border-radius: 3px" placeholder=" Hãy viết gì đó ..." cols="109" rows="3" type="text"
                        formControlName="favorite"></textarea></div>
       </div>
       <div>
 
         <div>
-          <button class="btn btn-primary">Update</button>
+          <button class="btn btn-primary">Cập Nhật</button>
         </div>
       </div>
     </div>

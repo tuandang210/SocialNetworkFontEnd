@@ -14,16 +14,16 @@
     <use xlink:href="#check-circle-fill"/>
   </svg>
   <div>
-    Logged in successfully!
+    Đăng Nhập Thành Công!
   </div>
 </div>
 <div *ngIf="isBlock" align="center" style="width: 600px; position: relative; margin-left: 26.5%"
      class="alert alert-warning alert-dismissible fade show" role="alert">
-  <strong> Warning! </strong> This account has been blocked.
+  <strong> Cảnh báo! </strong> Tài khoản này đã bị khóa.
 </div>
 <div *ngIf="isError" align="center" style="width: 600px; position: relative; margin-left: 26.5%"
      class="alert alert-warning alert-dismissible fade show" role="alert">
-  <strong> Warning! </strong> Username or password is wrong, please check again.
+  <strong> Cảnh báo! </strong> Tên tài khoản hoặc mật khẩu không đúng.
 </div>
 <div class="wrapper fadeInDown" style="position: relative">
   <div id="formContent">
@@ -31,22 +31,26 @@
 
     <!-- Icon -->
     <div class="fadeIn first">
-      <img style="height: 70px; width: 70px; margin-top: 15px; margin-bottom: 10px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/768px-Instagram_logo_2016.svg.png" id="icon" alt="User Icon" />
+      <img style="height: 70px; width: 70px; margin-top: 15px; margin-bottom: 10px" src="https://cdn.icon-icons.com/icons2/2719/PNG/512/instagram_logo_icon_175119.png" id="icon" alt="User Icon" />
     </div>
 
     <!-- Login Form -->
     <form [formGroup]="loginForm" (ngSubmit)="submit()">
-      <input type="text" id="login" class="fadeIn second" formControlName="username" placeholder="Username">
-      <input style="margin-left: -3px" [type]="passwordType" id="password" class="fadeIn third" formControlName="password" placeholder="Password"><a style="position: relative;margin-left: -50px;margin-top: -5px; margin-bottom: 5px" class="btn fadeIn third" (click)='hideShowPassword()'><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#cccccc" class="bi bi-eye" viewBox="0 0 16 16">
-      <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
-      <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
-    </svg></a>
-      <input type="submit" class="fadeIn fourth" value="Log In">
+     <div>
+       <input type="text" id="login" class="fadeIn second" formControlName="username" placeholder="Tài khoản">
+       <input style="margin-left: -3px" [type]="passwordType" id="password" class="fadeIn third" formControlName="password" placeholder="Mật khẩu"><a style="position: relative;margin-left: -50px;margin-top: -5px; margin-bottom: 5px" class="btn fadeIn third" (click)='hideShowPassword()'><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#cccccc" class="bi bi-eye" viewBox="0 0 16 16">
+       <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+       <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+     </svg></a>
+     </div>
+     <div>
+       <button id="color" type="submit" class="fadeIn fourth btn underlineHover" style="height: 50px;width: 130px; margin-top: 10px; color: #56baed">Đăng nhập</button>
+     </div>
     </form>
 
     <!-- Remind Passowrd -->
     <div id="formFooter">
-      <a class="underlineHover" routerLink="/register">Sign Up</a>
+      <a style="margin-left: -5px" class="underlineHover fadeIn fourth" routerLink="/register">Đăng ký</a>
     </div>
 
   </div>
