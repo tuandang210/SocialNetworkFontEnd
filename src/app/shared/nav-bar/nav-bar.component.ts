@@ -25,6 +25,6 @@ export class NavBarComponent implements OnInit {
   }
 
   search(value: string) {
-    this.router.navigateByUrl('/profile/' + value);
+    this.router.navigate(['/profile/' + value]);
   }
 }
