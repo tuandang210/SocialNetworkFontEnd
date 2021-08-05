@@ -60,7 +60,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     if (this.loginCheck) {
-      this.findAllFriendRequestSent();
+      this.findAllFriendRequestSent(this.id1);
     }
     this.getAccountByUsername();
     this.showPrivacy();
@@ -84,7 +84,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
           // trạng thái quan hệ
           this.checkFriend(account.id, this.id1);
           // danh sách lời mời kết bạn đã nhan
-          this.findAllFriendRequestSent();
+          this.findAllFriendRequestSent(this.id1);
           this.getStatus(this.id1, this.id2);
         }
         this.getStatus(-1, this.id2);
@@ -191,9 +191,10 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     });
   }
 
-  findAllFriendRequestSent() {
+  findAllFriendRequestSent(id) {
     this.requestSent = [];
-    this.accountRelationService.findAllFriendRequestSent(this.id1).subscribe(friends => {
+    this.accountRelationService.findAllFriendRequestSent(id).subscribe(friends => {
+      console.log(id);
       if (!this.loginCheck) {
         return;
       }

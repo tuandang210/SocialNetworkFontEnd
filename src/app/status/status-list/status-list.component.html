@@ -2,39 +2,102 @@
   <div style="width: 48%; float: left; margin-left: 170px">
     <a class="btn" (click)="isCheck()" style="font-size: 15px;">Bạn đang nghĩ gì thế?</a>
     <br>
-    <app-status-crate *ngIf="check" (newItemEvent)="getAllStatus()"></app-status-crate>
-    <div *ngFor="let s of status">
-      <div style="border: 1px solid #d9d9d9; border-radius: 3px">
-        <div style="margin-left: 10px; margin-top: 8px"><img
-          style="width: 37px; height: 37px;border: 2px solid hotpink; object-fit: cover; border-radius: 30px"
-          src="{{s.account.avatar}}">
-          &nbsp;<b>{{s.account.username}}</b>
-        </div>
-        <div style="margin-left: 10px">
-          <p style="margin-top: 12px;">{{s.content}}</p>
-        </div>
-        <div *ngIf="s.time < 60" style="margin-left: 10px">
-          <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{s.time}} Phút Trước</p>
-        </div>
-        <div *ngIf="s.time >= 60" style="margin-left: 10px">
-          <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{(s.time - s.time%60) / 60}} Giờ Trước</p>
-        </div>
-        <div *ngIf="s.time >= 1440" style="margin-left: 10px">
-          <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{(s.time - s.time%1440) / 1440}} Ngày Trước</p>
-        </div>
-        <button type="button" class="btn btn-light" *ngIf="s.account.id==account.id" (click)="getById(s.id)"
-                data-bs-toggle="modal" data-bs-target="#exampleModal">Edit
-        </button>
-        <button type="button" class="btn btn-light" *ngIf="s.account.id==account.id" (click)="deleteByStatus(s.id)">
-          Delete
-        </button>
-      </div>
+    <input placeholder="Bạn đang suy nghĩ gì ?" data-bs-toggle="modal" data-bs-target="#createModal">
+    <div class="frame" (scroll)="scrolled(account.id)" #scrollFrame>
+      <div *ngFor="let s of status" class="item">
+        <div style="border: 1px solid #d9d9d9; border-radius: 3px">
+          <div style="margin-left: 10px; margin-top: 8px"><img
+            style="width: 37px; height: 37px;border: 2px solid hotpink; object-fit: cover; border-radius: 30px"
+            src="{{s.account.avatar}}">
+            &nbsp;<b>{{s.account.username}}</b>
+            <div *ngIf="s.account.id==account.id" class="dropdown">
+              <button style=" background-color: white" class="dropbtn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                     class="bi bi-three-dots"
+                     viewBox="0 0 16 16">
+                  <path
+                    d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                </svg>
+              </button>
+              <div class="dropdown-content">
+                <label style="width: 100%" for="edit{{account.id}}">
+                  <a class="nav-link">
+                    <button id="edit{{account.id}}"  class="btn"
+                            (click)="addIdStatus(s.id)"
+                            data-bs-toggle="modal" data-bs-target="#exampleModal">Edit
+                    </button>
+                    <span class="sr-only">(current)</span></a>
+                </label>
+                <label style="width: 100%" for="delete{{account.id}}">
+                  <a class="nav-link">
+                    <button id="delete{{account.id}}"  class="btn"
+                            (click)="addIdStatus(s.id)" data-bs-toggle="modal"
+                            data-bs-target="#deleteStatus">Delete
+                    </button>
+                    <span class="sr-only">(current)</span></a>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div style="margin-left: 10px">
+            <p style="margin-top: 12px;">{{s.content}}</p>
+          </div>
+          <div *ngIf="s.time < 60" style="margin-left: 10px">
+            <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{s.time}} Phút Trước</p>
+          </div>
+          <div *ngIf="s.time >= 60" style="margin-left: 10px">
+            <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{(s.time - s.time % 60) / 60}} Giờ Trước</p>
+          </div>
+          <div *ngIf="s.time >= 1440" style="margin-left: 10px">
+            <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{(s.time - s.time % 1440) / 1440}} Ngày
+              Trước</p>
+          </div>
 
-      <br>
+        </div>
+        <br>
+      </div>
     </div>
   </div>
   <div style="width: 51%">
 
+  </div>
+</div>
+
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form #statusForm="ngForm" (ngSubmit)="createStatus(statusForm)">
+        <div class="modal-body">
+          <table border="1px">
+            <div class="form-group">
+              <label for="inputEmail"></label>
+              <textarea class="form-control beautify-textarea" cols="100" rows="2" type="text" class="form-control"
+                        id="inputEmail" name="content" required [(ngModel)]="status1.content"
+                        placeholder="Hãy viết gì đó !!"></textarea>
+              <a *ngIf="statusForm.invalid">
+              </a>
+            </div>
+            <div>
+              <input hidden type="text" name="account" [(ngModel)]="account">
+            </div>
+            <div>
+              <select name="privacy" [(ngModel)]="status1.privacy">
+                <option *ngFor="let privacy of privacy" [value]="privacy.id">{{privacy.name}}</option>
+              </select>
+            </div>
+
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
+          <button id="button" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
 
@@ -46,12 +109,31 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <input type="text" name="content" [(ngModel)]="status1.content">
+        <input [(ngModel)]="status1.content">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" (click)="updateStatus(status1.id)" class="btn btn-primary" data-bs-dismiss="modal">Save
-          changes
+        <button type="button" data-bs-dismiss="modal" (click)="saveStatus()" class="btn btn-primary">Save changes
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="deleteStatus" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteStatusLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        xóa nhé bạn ơi
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" data-bs-dismiss="modal" (click)="deleteByStatus(status1.id)" class="btn btn-primary">
+          delete Status
         </button>
       </div>
     </div>
