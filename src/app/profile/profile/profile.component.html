@@ -41,23 +41,36 @@
   </p>
 </div>
 <div *ngIf="friendCheck<1 || !loginCheck">
-  <div class="statusForm" class="col-12 col-md-6 alert-secondary rounded p-4" *ngFor="let s of statusPublic">
-    <li class="list-group-item">{{s.account.username}}</li>
-    <li class="list-group-item">{{s.content}}</li>
+  <div class="statusForm alert-secondary rounded p-4" *ngFor="let s of statusPublic">
+    <ul>
+      <li >{{s.account.username}}</li>
+      <li>{{s.content}}</li>
+    </ul>
   </div>
 </div>
 <div *ngIf="friendCheck===1">
-  <div class="statusForm" class="col-12 col-md-6 alert-secondary rounded p-4"
+  <div class="statusForm alert-secondary rounded p-4"
        *ngFor="let s of statusFriendOnlyAndPublic">
-    <li class="list-group-item">{{s.account.username}}</li>
-    <li class="list-group-item">{{s.content}}</li>
+   <ul>
+     <li >{{s.account.username}}</li>
+     <li >{{s.content}}</li>
+   </ul>
   </div>
 </div>
 <div *ngIf="checkOnlyMe">
+<<<<<<< HEAD
   <div class="statusForm" class="col-12 col-md-6 alert-secondary rounded p-4" *ngFor="let s of status">
     <li>{{s.privacy.name}}</li>
     <li class="list-group-item">{{s.account.username}}</li>
     <li class="list-group-item">{{s.content}}</li>
+=======
+  <div class="statusForm alert-secondary rounded p-4" *ngFor="let s of status">
+   <ul>
+     <li>{{s.privacy.name}}</li>
+     <li >{{s.account.username}}</li>
+     <li >{{s.content}}</li>
+   </ul>
+>>>>>>> f739e80e4bb462eba04a0928a7f8d62d3b0bcd66
     <button type="button" class="btn btn-primary" (click)="addIdStatus(s.id)" data-bs-toggle="modal"
             data-bs-target="#exampleModal">Edit
     </button>
