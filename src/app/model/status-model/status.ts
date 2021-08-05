@@ -3,4 +3,6 @@ export interface Status {
   content?: string;
   account?: any;
   privacy?: any;
+  postedTime?: any;
+  time?: string;
 }

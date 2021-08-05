@@ -13,7 +13,7 @@ export class RegisterComponent implements OnInit {
   accountForm: FormGroup = new FormGroup({
     username: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required, Validators.minLength(6), Validators.maxLength(32)]),
-    email: new FormControl('', [Validators.required, Validators.pattern('^[a-z0-9]+@[a-z]+\\.[a-z]{2,6}$')]),
+    email: new FormControl('', [Validators.pattern('^[a-z0-9]+@[a-z]+\\.[a-z]{2,6}$')]),
     phone: new FormControl('', [Validators.pattern('^0+[0-9]{9}$')]),
     birthday: new FormControl('', [Validators.pattern('^(0?[1-9]|[12][0-9]|3[01])[\\/\\-](0?[1-9]|1[012])[\\/\\-]\\d{4}$')]),
     confirmPassword: new FormControl()
@@ -41,13 +41,13 @@ export class RegisterComponent implements OnInit {
       for (const x of this.accounts) {
         if (x.username === account.username) {
           isAvailable = true;
-          this.message = 'Username already exist';
+          this.message = 'Tên tài khoản đã tồn tại';
           this.isUsername = true;
           // alert('Username đã tồn tại');
           break;
         } else if (x.email === account.email) {
           isAvailable = true;
-          this.message = 'Email already exist';
+          this.message = 'Email đã tồn tại';
           this.isEmail = true;
           // alert('Email đã tồn tại');
           break;
@@ -64,7 +64,7 @@ export class RegisterComponent implements OnInit {
             }, 1000);
           });
         } else {
-          this.message = 'No duplicate password';
+          this.message = 'Xác nhận mật khẩu không trùng';
           this.isPassword = true;
           // alert('Mật khẩu không trùng nhau');
         }

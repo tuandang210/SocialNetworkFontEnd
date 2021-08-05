@@ -1,26 +1,27 @@
-<div class="statusForm" class="col-12 col-md-6 alert-secondary rounded p-4">
-<div class="card">
-  <div class="card-header h6">
-    Create Post
+<div>
+  <div class="card" style="height: 220px">
+    <div style="margin-left: 42%">
+      <b style="margin-left: 12px; font-size: 17px">Tạo bài viết</b>
+    </div>
+    <form #statusForm="ngForm" (ngSubmit)="createStatus(statusForm)" style="font-size: 15px; margin-left: 12px">
+      <div border="1px">
+        <div >
+          <select style="border-radius: 3px; font-size: 14px" name="privacy" [(ngModel)]="status.privacy">
+            <option [value]=undefined>- Trạng thái -</option>
+            <option *ngFor="let privacy of privacy" [value]="privacy.id">{{privacy.name}}</option>
+          </select>
+          <br><br>
+          <label for="inputEmail"></label>
+          <textarea cols="85" rows="4" style="border: 0" type="text" class="beautify-textarea" id="inputEmail" name="content" required
+                    [(ngModel)]="status.content" placeholder="Hãy viết gì đó"></textarea>
+          <a *ngIf="statusForm.invalid && isSubmitted">
+          </a>
+        </div>
+        <div>
+          <input hidden type="text" name="account" [(ngModel)]="currentAccount">
+        </div>
+        <button style="width: 95%; background-color: whitesmoke; margin-left: 9px" type="submit" class="btn">Đăng</button>
+      </div>
+    </form>
   </div>
-  <form #statusForm ="ngForm" (ngSubmit)="createStatus(statusForm)">
-    <table border="1px">
-      <div class="form-group" >
-        <label for="inputEmail"></label>
-        <textarea class="form-control beautify-textarea" cols="100" rows="2" type="text" class="form-control" id="inputEmail" name="content" required [(ngModel)]="status.content" placeholder="what do you think?"></textarea>
-        <a *ngIf="statusForm.invalid && isSubmitted">
-        </a>
-      </div>
-      <div>
-        <input hidden type="text" name="account" [(ngModel)]="currentAccount">
-      </div>
-      <div>
-        <select name="privacy" [(ngModel)]="status.privacy">
-          <option *ngFor="let privacy of privacy" [value]="privacy.id">{{privacy.name}}</option>
-        </select>
-      </div>
-      <button type="submit" class="btn btn-primary">Save</button>
-    </table>
-  </form>
-</div>
 </div>

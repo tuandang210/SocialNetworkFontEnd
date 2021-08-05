@@ -29,6 +29,7 @@ export class StatusCrateComponent implements OnInit {
 
   ngOnInit() {
     this.showPrivacy();
+    this.getFormatDate();
   }
 
   showPrivacy() {
@@ -49,12 +50,15 @@ export class StatusCrateComponent implements OnInit {
 
   addNewItem(status) {
     this.newItemEvent.emit(status);
-    console.log(status);
   }
 
   findAllStatus() {
     this.statusService.getNewsFeed(this.account.id).subscribe(status => {
       this.addNewItem(status);
     });
+  }
+
+  getFormatDate() {
+    const date = new Date().getTime();
   }
 }
