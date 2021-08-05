@@ -34,6 +34,7 @@ export class ProfileComponent implements OnInit {
   requestSent: Account[] = [];
   privacy: Privacy[] = [];
   currentAccount: AccountToken = {};
+  size = 0;
 
   constructor(private authenticationService: AuthenticationService,
               private activatedRoute: ActivatedRoute,
@@ -71,8 +72,7 @@ export class ProfileComponent implements OnInit {
           this.findAllFriendRequestSent();
         }
         this.account = account;
-        this.getStatusByAccount(account.id);
-
+        this.totalFunction();
         // lấy ra status theo id
         // @ts-ignore
         if (this.id2 === this.id1) {
@@ -88,29 +88,6 @@ export class ProfileComponent implements OnInit {
       });
     });
   }
-
-  getStatusByAccount(id) {
-    this.statusPublic = [];
-    this.statusFriendOnlyAndPublic = [];
-    this.status = [];
-    this.statusService.getStatusByAccountId(id).subscribe(status => {
-      // cá nhân profile
-      this.status = status;
-      // nếu chưa đăng nhập hay chưa kết bạn
-      for (const status1 of status) {
-        if (status1.privacy.name === 'public') {
-          this.statusPublic.push(status1);
-        }
-      }
-      // nếu đã đăng nhập và nếu đã là bạn
-      for (const status1 of status) {
-        if (status1.privacy.name === 'friend-only' || status1.privacy.name === 'public') {
-          this.statusFriendOnlyAndPublic.push(status1);
-        }
-      }
-    });
-  }
-
   checkRequestSent() {
     // check xem account này đã nằm trong danh sách bạn hay chưa
   }
@@ -230,20 +207,20 @@ export class ProfileComponent implements OnInit {
 
   saveStatus() {
     this.statusService.editStatus(this.status1, this.status1.id).subscribe(() => {
-      this.getStatusByAccount(this.id2);
+      this.totalFunction();
     });
   }
 
   deleteByStatus(id: number) {
     this.statusService.deleteStatus(id).subscribe(() => {
-      this.getStatusByAccount(this.id2);
+      this.totalFunction();
     });
   }
 
   createStatus(formStatus) {
     formStatus.value.account.id = this.id1;
     this.statusService.createStatus(formStatus.value).subscribe(() => {
-      this.getStatusByAccount(this.id2);
+      this.totalFunction();
     });
   }
 
@@ -255,6 +232,9 @@ export class ProfileComponent implements OnInit {
   }
 
   totalFunction() {
+    this.statusPublic = [];
+    this.statusFriendOnlyAndPublic = [];
+    this.status = [];
     // tslint:disable-next-line:only-arrow-functions
     $(document).ready(function() {
       // tslint:disable-next-line:only-arrow-functions
@@ -262,8 +242,8 @@ export class ProfileComponent implements OnInit {
         // tslint:disable-next-line:radix
         const scrollTop = parseInt($(window).scrollTop() + 1);
         if (scrollTop === $(document).height() - $(window).height()) {
-          console.log('ok nha bạn ơi');
-        }
+
+      }
       });
     });
   }
