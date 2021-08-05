@@ -11,11 +11,12 @@
         </div>
         <div class="modal-body">
            <textarea class="form-control beautify-textarea" cols="100" rows="4" type="text"
-                      name="content" required [(ngModel)]="status1.content"
+                     name="content" required [(ngModel)]="status1.content"
                      placeholder="Bạn đang nghĩ gì thế?"></textarea>
         </div>
         <div class="modal-footer">
-          <button type="button" data-bs-dismiss="modal" (click)="saveStatus(id1, id2)" class="btn btn-primary">Lưu thay đổi
+          <button type="button" data-bs-dismiss="modal" (click)="saveStatus(id1, id2)" class="btn btn-primary">Lưu thay
+            đổi
           </button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
         </div>
@@ -55,7 +56,8 @@
           <div class="modal-body">
             <div>
               <div style="margin-bottom: -10px">
-                <select  style="font-size: 14px; border: 1px solid lightgrey;height: 30px; border-radius: 5px" name="privacy" [(ngModel)]="status2.privacy">
+                <select style="font-size: 14px; border: 1px solid lightgrey;height: 30px; border-radius: 5px"
+                        name="privacy" [(ngModel)]="status2.privacy">
                   <option [value]="undefined">- Trạng thái -</option>
                   <option [value]="privacy[0].id">Công khai</option>
                   <option [value]="privacy[1].id">Bạn bè</option>
@@ -86,7 +88,6 @@
     </div>
   </div>
 
-
   <div class="frame" (scroll)="scrolled(id1, id2)" #scrollFrame>
     <div>
       <div>
@@ -106,7 +107,6 @@
                 <span *ngIf="mutualFriendsCheck">Bạn chung <b>{{mutualFriends}}</b></span>
               </p>
 
-
             </div>
             <div *ngIf="!checkOnlyMe && loginCheck">
               <p *ngIf="friendCheck===-1">
@@ -115,12 +115,12 @@
               <p *ngIf="friendCheck===1">
                 <button class="btn btn-secondary" (click)="deleteFriend()">Hủy kết bạn</button>
               </p>
+              <p *ngIf="friendCheck===0">
+                <button class="btn btn-secondary" (click)="cancelRequest()">Đã gửi lời mời</button>
+              </p>
               <p *ngIf="friendCheck===4">
                 <button class="btn btn-primary" (click)="acceptFriend1()">Chấp nhận</button>&nbsp;
                 <button class="btn btn-secondary" (click)="declineFriend1()">Từ chối</button>
-              </p>
-              <p *ngIf="friendCheck===0">
-                <button class="btn btn-secondary" (click)="cancelRequest()">Đã gửi lời mời</button>
               </p>
             </div>
             <div style="float: left" *ngIf="id1 == id2">
@@ -144,7 +144,6 @@
               </a>
               </span>
                 </span>&nbsp;&nbsp;
-
 
               </p>
               <p>

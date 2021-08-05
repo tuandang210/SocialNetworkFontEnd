@@ -35,6 +35,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   status: Status[] = [];
   status1: Status = {};
   status2: Status = {};
+  friends: AccountToken[] = [];
   totalFriend = 0;
   id2 = -1 + '';
   id1 = -1;
@@ -107,6 +108,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   getTotalFriend(id) {
     this.accountRelationService.getAllFriends(id).subscribe(accounts => {
       if (accounts !== null) {
+        this.friends = accounts;
         this.totalFriend = accounts.length;
       }
     });
