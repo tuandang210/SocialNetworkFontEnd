@@ -35,6 +35,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   status: Status[] = [];
   status1: Status = {};
   status2: Status = {};
+  friends: AccountToken[] = [];
   totalFriend = 0;
   id2 = -1 + '';
   id1 = -1;
@@ -42,7 +43,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   friendCheck = -1;
   loginCheck = false;
   checkOnlyMe = false;
-  requestSent: Account[] = [];
+  requestSent: AccountToken[] = [];
   privacy: Privacy[] = [];
   currentAccount: AccountToken = {};
   @ViewChild('scrollFrame', {static: false}) scrollFrame: ElementRef;
@@ -107,6 +108,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   getTotalFriend(id) {
     this.accountRelationService.getAllFriends(id).subscribe(accounts => {
       if (accounts !== null) {
+        this.friends = accounts;
         this.totalFriend = accounts.length;
       }
     });
@@ -194,14 +196,10 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   findAllFriendRequestSent(id) {
     this.requestSent = [];
     this.accountRelationService.findAllFriendRequestSent(id).subscribe(friends => {
-      console.log(id);
       if (!this.loginCheck) {
         return;
       }
-      for (const friend of friends) {
-        // @ts-ignore
-        this.requestSent.push(friend);
-      }
+      this.requestSent = friends;
       for (const friend of this.requestSent) {
         // @ts-ignore
         if (friend.id === this.id2) {
