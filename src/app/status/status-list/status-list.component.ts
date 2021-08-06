@@ -3,6 +3,8 @@ import {StatusService} from '../../service/status/status.service';
 import {Status} from '../../model/status-model/status';
 import {AccountToken} from '../../model/account/account-token';
 import {ActivatedRoute} from '@angular/router';
+import {CommentService} from "../../service/comment/comment.service";
+import {Comments} from "../../model/comment/comments";
 
 
 @Component({
@@ -13,10 +15,12 @@ import {ActivatedRoute} from '@angular/router';
 export class StatusListComponent implements OnInit {
   status: Status[] = [];
   status1: Status = {};
+  comment: Comments[] = [];
   check = false;
   account: AccountToken = JSON.parse(localStorage.getItem('account'));
 
-  constructor(private statusService: StatusService) {
+  constructor(private statusService: StatusService,
+              private commentService: CommentService) {
   }
 
   ngOnInit() {

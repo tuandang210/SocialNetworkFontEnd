@@ -5,4 +5,5 @@ export interface Status {
   privacy?: any;
   postedTime?: any;
   time?: string;
+  comment?: any;
 }
