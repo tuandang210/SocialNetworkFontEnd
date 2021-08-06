@@ -1,4 +1,15 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {
+  AfterContentInit,
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnInit,
+  Output,
+  QueryList,
+  ViewChild,
+  ViewChildren
+} from '@angular/core';
 import {AuthenticationService} from '../../service/authentication/authentication.service';
 import {ActivatedRoute} from '@angular/router';
 import {StatusService} from '../../service/status/status.service';
@@ -15,7 +26,7 @@ declare var $: any;
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, AfterViewInit {
   // @ts-ignore
   account: Account = {};
   mutualFriends = 0;
@@ -24,6 +35,7 @@ export class ProfileComponent implements OnInit {
   status: Status[] = [];
   status1: Status = {};
   status2: Status = {};
+  friends: AccountToken[] = [];
   totalFriend = 0;
   id2 = -1 + '';
   id1 = -1;
@@ -31,10 +43,15 @@ export class ProfileComponent implements OnInit {
   friendCheck = -1;
   loginCheck = false;
   checkOnlyMe = false;
-  requestSent: Account[] = [];
+  requestSent: AccountToken[] = [];
   privacy: Privacy[] = [];
   currentAccount: AccountToken = {};
-  size = 0;
+  isGuest = false;
+  @ViewChild('scrollFrame', {static: false}) scrollFrame: ElementRef;
+  @ViewChildren('item') itemElements: QueryList<any>;
+  private scrollContainer: any;
+  private isNearBottom = true;
+  private loadAmount = 3;
 
   constructor(private authenticationService: AuthenticationService,
               private activatedRoute: ActivatedRoute,
@@ -45,11 +62,13 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     if (this.loginCheck) {
-      this.findAllFriendRequestSent();
+      this.findAllFriendRequestSent(this.id1);
     }
+    // this.showPrivacy();
     this.getAccountByUsername();
-    this.showPrivacy();
-    this.totalFunction();
+    if (this.privacy.length === 0) {
+      this.showPrivacy();
+    }
   }
 
   getAccountByUsername() {
@@ -57,6 +76,7 @@ export class ProfileComponent implements OnInit {
       const username = paramMap.get('username');
       this.statusService.findAccountByUsername(username).subscribe(account => {
         this.id2 = account.id;
+        this.account = account;
         this.mutualFriends = 0;
         this.totalFriend = 0;
         // check xem đã đăng nhập chưa
@@ -69,10 +89,10 @@ export class ProfileComponent implements OnInit {
           // trạng thái quan hệ
           this.checkFriend(account.id, this.id1);
           // danh sách lời mời kết bạn đã nhan
-          this.findAllFriendRequestSent();
+          this.findAllFriendRequestSent(this.id1);
+          this.getStatus(this.id1, this.id2);
         }
-        this.account = account;
-        this.totalFunction();
+        this.getStatus(-1, this.id2);
         // lấy ra status theo id
         // @ts-ignore
         if (this.id2 === this.id1) {
@@ -88,13 +108,11 @@ export class ProfileComponent implements OnInit {
       });
     });
   }
-  checkRequestSent() {
-    // check xem account này đã nằm trong danh sách bạn hay chưa
-  }
 
   getTotalFriend(id) {
     this.accountRelationService.getAllFriends(id).subscribe(accounts => {
       if (accounts !== null) {
+        this.friends = accounts;
         this.totalFriend = accounts.length;
       }
     });
@@ -179,23 +197,15 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  findAllFriendRequestSent() {
+  findAllFriendRequestSent(id) {
     this.requestSent = [];
-    this.accountRelationService.findAllFriendRequestSent(this.id1).subscribe(friends => {
+    this.accountRelationService.findAllFriendRequestSent(id).subscribe(friends => {
       if (!this.loginCheck) {
         return;
       }
-      for (const friend of friends) {
-        // @ts-ignore
-        this.requestSent.push(friend);
-      }
-      for (const friend of this.requestSent) {
-        // @ts-ignore
-        if (friend.id === this.id2) {
-          this.friendCheck = 4;
-          break;
-        }
-      }
+      this.requestSent = friends;
+      this.checkFriendsSent(id, this.id2);
+
     });
   }
 
@@ -205,22 +215,22 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  saveStatus() {
+  saveStatus(id1, id2) {
     this.statusService.editStatus(this.status1, this.status1.id).subscribe(() => {
-      this.totalFunction();
+      this.getStatus(id1, id2);
     });
   }
 
-  deleteByStatus(id: number) {
+  deleteByStatus(id: number, id1, id2) {
     this.statusService.deleteStatus(id).subscribe(() => {
-      this.totalFunction();
+      this.getStatus(id1, id2);
     });
   }
 
-  createStatus(formStatus) {
+  createStatus(formStatus, id1, id2) {
     formStatus.value.account.id = this.id1;
     this.statusService.createStatus(formStatus.value).subscribe(() => {
-      this.totalFunction();
+      this.getStatus(id1, id2);
     });
   }
 
@@ -231,21 +241,76 @@ export class ProfileComponent implements OnInit {
 
   }
 
-  totalFunction() {
+  // scroll
+  ngAfterViewInit() {
     this.statusPublic = [];
     this.statusFriendOnlyAndPublic = [];
     this.status = [];
-    // tslint:disable-next-line:only-arrow-functions
-    $(document).ready(function() {
-      // tslint:disable-next-line:only-arrow-functions
-      $(window).scroll(function() {
-        // tslint:disable-next-line:radix
-        const scrollTop = parseInt($(window).scrollTop() + 1);
-        if (scrollTop === $(document).height() - $(window).height()) {
+    this.scrollContainer = this.scrollFrame.nativeElement;
+    this.itemElements.changes.subscribe(_ => this.onItemElementsChanged());
+    if (this.authenticationService.currentUserValue) {
+      this.id1 = JSON.parse(localStorage.getItem('account')).id;
+    }
+  }
 
-      }
-      });
+  private onItemElementsChanged(): void {
+    if (this.isNearBottom) {
+      this.scrollToBottom();
+    }
+  }
+
+  private scrollToBottom(): void {
+    this.scrollContainer.scroll({
+      bottom: this.scrollContainer.scrollHeight,
+      left: 0,
+      behavior: 'smooth'
     });
   }
 
+  private isUserNearBottom(): boolean {
+    const threshold = 0;
+    const position = this.scrollContainer.scrollTop + this.scrollContainer.offsetHeight;
+    const height = this.scrollContainer.scrollHeight;
+    return position > height - threshold;
+  }
+
+  scrolled(id1, id2): void {
+    this.isNearBottom = this.isUserNearBottom();
+    if (this.isNearBottom) {
+      this.loadAmount += 3;
+      this.getStatus(id1, id2);
+    }
+  }
+
+  getStatus(id1, id2) {
+    if (id1 !== -1 && id1 !== null) {
+      this.statusService.getAllStatusOfMySelfPagination(id1, this.loadAmount).subscribe(status => {
+        this.status = status;
+      });
+      this.statusService.getAllStatusOfFriendPagination(id2, this.loadAmount).subscribe(statusFriendOnlyAndPublic => {
+        this.statusFriendOnlyAndPublic = statusFriendOnlyAndPublic;
+      });
+    }
+    this.statusService.getAllPublicStatusOfGuestPagination(id2, this.loadAmount).subscribe(statusPublic => {
+      this.statusPublic = statusPublic;
+    });
+  }
+
+  checkId(id1, id2) {
+    return id1 != null && id2 != null && id1 === id2;
+  }
+
+  checkFriendsSent(id1, id2) {
+    this.isGuest = false;
+    this.accountRelationService.findAllFriendRequestReceived(id2).subscribe(accounts => {
+      if (accounts !== null) {
+        for (const acc of accounts) {
+          if (acc.id === id1) {
+            this.friendCheck = 4;
+            this.isGuest = true;
+          }
+        }
+      }
+    });
+  }
 }

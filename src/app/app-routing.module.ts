@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {Routes, RouterModule} from '@angular/router';
 import {LoginComponent} from './login/login.component';
 import {AuthGuard} from './helper/auth-guard';
 import {RegisterComponent} from './register/register.component';
-
+import {FirstPageComponent} from './first-page/first-page.component';
 
 
 const routes: Routes = [{
@@ -26,6 +26,9 @@ const routes: Routes = [{
   {
     path: 'profile/:username',
     loadChildren: () => import('./profile/profile.module').then(module => module.ProfileModule)
+  }, {
+    path: '',
+    component: FirstPageComponent
   }
 ];
 
@@ -33,4 +36,5 @@ const routes: Routes = [{
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

@@ -1,160 +1,351 @@
-<div style="text-align: center">
-  <div><p>- Avatar :<img style="width: 100px;height: auto" [src]="account.avatar" alt="notFoul"></p></div>
-  <div><p>- User name : {{account.username}}</p></div>
-  <div><p>- Họ và tên : {{account.fullName}}</p></div>
-  <div>
-    <div *ngIf="id1 == id2">
-      <button type="button" data-bs-toggle="modal" data-bs-target="#createModal" class="btn btn-primary">Create
-        status
-      </button>
-      <p>số lượng lời mời kết bạn đã nhận :{{requestSent.length}}</p>
-      <ul style="width: 500px" *ngFor="let fr of requestSent">
-        <li>
-          <p>{{fr.username}} đã gửi lời mời kết bạn</p>
-          <button (click)="acceptFriend(fr.id)">Chấp nhận</button>
-          <button (click)="declineFriend(fr.id)">Từ chối lời mời</button>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
-<p>- Địa chỉ : {{account.address}}</p>
-<p>- SĐT : {{account.phone}}</p>
-<p>- Sở thích : {{account.favorite}}</p>
-<p>- Số lượng bạn bè : {{totalFriend}}</p>
-<p *ngIf="mutualFriendsCheck">- Số lượng bạn bè chung : {{mutualFriends}}</p>
-<div *ngIf="!checkOnlyMe && loginCheck">
-  <p *ngIf="friendCheck===-1">
-    <button (click)="sendFriend()">kết bạn</button>
-  </p>
-  <p *ngIf="friendCheck===1">
-    <button (click)="deleteFriend()">Hủy kết bạn</button>
-  </p>
-  <p *ngIf="friendCheck===0">
-    <button (click)="cancelRequest()">Đã gửi lời mời</button>
-  </p>
-  <p *ngIf="friendCheck===4">
-    <button (click)="acceptFriend1()">Chấp nhận lời mời</button>
-  </p>
-  <p *ngIf="friendCheck===4">
-    <button (click)="declineFriend1()">Từ chối lời mời</button>
-  </p>
-</div>
-<div *ngIf="friendCheck<1 || !loginCheck">
-  <div class="statusForm alert-secondary rounded p-4" *ngFor="let s of statusPublic">
-    <ul>
-      <li >{{s.account.username}}</li>
-      <li>{{s.content}}</li>
-    </ul>
-  </div>
-</div>
-<div *ngIf="friendCheck===1">
-  <div class="statusForm alert-secondary rounded p-4"
-       *ngFor="let s of statusFriendOnlyAndPublic">
-   <ul>
-     <li >{{s.account.username}}</li>
-     <li >{{s.content}}</li>
-   </ul>
-  </div>
-</div>
-<div *ngIf="checkOnlyMe">
-<<<<<<< HEAD
-  <div class="statusForm" class="col-12 col-md-6 alert-secondary rounded p-4" *ngFor="let s of status">
-    <li>{{s.privacy.name}}</li>
-    <li class="list-group-item">{{s.account.username}}</li>
-    <li class="list-group-item">{{s.content}}</li>
-=======
-  <div class="statusForm alert-secondary rounded p-4" *ngFor="let s of status">
-   <ul>
-     <li>{{s.privacy.name}}</li>
-     <li >{{s.account.username}}</li>
-     <li >{{s.content}}</li>
-   </ul>
->>>>>>> f739e80e4bb462eba04a0928a7f8d62d3b0bcd66
-    <button type="button" class="btn btn-primary" (click)="addIdStatus(s.id)" data-bs-toggle="modal"
-            data-bs-target="#exampleModal">Edit
-    </button>
-    <button type="button" class="btn btn-primary" (click)="addIdStatus(s.id)" data-bs-toggle="modal"
-            data-bs-target="#deleteStatus">Delete
-    </button>
-  </div>
-</div>
-<!-- Modal edit-->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <input [(ngModel)]="status1.content">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" data-bs-dismiss="modal" (click)="saveStatus()" class="btn btn-primary">Save changes
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-<!--modal delete-->
-<div class="modal fade" id="deleteStatus" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="deleteStatusLabel">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        xóa nhé bạn ơi
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" data-bs-dismiss="modal" (click)="deleteByStatus(status1.id)" class="btn btn-primary">
-          delete Status
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
+<div style="width: 70%; margin-left: 18%;">
 
-<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="createModalLabel">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <form #statusForm="ngForm" (ngSubmit)="createStatus(statusForm)">
+
+  <!-- Modal edit-->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Cập nhật bài viết</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
         <div class="modal-body">
-          <table border="1px">
-            <div class="form-group">
-              <label for="inputEmail"></label>
-              <textarea class="form-control beautify-textarea" cols="100" rows="2" type="text" class="form-control"
-                        id="inputEmail" name="content" required [(ngModel)]="status.content"
-                        placeholder="what do you think?"></textarea>
-              <a *ngIf="statusForm.invalid">
-              </a>
-            </div>
-            <div>
-              <input hidden type="text" name="account" [(ngModel)]="currentAccount">
-            </div>
-            <div>
-              <select name="privacy" [(ngModel)]="status2.privacy">
-                <option *ngFor="let privacy of privacy" [value]="privacy.id">{{privacy.name}}</option>
-              </select>
-            </div>
-
-          </table>
+           <textarea class="form-control beautify-textarea" cols="100" rows="4" type="text"
+                     name="content" required [(ngModel)]="status1.content"
+                     placeholder="Bạn đang nghĩ gì thế?"></textarea>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
-          <button id="button" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" data-bs-dismiss="modal" (click)="saveStatus(id1, id2)" class="btn btn-primary">Lưu thay
+            đổi
+          </button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
         </div>
-      </form>
+      </div>
     </div>
   </div>
+  <!--modal delete-->
+  <div class="modal fade" id="deleteStatus" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteStatusLabel"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Bạn có chắc muốn xóa không?
+        </div>
+        <div class="modal-footer">
+          <button type="button" data-bs-dismiss="modal" (click)="deleteByStatus(status1.id, id1, id2)"
+                  class="btn btn-primary">
+            Xóa
+          </button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="createModalLabel" style="margin-left: 185px">Tạo bài viết</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form #statusForm="ngForm" (ngSubmit)="createStatus(statusForm, id1, id2)">
+          <div class="modal-body">
+            <div>
+              <div style="margin-bottom: -10px">
+                <select style="font-size: 14px; border: 1px solid lightgrey;height: 30px; border-radius: 5px"
+                        name="privacy" [(ngModel)]="status2">
+                  <!--                  <option selected [value]="privacy[0].id">Công khai</option>-->
+                  <!--                  <option [value]="privacy[1].id">Bạn bè</option>-->
+                  <!--                  <option [value]="privacy[2].id">Chỉ mình tôi</option>-->
+                  <option *ngFor="let x of privacy" [value]="x.id">{{x.name}}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="inputEmail"></label>
+                <textarea class="form-control beautify-textarea" cols="100" rows="4" type="text"
+                          id="inputEmail" name="content" required [(ngModel)]="status2.content"
+                          placeholder="Bạn đang nghĩ gì thế?"></textarea>
+                <a *ngIf="statusForm.invalid">
+                </a>
+              </div>
+              <div>
+                <input hidden type="text" name="account" [(ngModel)]="currentAccount">
+              </div>
+
+
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Đăng</button>
+            <button id="button" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="frame" (scroll)="scrolled(id1, id2)" #scrollFrame>
+    <div>
+      <div>
+        <div>
+          <div class="checkDiv" style=" float: left; margin-top: 15px">
+            <img
+              style="border: 2px solid whitesmoke;margin-left: 50px;width: 150px;height: 150px; object-fit: cover; border-radius: 75px"
+              [src]="account.avatar" alt="notFoul">
+          </div>
+          <div class="checkDiv" style=" float:left;margin-left: 55px;width: 350px">
+            <div>
+              <p style="font-size: 28px; font-family: -apple-system">
+                _{{account.username}}
+              </p>
+              <p><b style="font-size: 17px">{{account.fullName}}</b> &nbsp;&nbsp;&nbsp;&nbsp;{{account.phone}}&nbsp;&nbsp;&nbsp;&nbsp;
+                <b>{{totalFriend}}</b>&nbsp;bạn bè&nbsp;&nbsp;&nbsp;&nbsp;{{account.address}}&nbsp;&nbsp;&nbsp;&nbsp;
+                <span *ngIf="mutualFriendsCheck"><b>{{mutualFriends}}&nbsp;bạn chung</b></span>
+              </p>
+
+            </div>
+            <div *ngIf="!checkOnlyMe && loginCheck">
+              <p *ngIf="friendCheck===-1">
+                <button class="btn btn-primary" (click)="sendFriend()">Kết bạn</button>
+              </p>
+              <p *ngIf="friendCheck===1">
+                <button class="btn btn-secondary" (click)="deleteFriend()">Hủy kết bạn</button>
+              </p>
+              <p *ngIf="!isGuest">
+              <span *ngIf="friendCheck===0">
+                <button class="btn btn-secondary" (click)="cancelRequest()">Đã gửi lời mời</button>
+              </span>
+              </p>
+              <p *ngIf="isGuest">
+              <span *ngIf="friendCheck===4">
+                <button class="btn btn-primary" (click)="acceptFriend1()">Chấp nhận</button>&nbsp;
+                <button class="btn btn-secondary" (click)="declineFriend1()">Từ chối</button>
+              </span>
+              </p>
+            </div>
+            <div style="float: left" *ngIf="checkId(id1, id2)">
+              <p><b *ngIf="requestSent?.length">{{requestSent?.length}}</b><b
+                *ngIf="!requestSent?.length">0</b>&nbsp;lời mời kết bạn&nbsp;
+                <span *ngIf="requestSent?.length != null && requestSent.length > 0" class="dropdown">
+                  <button class="dropbtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-three-dots"
+                         viewBox="0 0 16 16">
+                      <path
+                        d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                    </svg>
+                  </button>
+                  <span class="dropdown-content1">
+                     <a *ngFor="let fr of requestSent">
+              <i><b>{{fr.username}}</b> đã gửi lời mời kết bạn</i>
+                       <br><br>
+              <button style="width: 45%" class="btn btn-primary" (click)="acceptFriend(fr.id)">Chấp nhận</button>&nbsp;
+              <button style="width: 45%" class="btn btn-secondary" (click)="declineFriend(fr.id)">Từ chối</button>
+              </a>
+              </span>
+                </span>&nbsp;&nbsp;
+
+              </p>
+              <p>
+                <input style="margin-top: -5px; margin-left: -14px; background-color: #F8F8F8; font-size: 14px; height: 35px"
+                       data-bs-toggle="modal"
+                       data-bs-target="#createModal" class="input-group-text okay" placeholder="Cập Nhật Trạng Thái">
+                &nbsp;&nbsp;
+              </p>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div style="margin-top: 220px">
+      <div *ngIf="friendCheck<1 || !loginCheck || friendCheck === 4" style="margin-top: 50px">
+        <div *ngFor="let s of statusPublic" class="item">
+          <div>
+            <div class="dropdown" style="display: inline">
+              <button style=" background-color: #FBFBFB; margin-left: 670px" class="dropbtn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                     class="bi bi-three-dots"
+                     viewBox="0 0 16 16">
+                  <path
+                    d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                </svg>
+              </button>
+            </div>
+            <div *ngIf="s.privacy.name === 'public'" style="margin-top: -25px"><img
+              style="width: 37px; height: 37px;border: 2px solid hotpink; object-fit: cover; border-radius: 30px"
+              src="{{s.account.avatar}}">&nbsp;&nbsp;<b>{{s.account.username}}</b>&nbsp;&nbsp;<img style="width: 17px; height: 17px" src="https://cdn0.iconfinder.com/data/icons/octicons/1024/globe-512.png">
+            </div>
+            <div *ngIf="s.privacy.name === 'friend-only'" style="margin-top: -25px"><img
+              style="width: 37px; height: 37px;border: 2px solid hotpink; object-fit: cover; border-radius: 30px"
+              src="{{s.account.avatar}}">&nbsp;&nbsp;<b>{{s.account.username}}</b>&nbsp;&nbsp;<svg
+              xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-people-fill"
+              viewBox="0 0 16 16">
+              <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+              <path fill-rule="evenodd"
+                    d="M5.216 14A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216z"/>
+              <path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
+            </svg>
+            </div>
+            <div *ngIf="s.privacy.name === 'only-me'" style="margin-top: -25px"><img
+              style="width: 37px; height: 37px;border: 2px solid hotpink; object-fit: cover; border-radius: 30px"
+              src="{{s.account.avatar}}">&nbsp;&nbsp;<b>{{s.account.username}}</b>&nbsp;&nbsp;<svg
+              style="margin-top: -2px" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
+              class="bi bi-lock-fill" viewBox="0 0 16 16">
+              <path
+                d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
+            </svg>
+            </div>
+            <div style="margin-top: 10px">{{s.content}}</div>
+
+          </div>
+          <div *ngIf="s.time < 60" style="margin-left: 10px">
+            <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9; margin-left: -8px">{{s.time}} Phút Trước</p>
+          </div>
+          <div *ngIf="s.time < 1440 && (s.time > 60 || s.time == 60)" style="margin-left: 10px">
+            <p
+              style="margin-top: 12px; font-size: 13px; color: #d9d9d9;margin-left: -8px">{{(s.time - s.time % 60) / 60}}
+              Giờ Trước</p>
+          </div>
+          <div *ngIf="s.time > 1440 || s.time == 1440" style="margin-left: 10px">
+            <p
+              style="margin-top: 12px; font-size: 13px; color: #d9d9d9; margin-left: -8px">{{(s.time - s.time % 1440) / 1440}}
+              Ngày
+              Trước</p>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="friendCheck===1">
+        <div *ngFor="let s of statusFriendOnlyAndPublic" class="item">
+          <div>
+            <div class="dropdown" style="display: inline">
+              <button style=" background-color: #FBFBFB; margin-left: 670px" class="dropbtn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                     class="bi bi-three-dots"
+                     viewBox="0 0 16 16">
+                  <path
+                    d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                </svg>
+              </button>
+            </div>
+            <div *ngIf="s.privacy.name === 'public'" style="margin-top: -25px"><img
+              style="width: 37px; height: 37px;border: 2px solid hotpink; object-fit: cover; border-radius: 30px"
+              src="{{s.account.avatar}}">&nbsp;&nbsp;<b>{{s.account.username}}</b>&nbsp;&nbsp;<img style="width: 17px; height: 17px" src="https://cdn0.iconfinder.com/data/icons/octicons/1024/globe-512.png">
+            </div>
+            <div *ngIf="s.privacy.name === 'friend-only'" style="margin-top: -25px"><img
+              style="width: 37px; height: 37px;border: 2px solid hotpink; object-fit: cover; border-radius: 30px"
+              src="{{s.account.avatar}}">&nbsp;&nbsp;<b>{{s.account.username}}</b>&nbsp;&nbsp;<svg
+              xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-people-fill"
+              viewBox="0 0 16 16">
+              <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+              <path fill-rule="evenodd"
+                    d="M5.216 14A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216z"/>
+              <path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
+            </svg>
+            </div>
+            <div *ngIf="s.privacy.name === 'only-me'" style="margin-top: -25px"><img
+              style="width: 37px; height: 37px;border: 2px solid hotpink; object-fit: cover; border-radius: 30px"
+              src="{{s.account.avatar}}">&nbsp;&nbsp;<b>{{s.account.username}}</b>&nbsp;&nbsp;<svg
+              style="margin-top: -2px" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
+              class="bi bi-lock-fill" viewBox="0 0 16 16">
+              <path
+                d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
+            </svg>
+            </div>
+            <div style="margin-top: 10px">{{s.content}}</div>
+
+          </div>
+          <div *ngIf="s.time < 60" style="margin-left: 10px">
+            <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9;margin-left: -8px">{{s.time}} Phút Trước</p>
+          </div>
+          <div *ngIf="s.time < 1440 && (s.time > 60 || s.time == 60)" style="margin-left: 10px">
+            <p
+              style="margin-top: 12px; font-size: 13px; color: #d9d9d9; margin-left: -8px">{{(s.time - s.time % 60) / 60}}
+              Giờ Trước</p>
+          </div>
+          <div *ngIf="s.time > 1440 || s.time == 1440" style="margin-left: 10px">
+            <p
+              style="margin-top: 12px; font-size: 13px; color: #d9d9d9;margin-left: -8px">{{(s.time - s.time % 1440) / 1440}}
+              Ngày
+              Trước</p>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="checkOnlyMe">
+        <div *ngFor="let s of status.content" class="item">
+          <div>
+            <div class="dropdown" style="display: inline">
+              <button style=" background-color: #FBFBFB; margin-left: 670px" class="dropbtn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                     class="bi bi-three-dots"
+                     viewBox="0 0 16 16">
+                  <path
+                    d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                </svg>
+              </button>
+              <div style="margin-left: 600px" class="dropdown-content">
+                <label style="width: 100%" for="edit{{account.id}}">
+                  <a class="nav-link">
+                    <button style="text-align: center" id="edit{{account.id}}" class="btn"
+                            (click)="addIdStatus(s.id)"
+                            data-bs-toggle="modal" data-bs-target="#exampleModal">&nbsp;Sửa
+                    </button>
+                    <span class="sr-only">(current)</span></a>
+                </label>
+                <label style="width: 100%" for="delete{{account.id}}">
+                  <a class="nav-link">
+                    <button id="delete{{account.id}}" class="btn"
+                            (click)="addIdStatus(s.id)" data-bs-toggle="modal"
+                            data-bs-target="#deleteStatus">&nbsp;Xóa
+                    </button>
+                    <span class="sr-only">(current)</span></a>
+                </label>
+              </div>
+            </div>
+            <div *ngIf="s.privacy.name === 'public'" style="margin-top: -25px"><img
+              style="width: 37px; height: 37px;border: 2px solid hotpink; object-fit: cover; border-radius: 30px"
+              src="{{s.account.avatar}}">&nbsp;&nbsp;<b>{{s.account.username}}</b>&nbsp;&nbsp;<img style="width: 17px; height: 17px" src="https://cdn0.iconfinder.com/data/icons/octicons/1024/globe-512.png">
+            </div>
+            <div *ngIf="s.privacy.name === 'friend-only'" style="margin-top: -25px"><img
+              style="width: 37px; height: 37px;border: 2px solid hotpink; object-fit: cover; border-radius: 30px"
+              src="{{s.account.avatar}}">&nbsp;&nbsp;<b>{{s.account.username}}</b>&nbsp;&nbsp;<svg
+              xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-people-fill"
+              viewBox="0 0 16 16">
+              <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+              <path fill-rule="evenodd"
+                    d="M5.216 14A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216z"/>
+              <path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
+            </svg>
+            </div>
+            <div *ngIf="s.privacy.name === 'only-me'" style="margin-top: -25px"><img
+              style="width: 37px; height: 37px;border: 2px solid hotpink; object-fit: cover; border-radius: 30px"
+              src="{{s.account.avatar}}">&nbsp;&nbsp;<b>{{s.account.username}}</b>&nbsp;&nbsp;<svg
+              style="margin-top: -2px" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
+              class="bi bi-lock-fill" viewBox="0 0 16 16">
+              <path
+                d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
+            </svg>
+            </div>
+            <div style="margin-top: 10px">{{s.content}}</div>
+          </div>
+          <div *ngIf="s.time < 60" style="margin-bottom: -10px">
+            <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{s.time}} Phút Trước</p>
+          </div>
+          <div *ngIf="s.time < 1440 && (s.time > 60 || s.time == 60)" style="margin-bottom: -10px">
+            <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{(s.time - s.time % 60) / 60}} Giờ Trước</p>
+          </div>
+          <div *ngIf="s.time > 1440 || s.time == 1440" style="margin-bottom: -10px">
+            <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{(s.time - s.time % 1440) / 1440}} Ngày
+              Trước</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
-
-
