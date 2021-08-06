@@ -14,6 +14,7 @@ import {AngularFireModule} from '@angular/fire';
 import {environment} from '../environments/environment';
 import { RegisterComponent } from './register/register.component';
 import {AngularFireAuth} from '@angular/fire/auth';
+import { FirstPageComponent } from './first-page/first-page.component';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import {AngularFireAuth} from '@angular/fire/auth';
     AppComponent,
     LoginComponent,
     RegisterComponent,
+    FirstPageComponent,
   ],
   imports: [
     BrowserModule,

@@ -121,3 +121,7 @@
   display: block;
   border-radius: 10px;
 }
+
+.checkDiv {
+  display: inline;
+}
