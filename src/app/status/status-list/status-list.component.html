@@ -1,16 +1,53 @@
 <div>
   <div style="width: 48%; float: left; margin-left: 170px">
-    <a class="btn" (click)="isCheck()" style="font-size: 15px;">Bạn đang nghĩ gì thế?</a>
-    <br>
-    <input placeholder="Bạn đang suy nghĩ gì ?" data-bs-toggle="modal" data-bs-target="#createModal">
+
     <div class="frame" (scroll)="scrolled(account.id)" #scrollFrame>
-      <div *ngFor="let s of status" class="item">
-        <div style="border: 1px solid #d9d9d9; border-radius: 3px">
-          <div style="margin-left: 10px; margin-top: 8px"><img
-            style="width: 37px; height: 37px;border: 2px solid hotpink; object-fit: cover; border-radius: 30px"
-            src="{{s.account.avatar}}">
-            &nbsp;<b>{{s.account.username}}</b>
-            <div *ngIf="s.account.id==account.id" class="dropdown">
+      <input style="font-size: 14px; background-color: #F8F8F8; border-radius: 5px" class="input-group-text" placeholder="Bạn đang nghĩ gì thế?" data-bs-toggle="modal" data-bs-target="#createModal">
+      <div style="margin-left: 0" *ngFor="let s of status" class="item">
+        <div style=" border-radius: 3px">
+          <div style="margin-left: 3px;">
+            <div *ngIf="s.privacy.name === 'public'">
+              <a [routerLink]="['/profile', s.account.username]">
+                <img
+                  style="width: 37px; height: 37px;border: 2px solid hotpink; object-fit: cover; border-radius: 30px"
+                  src="{{s.account.avatar}}">
+              </a>
+              &nbsp;<b>{{s.account.username}}</b>&nbsp;&nbsp;<svg
+              xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor"
+              class="bi bi-play-circle-fill" viewBox="0 0 16 16">
+              <path
+                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814l-3.5-2.5z"/>
+            </svg>
+            </div>
+            <div *ngIf="s.privacy.name === 'friend-only'">
+              <a [routerLink]="['/profile', s.account.username]">
+                <img
+                  style="width: 37px; height: 37px;border: 2px solid hotpink; object-fit: cover; border-radius: 30px"
+                  src="{{s.account.avatar}}">
+              </a>
+              &nbsp;<b>{{s.account.username}}</b>&nbsp;&nbsp;<svg
+              xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-people-fill"
+              viewBox="0 0 16 16">
+              <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+              <path fill-rule="evenodd"
+                    d="M5.216 14A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216z"/>
+              <path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
+            </svg>
+            </div>
+            <div *ngIf="s.privacy.name === 'only-me'">
+             <a [routerLink]="['/profile', s.account.username]">
+               <img
+                 style="width: 37px; height: 37px;border: 2px solid hotpink; object-fit: cover; border-radius: 30px"
+                 src="{{s.account.avatar}}">
+             </a>
+              &nbsp;<b>{{s.account.username}}</b>&nbsp;&nbsp;<svg
+              style="margin-top: -2px" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
+              class="bi bi-lock-fill" viewBox="0 0 16 16">
+              <path
+                d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
+            </svg>
+            </div>
+            <div *ngIf="s.account.id==account.id" style="float: right; margin-top: -40px" class="dropdown">
               <button style=" background-color: white" class="dropbtn">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                      class="bi bi-three-dots"
@@ -24,7 +61,7 @@
                   <a class="nav-link">
                     <button id="edit{{account.id}}"  class="btn"
                             (click)="addIdStatus(s.id)"
-                            data-bs-toggle="modal" data-bs-target="#exampleModal">Edit
+                            data-bs-toggle="modal" data-bs-target="#exampleModal">Sửa
                     </button>
                     <span class="sr-only">(current)</span></a>
                 </label>
@@ -32,23 +69,24 @@
                   <a class="nav-link">
                     <button id="delete{{account.id}}"  class="btn"
                             (click)="addIdStatus(s.id)" data-bs-toggle="modal"
-                            data-bs-target="#deleteStatus">Delete
+                            data-bs-target="#deleteStatus">Xóa
                     </button>
                     <span class="sr-only">(current)</span></a>
                 </label>
               </div>
             </div>
           </div>
-          <div style="margin-left: 10px">
-            <p style="margin-top: 12px;">{{s.content}}</p>
+
+          <div style="margin-left: 5px">
+            <p style="margin-top: 12px; text-align: justify">{{s.content}}</p>
           </div>
-          <div *ngIf="s.time < 60" style="margin-left: 10px">
+          <div *ngIf="s.time < 60" style="margin-left: 5px; margin-bottom: -40px">
             <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{s.time}} Phút Trước</p>
           </div>
-          <div *ngIf="s.time >= 60" style="margin-left: 10px">
+          <div *ngIf="s.time >= 60" style="margin-left: 5px; margin-bottom: -40px">
             <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{(s.time - s.time % 60) / 60}} Giờ Trước</p>
           </div>
-          <div *ngIf="s.time >= 1440" style="margin-left: 10px">
+          <div *ngIf="s.time >= 1440" style="margin-left: 5px ; margin-bottom: -40px">
             <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{(s.time - s.time % 1440) / 1440}} Ngày
               Trước</p>
           </div>
@@ -58,86 +96,98 @@
       </div>
     </div>
   </div>
-  <div style="width: 51%">
-
-  </div>
 </div>
+
 
 <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="createModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="createModalLabel" style="margin-left: 185px">Tạo bài viết</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form #statusForm="ngForm" (ngSubmit)="createStatus(statusForm)">
         <div class="modal-body">
-          <table border="1px">
+          <div>
+            <div style="margin-bottom: -10px">
+              <select  style="font-size: 14px; border: 1px solid lightgrey;height: 30px; border-radius: 5px" name="privacy" [(ngModel)]="status1">
+<!--                <option [value]="privacy[0].id">Công khai</option>-->
+<!--                <option [value]="privacy[1].id">Bạn bè</option>-->
+<!--                <option [value]="privacy[2].id">Chỉ mình tôi</option>-->
+                <option *ngFor="let privacy of privacy" [value]="privacy.id">{{privacy.name}}</option>
+              </select>
+            </div>
             <div class="form-group">
               <label for="inputEmail"></label>
-              <textarea class="form-control beautify-textarea" cols="100" rows="2" type="text" class="form-control"
+              <textarea class="form-control beautify-textarea" cols="100" rows="4" type="text"
                         id="inputEmail" name="content" required [(ngModel)]="status1.content"
-                        placeholder="Hãy viết gì đó !!"></textarea>
+                        placeholder="Bạn đang nghĩ gì thế?"></textarea>
               <a *ngIf="statusForm.invalid">
               </a>
             </div>
             <div>
               <input hidden type="text" name="account" [(ngModel)]="account">
             </div>
-            <div>
-              <select name="privacy" [(ngModel)]="status1.privacy">
-                <option *ngFor="let privacy of privacy" [value]="privacy.id">{{privacy.name}}</option>
-              </select>
-            </div>
 
-          </table>
+
+          </div>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save</button>
-          <button id="button" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Đăng</button>
+          <button id="button" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
         </div>
       </form>
     </div>
   </div>
 </div>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <input [(ngModel)]="status1.content">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" data-bs-dismiss="modal" (click)="saveStatus()" class="btn btn-primary">Save changes
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
 
+
+
+
+
+
+<!--modal delete-->
 <div class="modal fade" id="deleteStatus" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="deleteStatusLabel">Modal title</h5>
+        <h5 class="modal-title" id="deleteStatusLabel"></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        xóa nhé bạn ơi
+        Bạn có chắc muốn xóa không?
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" data-bs-dismiss="modal" (click)="deleteByStatus(status1.id)" class="btn btn-primary">
-          delete Status
+        <button type="button" data-bs-dismiss="modal" (click)="deleteByStatus(status1.id)"
+                class="btn btn-primary">
+          Xóa
         </button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
       </div>
     </div>
   </div>
 </div>
 
 
+<!-- Modal edit-->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Cập nhật bài viết</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+           <textarea class="form-control beautify-textarea" cols="100" rows="4" type="text"
+                     name="content" required [(ngModel)]="status1.content"
+                     placeholder="Bạn đang nghĩ gì thế?"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" data-bs-dismiss="modal" (click)="saveStatus()"   class="btn btn-primary">Lưu thay đổi
+        </button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+      </div>
+    </div>
+  </div>
+</div>
