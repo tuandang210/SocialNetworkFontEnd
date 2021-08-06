@@ -3,6 +3,7 @@ import {FormControl, FormGroup} from '@angular/forms';
 import {AuthenticationService} from '../service/authentication/authentication.service';
 import {Router} from '@angular/router';
 import {AccountService} from '../service/account/account.service';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -58,5 +59,9 @@ export class LoginComponent implements OnInit {
   hideShowPassword() {
     this.passwordType = this.passwordType === 'text' ? 'password' : 'text';
     // this.passwordIcon = this.passwordIcon === 'hide' ? 'show' : 'hide';
+  }
+
+  loginGoogle() {
+    this.authenticationService.googleLogin().then();
   }
 }

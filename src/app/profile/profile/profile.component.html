@@ -57,11 +57,11 @@
             <div>
               <div style="margin-bottom: -10px">
                 <select style="font-size: 14px; border: 1px solid lightgrey;height: 30px; border-radius: 5px"
-                        name="privacy" [(ngModel)]="status2.privacy">
-                  <option [value]="undefined">- Trạng thái -</option>
-                  <option [value]="privacy[0].id">Công khai</option>
-                  <option [value]="privacy[1].id">Bạn bè</option>
-                  <option [value]="privacy[2].id">Chỉ mình tôi</option>
+                        name="privacy" [(ngModel)]="status2">
+                  <!--                  <option selected [value]="privacy[0].id">Công khai</option>-->
+                  <!--                  <option [value]="privacy[1].id">Bạn bè</option>-->
+                  <!--                  <option [value]="privacy[2].id">Chỉ mình tôi</option>-->
+                  <option *ngFor="let x of privacy" [value]="x.id">{{x.name}}</option>
                 </select>
               </div>
               <div class="form-group">
@@ -115,18 +115,23 @@
               <p *ngIf="friendCheck===1">
                 <button class="btn btn-secondary" (click)="deleteFriend()">Hủy kết bạn</button>
               </p>
-              <p *ngIf="friendCheck===0">
+              <p *ngIf="!isGuest">
+              <span *ngIf="friendCheck===0">
                 <button class="btn btn-secondary" (click)="cancelRequest()">Đã gửi lời mời</button>
+              </span>
               </p>
-              <p *ngIf="friendCheck===4">
+              <p *ngIf="isGuest">
+              <span *ngIf="friendCheck===4">
                 <button class="btn btn-primary" (click)="acceptFriend1()">Chấp nhận</button>&nbsp;
                 <button class="btn btn-secondary" (click)="declineFriend1()">Từ chối</button>
+              </span>
               </p>
             </div>
-            <div style="float: left" *ngIf="id1 == id2">
+            <div style="float: left" *ngIf="checkId(id1, id2)">
               <p>
-                Lời mời kết bạn <b>{{requestSent.length}}</b>&nbsp;&nbsp;
-                <span *ngIf="requestSent.length>0" class="dropdown">
+                Lời mời kết bạn <b *ngIf="requestSent?.length">{{requestSent?.length}}</b><b
+                *ngIf="!requestSent?.length">0</b>&nbsp;
+                <span *ngIf="requestSent?.length != null && requestSent.length > 0" class="dropdown">
                   <button class="dropbtn">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                          class="bi bi-three-dots"
@@ -160,7 +165,7 @@
       </div>
     </div>
     <div style="margin-top: 220px">
-      <div *ngIf="friendCheck<1 || !loginCheck" style="margin-top: 50px">
+      <div *ngIf="friendCheck<1 || !loginCheck || friendCheck === 4" style="margin-top: 50px">
         <div *ngFor="let s of statusPublic" class="item">
           <div>
             <div class="dropdown" style="display: inline">
@@ -209,10 +214,14 @@
             <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9; margin-left: -8px">{{s.time}} Phút Trước</p>
           </div>
           <div *ngIf="s.time >= 60" style="margin-left: 10px">
-            <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9;margin-left: -8px">{{(s.time - s.time % 60) / 60}} Giờ Trước</p>
+            <p
+              style="margin-top: 12px; font-size: 13px; color: #d9d9d9;margin-left: -8px">{{(s.time - s.time % 60) / 60}}
+              Giờ Trước</p>
           </div>
           <div *ngIf="s.time >= 1440" style="margin-left: 10px">
-            <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9; margin-left: -8px">{{(s.time - s.time % 1440) / 1440}} Ngày
+            <p
+              style="margin-top: 12px; font-size: 13px; color: #d9d9d9; margin-left: -8px">{{(s.time - s.time % 1440) / 1440}}
+              Ngày
               Trước</p>
           </div>
         </div>
@@ -229,24 +238,6 @@
                     d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
                 </svg>
               </button>
-<!--              <div style="margin-left: 600px" class="dropdown-content">-->
-<!--                <label style="width: 100%" for="edit{{account.id}}">-->
-<!--                  <a class="nav-link">-->
-<!--                    <button style="text-align: center" id="edit{{account.id}}" class="btn"-->
-<!--                            (click)="addIdStatus(s.id)"-->
-<!--                            data-bs-toggle="modal" data-bs-target="#exampleModal">&nbsp;Sửa-->
-<!--                    </button>-->
-<!--                    <span class="sr-only">(current)</span></a>-->
-<!--                </label>-->
-<!--                <label style="width: 100%" for="delete{{account.id}}">-->
-<!--                  <a class="nav-link">-->
-<!--                    <button id="delete{{account.id}}" class="btn"-->
-<!--                            (click)="addIdStatus(s.id)" data-bs-toggle="modal"-->
-<!--                            data-bs-target="#deleteStatus">&nbsp;Xóa-->
-<!--                    </button>-->
-<!--                    <span class="sr-only">(current)</span></a>-->
-<!--                </label>-->
-<!--              </div>-->
             </div>
             <div *ngIf="s.privacy.name === 'public'" style="margin-top: -25px"><img
               style="width: 37px; height: 37px;border: 2px solid hotpink; object-fit: cover; border-radius: 30px"
@@ -284,10 +275,14 @@
             <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9;margin-left: -8px">{{s.time}} Phút Trước</p>
           </div>
           <div *ngIf="s.time >= 60" style="margin-left: 10px">
-            <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9; margin-left: -8px">{{(s.time - s.time % 60) / 60}} Giờ Trước</p>
+            <p
+              style="margin-top: 12px; font-size: 13px; color: #d9d9d9; margin-left: -8px">{{(s.time - s.time % 60) / 60}}
+              Giờ Trước</p>
           </div>
           <div *ngIf="s.time >= 1440" style="margin-left: 10px">
-            <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9;margin-left: -8px">{{(s.time - s.time % 1440) / 1440}} Ngày
+            <p
+              style="margin-top: 12px; font-size: 13px; color: #d9d9d9;margin-left: -8px">{{(s.time - s.time % 1440) / 1440}}
+              Ngày
               Trước</p>
           </div>
         </div>

@@ -110,11 +110,11 @@
         <div class="modal-body">
           <div>
             <div style="margin-bottom: -10px">
-              <select  style="font-size: 14px; border: 1px solid lightgrey;height: 30px; border-radius: 5px" name="privacy" [(ngModel)]="status1.privacy">
-                <option [value]="undefined">- Trạng thái -</option>
-                <option [value]="privacy[0].id">Công khai</option>
-                <option [value]="privacy[1].id">Bạn bè</option>
-                <option [value]="privacy[2].id">Chỉ mình tôi</option>
+              <select  style="font-size: 14px; border: 1px solid lightgrey;height: 30px; border-radius: 5px" name="privacy" [(ngModel)]="status1">
+<!--                <option [value]="privacy[0].id">Công khai</option>-->
+<!--                <option [value]="privacy[1].id">Bạn bè</option>-->
+<!--                <option [value]="privacy[2].id">Chỉ mình tôi</option>-->
+                <option *ngFor="let privacy of privacy" [value]="privacy.id">{{privacy.name}}</option>
               </select>
             </div>
             <div class="form-group">

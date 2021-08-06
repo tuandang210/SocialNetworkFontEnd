@@ -13,6 +13,7 @@ import {AngularFireStorageModule} from '@angular/fire/storage';
 import {AngularFireModule} from '@angular/fire';
 import {environment} from '../environments/environment';
 import { RegisterComponent } from './register/register.component';
+import {AngularFireAuth} from '@angular/fire/auth';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { RegisterComponent } from './register/register.component';
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+    AngularFireAuth
   ],
   bootstrap: [AppComponent]
 })

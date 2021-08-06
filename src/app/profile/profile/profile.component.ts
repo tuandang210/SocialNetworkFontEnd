@@ -46,6 +46,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   requestSent: AccountToken[] = [];
   privacy: Privacy[] = [];
   currentAccount: AccountToken = {};
+  isGuest = false;
   @ViewChild('scrollFrame', {static: false}) scrollFrame: ElementRef;
   @ViewChildren('item') itemElements: QueryList<any>;
   private scrollContainer: any;
@@ -63,8 +64,11 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     if (this.loginCheck) {
       this.findAllFriendRequestSent(this.id1);
     }
+    // this.showPrivacy();
     this.getAccountByUsername();
-    this.showPrivacy();
+    if (this.privacy.length === 0) {
+      this.showPrivacy();
+    }
   }
 
   getAccountByUsername() {
@@ -200,13 +204,8 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         return;
       }
       this.requestSent = friends;
-      for (const friend of this.requestSent) {
-        // @ts-ignore
-        if (friend.id === this.id2) {
-          this.friendCheck = 4;
-          break;
-        }
-      }
+      this.checkFriendsSent(id, this.id2);
+
     });
   }
 
@@ -294,6 +293,24 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     }
     this.statusService.getAllPublicStatusOfGuestPagination(id2, this.loadAmount).subscribe(statusPublic => {
       this.statusPublic = statusPublic;
+    });
+  }
+
+  checkId(id1, id2) {
+    return id1 != null && id2 != null && id1 === id2;
+  }
+
+  checkFriendsSent(id1, id2) {
+    this.isGuest = false;
+    this.accountRelationService.findAllFriendRequestReceived(id2).subscribe(accounts => {
+      if (accounts !== null) {
+        for (const acc of accounts) {
+          if (acc.id === id1) {
+            this.friendCheck = 4;
+            this.isGuest = true;
+          }
+        }
+      }
     });
   }
 }
