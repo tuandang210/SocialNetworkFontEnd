@@ -76,17 +76,16 @@
               </div>
             </div>
           </div>
-
           <div style="margin-left: 5px">
             <p style="margin-top: 12px; text-align: justify">{{s.content}}</p>
           </div>
           <div *ngIf="s.time < 60" style="margin-left: 5px; margin-bottom: -40px">
             <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{s.time}} Phút Trước</p>
           </div>
-          <div *ngIf="s.time >= 60" style="margin-left: 5px; margin-bottom: -40px">
+          <div *ngIf=" s.time < 1440 && (s.time > 60 || s.time == 60)" style="margin-left: 5px; margin-bottom: -40px">
             <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{(s.time - s.time % 60) / 60}} Giờ Trước</p>
           </div>
-          <div *ngIf="s.time >= 1440" style="margin-left: 5px ; margin-bottom: -40px">
+          <div *ngIf="s.time > 1440 || s.time == 1440" style="margin-left: 5px ; margin-bottom: -40px">
             <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{(s.time - s.time % 1440) / 1440}} Ngày
               Trước</p>
           </div>
@@ -111,9 +110,6 @@
           <div>
             <div style="margin-bottom: -10px">
               <select  style="font-size: 14px; border: 1px solid lightgrey;height: 30px; border-radius: 5px" name="privacy" [(ngModel)]="status1">
-<!--                <option [value]="privacy[0].id">Công khai</option>-->
-<!--                <option [value]="privacy[1].id">Bạn bè</option>-->
-<!--                <option [value]="privacy[2].id">Chỉ mình tôi</option>-->
                 <option *ngFor="let privacy of privacy" [value]="privacy.id">{{privacy.name}}</option>
               </select>
             </div>

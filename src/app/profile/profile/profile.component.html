@@ -213,12 +213,12 @@
           <div *ngIf="s.time < 60" style="margin-left: 10px">
             <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9; margin-left: -8px">{{s.time}} Phút Trước</p>
           </div>
-          <div *ngIf="s.time >= 60" style="margin-left: 10px">
+          <div *ngIf="s.time < 1440 && (s.time > 60 || s.time == 60)" style="margin-left: 10px">
             <p
               style="margin-top: 12px; font-size: 13px; color: #d9d9d9;margin-left: -8px">{{(s.time - s.time % 60) / 60}}
               Giờ Trước</p>
           </div>
-          <div *ngIf="s.time >= 1440" style="margin-left: 10px">
+          <div *ngIf="s.time > 1440 || s.time == 1440" style="margin-left: 10px">
             <p
               style="margin-top: 12px; font-size: 13px; color: #d9d9d9; margin-left: -8px">{{(s.time - s.time % 1440) / 1440}}
               Ngày
@@ -274,12 +274,12 @@
           <div *ngIf="s.time < 60" style="margin-left: 10px">
             <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9;margin-left: -8px">{{s.time}} Phút Trước</p>
           </div>
-          <div *ngIf="s.time >= 60" style="margin-left: 10px">
+          <div *ngIf="s.time < 1440 && (s.time > 60 || s.time == 60)" style="margin-left: 10px">
             <p
               style="margin-top: 12px; font-size: 13px; color: #d9d9d9; margin-left: -8px">{{(s.time - s.time % 60) / 60}}
               Giờ Trước</p>
           </div>
-          <div *ngIf="s.time >= 1440" style="margin-left: 10px">
+          <div *ngIf="s.time > 1440 || s.time == 1440" style="margin-left: 10px">
             <p
               style="margin-top: 12px; font-size: 13px; color: #d9d9d9;margin-left: -8px">{{(s.time - s.time % 1440) / 1440}}
               Ngày
@@ -352,10 +352,10 @@
           <div *ngIf="s.time < 60" style="margin-bottom: -10px">
             <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{s.time}} Phút Trước</p>
           </div>
-          <div *ngIf="s.time >= 60" style="margin-bottom: -10px">
+          <div *ngIf="s.time < 1440 && (s.time > 60 || s.time == 60)" style="margin-bottom: -10px">
             <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{(s.time - s.time % 60) / 60}} Giờ Trước</p>
           </div>
-          <div *ngIf="s.time >= 1440" style="margin-bottom: -10px">
+          <div *ngIf="s.time > 1440 || s.time == 1440" style="margin-bottom: -10px">
             <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{(s.time - s.time % 1440) / 1440}} Ngày
               Trước</p>
           </div>
