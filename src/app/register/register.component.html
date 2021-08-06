@@ -37,7 +37,10 @@
         <div>
           <b>Mật Khẩu <span style="color: red">*</span></b>
           <div>
-            <input style="width: 400px" class="input-group-text" type="password" formControlName="password">
+            <input style="width: 400px" class="input-group-text" [type]="passwordType" formControlName="password"><a style="position: relative;margin-left: -50px;margin-top: -5px; margin-bottom: 5px" class="btn fadeIn third" (click)='hideShowPassword()'><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#cccccc" class="bi bi-eye" viewBox="0 0 16 16">
+            <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+            <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+          </svg></a>
           </div>
           <div>
             <div style="width: 400px" *ngIf="password.invalid && (password.dirty || password.touched)"
@@ -57,12 +60,13 @@
         </div>
         <div>
           <b>Xác Nhận Mật Khẩu <span style="color: red">*</span></b>
-          <div><input style="width: 400px" class="input-group-text" type="password" formControlName="confirmPassword">
+          <div><input style="width: 400px" class="input-group-text" [type]="passwordType" formControlName="confirmPassword">
           </div>
         </div>
         <br>
         <div>
-          <button class="btn btn-primary">Đăng Ký</button>
+<!--          <button class="btn btn-primary">Đăng Ký</button>-->
+          <button class="btn btn-outline-primary" style=" margin-left: 88%; width: 100px; font-size: 15px">Đăng Ký</button>
         </div>
       </div>
 
@@ -76,7 +80,7 @@
                  class="alert alert-danger">
 
               <div *ngIf="email.errors?.pattern">
-                Định dạng Email giống abcd@gmail.com
+                Định dạng email giống example@gmail.com
               </div>
             </div>
           </div>
@@ -102,7 +106,7 @@
                  class="alert alert-danger">
 
               <div *ngIf="birthday.errors?.pattern">
-                Định dạng ngày sinh là dd/mm/yyyy
+                Định dạng ngày sinh là ngày/tháng/năm
               </div>
             </div>
           </div>

@@ -24,6 +24,7 @@ export class RegisterComponent implements OnInit {
   isPassword = false;
   isEmail = false;
   message = '';
+  passwordType = 'password';
 
   constructor(private accountService: AccountService,
               private router: Router) {
@@ -90,5 +91,10 @@ export class RegisterComponent implements OnInit {
 
   get phone() {
     return this.accountForm.get('phone');
+  }
+
+  hideShowPassword() {
+    this.passwordType = this.passwordType === 'text' ? 'password' : 'text';
+    // this.passwordIcon = this.passwordIcon === 'hide' ? 'show' : 'hide';
   }
 }
