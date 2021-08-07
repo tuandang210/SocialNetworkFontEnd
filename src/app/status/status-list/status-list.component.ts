@@ -6,6 +6,7 @@ import {ActivatedRoute} from '@angular/router';
 import {NgForm} from '@angular/forms';
 import {Privacy} from '../../model/privacy/privacy';
 import {PrivacyService} from '../../service/privacy/privacy.service';
+import {CommentService} from '../../service/comment/comment.service';
 
 
 @Component({
@@ -25,7 +26,8 @@ export class StatusListComponent implements OnInit, AfterViewInit {
   private loadAmount = 3;
   privacy: Privacy[] = [];
 
-  constructor(private statusService: StatusService, private privacyService: PrivacyService) {
+  constructor(private statusService: StatusService, private privacyService: PrivacyService,
+              private commentService: CommentService) {
   }
 
   ngOnInit() {
