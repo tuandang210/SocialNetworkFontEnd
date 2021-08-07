@@ -6,11 +6,10 @@ import { StatusListComponent } from './status-list/status-list.component';
 import { StatusCrateComponent } from './status-crate/status-crate.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { StatusEditComponent } from './status-edit/status-edit.component';
-import { ImageStatusComponent } from './image-status/image-status.component';
 
 
 @NgModule({
-    declarations: [StatusListComponent, StatusCrateComponent, StatusEditComponent, ImageStatusComponent],
+    declarations: [StatusListComponent, StatusCrateComponent, StatusEditComponent],
     exports: [
         StatusCrateComponent
     ],

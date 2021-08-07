@@ -3,11 +3,15 @@ import {StatusService} from '../../service/status/status.service';
 import {Status} from '../../model/status-model/status';
 import {AccountToken} from '../../model/account/account-token';
 import {ActivatedRoute} from '@angular/router';
-import {NgForm} from '@angular/forms';
+import {FormControl, FormGroup, NgForm} from '@angular/forms';
 import {Privacy} from '../../model/privacy/privacy';
 import {PrivacyService} from '../../service/privacy/privacy.service';
 import {CommentService} from '../../service/comment/comment.service';
 import {ImageStatusService} from '../../service/image-status/image-status.service';
+import {finalize} from 'rxjs/operators';
+import {AngularFireStorage} from '@angular/fire/storage';
+import {ImageStatus} from '../../model/status-model/image-status';
+import {StatusDto} from '../../model/status-model/status-dto';
 
 
 @Component({
@@ -26,11 +30,16 @@ export class StatusListComponent implements OnInit, AfterViewInit {
   private isNearBottom = true;
   private loadAmount = 3;
   privacy: Privacy[] = [];
+  id: number;
+  selectedImg: any = null;
+  imgSrc1 = '';
+  image: ImageStatus = {};
 
   constructor(private statusService: StatusService,
               private privacyService: PrivacyService,
               private commentService: CommentService,
-              private imageStatusService: ImageStatusService) {
+              public imageStatusService: ImageStatusService,
+              private angularFireStorage: AngularFireStorage) {
   }
 
   ngOnInit() {
@@ -96,10 +105,11 @@ export class StatusListComponent implements OnInit, AfterViewInit {
     });
   }
 
-  createStatus(formStatus) {
-    formStatus.value.account.id = this.account.id;
-    this.statusService.createStatus(formStatus.value).subscribe(() => {
-      this.getStatus(this.account.id);
+  createStatus(formStatus, imageUrl) {
+    let status11: StatusDto = {};
+    formStatus.value.url = imageUrl;
+    status11 = formStatus.value;
+    this.statusService.createStatus(status11).subscribe(() => {
     });
   }
 
@@ -114,5 +124,29 @@ export class StatusListComponent implements OnInit, AfterViewInit {
     this.statusService.getById(id).subscribe(status => {
       this.status1 = status;
     });
+  }
+
+
+  showImagePreview(event) {
+    if (event.target.files && event.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => this.imgSrc1 = event.target.result;
+      reader.readAsDataURL(event.target.files[0]);
+      this.selectedImg = event.target.files[0];
+
+      if (this.selectedImg != null) {
+        const filePath = `${this.selectedImg.name.split('.').splice(0, -1).join('.')}_${new Date().getTime()}`;
+        const fileRef = this.angularFireStorage.ref(filePath);
+        this.angularFireStorage.upload(filePath, this.selectedImg).snapshotChanges().pipe(
+          finalize(() => {
+            fileRef.getDownloadURL().subscribe(url => {
+              this.imgSrc1 = url;
+            });
+          })).subscribe();
+      }
+
+    } else {
+      this.selectedImg = null;
+    }
   }
 }

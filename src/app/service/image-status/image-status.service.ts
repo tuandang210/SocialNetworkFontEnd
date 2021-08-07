@@ -29,4 +29,8 @@ export class ImageStatusService {
   deleteImage(id): Observable<ImageStatus> {
     return this.http.delete<ImageStatus>(`${API_URL}/images/${id}`);
   }
+
+  getByUrl(url: string): Observable<ImageStatus> {
+    return this.http.get<ImageStatus>(`${API_URL}/images?url=${url}`);
+  }
 }

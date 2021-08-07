@@ -1,14 +1,14 @@
 .frame {
-  height: 89%;
+  height: 90%;
   position: absolute;
   width: 60%;
   z-index: 100;
-  margin-top: -20px;
+  margin-top: 1%;
   overflow: scroll;
 }
 
 .item {
-  padding: 15px;
+  padding: 0;
   margin: 20px;
   /*background-color: whitesmoke;*/
   border: 1px solid lightgray;

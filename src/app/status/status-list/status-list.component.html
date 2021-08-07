@@ -2,17 +2,20 @@
   <div style="width: 48%; float: left; margin-left: 170px">
 
     <div class="frame" (scroll)="scrolled(account.id)" #scrollFrame>
-      <input style="font-size: 14px; background-color: #F8F8F8; border-radius: 5px" class="input-group-text" placeholder="Bạn đang nghĩ gì thế?" data-bs-toggle="modal" data-bs-target="#createModal">
+      <input style="font-size: 14px; background-color: #F8F8F8; border-radius: 5px; margin-top: 20px"
+             class="input-group-text"
+             placeholder="Bạn đang nghĩ gì thế?" data-bs-toggle="modal" data-bs-target="#createModal">
       <div style="margin-left: 0" *ngFor="let s of status" class="item">
         <div style=" border-radius: 3px">
-          <div style="margin-left: 3px;">
+          <div style="margin-left: 10px;margin-top: 10px">
             <div *ngIf="s.privacy.name === 'public'">
               <a [routerLink]="['/profile', s.account.username]">
                 <img
                   style="width: 37px; height: 37px;border: 2px solid hotpink; object-fit: cover; border-radius: 30px"
                   src="{{s.account.avatar}}">
               </a>
-              &nbsp;<b>{{s.account.username}}</b>&nbsp;&nbsp;<img style="width: 17px; height: 17px; margin-left: -3px" src="https://cdn0.iconfinder.com/data/icons/octicons/1024/globe-512.png">
+              &nbsp;<b>{{s.account.username}}</b>&nbsp;&nbsp;<img style="width: 17px; height: 17px; margin-left: -3px"
+                                                                  src="https://cdn0.iconfinder.com/data/icons/octicons/1024/globe-512.png">
             </div>
             <div *ngIf="s.privacy.name === 'friend-only'">
               <a [routerLink]="['/profile', s.account.username]">
@@ -30,11 +33,11 @@
             </svg>
             </div>
             <div *ngIf="s.privacy.name === 'only-me'">
-             <a [routerLink]="['/profile', s.account.username]">
-               <img
-                 style="width: 37px; height: 37px;border: 2px solid hotpink; object-fit: cover; border-radius: 30px"
-                 src="{{s.account.avatar}}">
-             </a>
+              <a [routerLink]="['/profile', s.account.username]">
+                <img
+                  style="width: 37px; height: 37px;border: 2px solid hotpink; object-fit: cover; border-radius: 30px"
+                  src="{{s.account.avatar}}">
+              </a>
               &nbsp;<b>{{s.account.username}}</b>&nbsp;&nbsp;<svg
               style="margin-top: -2px" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
               class="bi bi-lock-fill" viewBox="0 0 16 16">
@@ -42,7 +45,8 @@
                 d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
             </svg>
             </div>
-            <div *ngIf="s.account.id==account.id" style="float: right; margin-top: -40px" class="dropdown">
+            <div *ngIf="s.account.id==account.id" style="float: right; margin-top: -40px; margin-right: 5px"
+                 class="dropdown">
               <button style=" background-color: white" class="dropbtn">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                      class="bi bi-three-dots"
@@ -54,7 +58,7 @@
               <div class="dropdown-content">
                 <label style="width: 100%" for="edit{{account.id}}">
                   <a class="nav-link">
-                    <button id="edit{{account.id}}"  class="btn"
+                    <button id="edit{{account.id}}" class="btn"
                             (click)="addIdStatus(s.id)"
                             data-bs-toggle="modal" data-bs-target="#exampleModal">Sửa
                     </button>
@@ -62,7 +66,7 @@
                 </label>
                 <label style="width: 100%" for="delete{{account.id}}">
                   <a class="nav-link">
-                    <button id="delete{{account.id}}"  class="btn"
+                    <button id="delete{{account.id}}" class="btn"
                             (click)="addIdStatus(s.id)" data-bs-toggle="modal"
                             data-bs-target="#deleteStatus">Xóa
                     </button>
@@ -71,16 +75,29 @@
               </div>
             </div>
           </div>
-          <div style="margin-left: 5px">
+
+
+          <!-- hien thi anh 2.0-->
+          <div style="margin-top: 12px" id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img style="max-height: 700px; object-fit: cover" class="d-block w-100"
+                     src="{{s.imageStatuses[0].url}}">
+              </div>
+            </div>
+          </div>
+          <!--content-->
+          <div style="margin-left: 10px">
             <p style="margin-top: 12px; text-align: justify">{{s.content}}</p>
           </div>
-          <div *ngIf="s.time < 60" style="margin-left: 5px; margin-bottom: -40px">
+
+          <div *ngIf="s.time < 60" style="margin-left: 10px">
             <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{s.time}} Phút Trước</p>
           </div>
-          <div *ngIf=" s.time < 1440 && (s.time > 60 || s.time == 60)" style="margin-left: 5px; margin-bottom: -40px">
+          <div *ngIf=" s.time < 1440 && (s.time > 60 || s.time == 60)" style="margin-left: 10px">
             <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{(s.time - s.time % 60) / 60}} Giờ Trước</p>
           </div>
-          <div *ngIf="s.time > 1440 || s.time == 1440" style="margin-left: 5px ; margin-bottom: -40px">
+          <div *ngIf="s.time > 1440 || s.time == 1440" style="margin-left: 10px">
             <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{(s.time - s.time % 1440) / 1440}} Ngày
               Trước</p>
           </div>
@@ -100,24 +117,27 @@
         <h5 class="modal-title" id="createModalLabel" style="margin-left: 185px">Tạo bài viết</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form #statusForm="ngForm" (ngSubmit)="createStatus(statusForm)">
+      <form #statusForm="ngForm" (ngSubmit)="createStatus(statusForm, imgSrc1) ">
         <div class="modal-body">
           <div>
-            <div>
-              <app-image-status></app-image-status>
-            </div>
             <div style="margin-bottom: -10px">
-              <select  style="font-size: 14px; border: 1px solid lightgrey;height: 30px; border-radius: 5px" name="privacy" [(ngModel)]="status1">
+              <select style="font-size: 14px; border: 1px solid lightgrey;height: 30px; border-radius: 5px"
+                      name="privacy" [(ngModel)]="status1">
                 <option *ngFor="let privacy of privacy" [value]="privacy.id">{{privacy.name}}</option>
               </select>
             </div>
             <div class="form-group">
               <label for="inputEmail"></label>
-              <textarea class="form-control beautify-textarea" cols="100" rows="4" type="text"
-                        id="inputEmail" name="content" required [(ngModel)]="status1.content"
+              <textarea class="form-control beautify-textarea" cols="100" rows="4"
+                        id="inputEmail" name="content" required ngModel
                         placeholder="Bạn đang nghĩ gì thế?"></textarea>
               <a *ngIf="statusForm.invalid">
               </a>
+            </div>
+            <div>
+              <input hidden ngModel name="url" [value]="imgSrc1">
+              <input type="file" (change)="showImagePreview($event);" #preview>
+              <img style="height: 50px; width: 50px; object-fit: cover" [src]="imgSrc1" (click)="preview.click()">
             </div>
             <div>
               <input hidden type="text" name="account" [(ngModel)]="account">
@@ -133,11 +153,6 @@
     </div>
   </div>
 </div>
-
-
-
-
-
 
 
 <!--modal delete-->
@@ -177,7 +192,7 @@
                      placeholder="Bạn đang nghĩ gì thế?"></textarea>
       </div>
       <div class="modal-footer">
-        <button type="button" data-bs-dismiss="modal" (click)="saveStatus()"   class="btn btn-primary">Lưu thay đổi
+        <button type="button" data-bs-dismiss="modal" (click)="saveStatus()" class="btn btn-primary">Lưu thay đổi
         </button>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
       </div>
