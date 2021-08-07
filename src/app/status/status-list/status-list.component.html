@@ -103,6 +103,9 @@
       <form #statusForm="ngForm" (ngSubmit)="createStatus(statusForm)">
         <div class="modal-body">
           <div>
+            <div>
+              <app-image-status></app-image-status>
+            </div>
             <div style="margin-bottom: -10px">
               <select  style="font-size: 14px; border: 1px solid lightgrey;height: 30px; border-radius: 5px" name="privacy" [(ngModel)]="status1">
                 <option *ngFor="let privacy of privacy" [value]="privacy.id">{{privacy.name}}</option>
@@ -119,7 +122,6 @@
             <div>
               <input hidden type="text" name="account" [(ngModel)]="account">
             </div>
-
 
           </div>
         </div>

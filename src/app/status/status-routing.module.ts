@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {StatusListComponent} from './status-list/status-list.component';
 import {StatusEditComponent} from './status-edit/status-edit.component';
+import {ImageStatusComponent} from './image-status/image-status.component';
 
 
 const routes: Routes = [
@@ -13,6 +14,9 @@ const routes: Routes = [
   {
     path: 'edit/:id',
     component: StatusEditComponent
+  }, {
+    path: 'images',
+    component: ImageStatusComponent
   }
 ];
 

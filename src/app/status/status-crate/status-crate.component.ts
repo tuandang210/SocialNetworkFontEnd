@@ -5,6 +5,7 @@ import {AuthenticationService} from '../../service/authentication/authentication
 import {AccountToken} from '../../model/account/account-token';
 import {PrivacyService} from '../../service/privacy/privacy.service';
 import {Privacy} from '../../model/privacy/privacy';
+import {ImageStatusService} from '../../service/image-status/image-status.service';
 
 @Component({
   selector: 'app-status-crate',
@@ -21,7 +22,8 @@ export class StatusCrateComponent implements OnInit {
 
   constructor(private statusService: StatusService,
               private authenticationService: AuthenticationService,
-              private privacyService: PrivacyService) {
+              private privacyService: PrivacyService,
+              private imageStatusService: ImageStatusService) {
     this.authenticationService.currentAccountSubject.subscribe(account => {
       this.currentAccount = account;
     });

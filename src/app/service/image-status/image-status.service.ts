@@ -15,10 +15,6 @@ export class ImageStatusService {
   constructor(private http: HttpClient) {
   }
 
-  getAllByStatus(id): Observable<ImageStatus[]> {
-    return this.http.get<ImageStatus[]>(`${API_URL}/images/${id}`);
-  }
-
   getImageStatus(id): Observable<ImageStatus> {
     return this.http.get<ImageStatus>(`${API_URL}/images/${id}`);
   }
@@ -28,9 +24,6 @@ export class ImageStatusService {
   }
 
   createImage(image: ImageStatus): Observable<ImageStatus> {
-    image.status = {
-      id: image.status
-    };
     return this.http.post<ImageStatus>(`${API_URL}/images`, image);
   }
   deleteImage(id): Observable<ImageStatus> {

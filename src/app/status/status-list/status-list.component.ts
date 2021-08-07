@@ -7,6 +7,7 @@ import {NgForm} from '@angular/forms';
 import {Privacy} from '../../model/privacy/privacy';
 import {PrivacyService} from '../../service/privacy/privacy.service';
 import {CommentService} from '../../service/comment/comment.service';
+import {ImageStatusService} from '../../service/image-status/image-status.service';
 
 
 @Component({
@@ -26,17 +27,21 @@ export class StatusListComponent implements OnInit, AfterViewInit {
   private loadAmount = 3;
   privacy: Privacy[] = [];
 
-  constructor(private statusService: StatusService, private privacyService: PrivacyService,
-              private commentService: CommentService) {
+  constructor(private statusService: StatusService,
+              private privacyService: PrivacyService,
+              private commentService: CommentService,
+              private imageStatusService: ImageStatusService) {
   }
 
   ngOnInit() {
     this.getStatus(this.account.id);
     this.showPrivacy();
   }
+
   isCheck() {
     this.check = !this.check;
   }
+
   ngAfterViewInit() {
     this.scrollContainer = this.scrollFrame.nativeElement;
     this.itemElements.changes.subscribe(_ => this.onItemElementsChanged());
@@ -104,6 +109,7 @@ export class StatusListComponent implements OnInit, AfterViewInit {
     });
 
   }
+
   addIdStatus(id: number) {
     this.statusService.getById(id).subscribe(status => {
       this.status1 = status;

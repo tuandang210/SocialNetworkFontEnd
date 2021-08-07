@@ -6,4 +6,5 @@ export interface Status {
   postedTime?: any;
   time?: string;
   comment?: any;
+  imageStatuses?: any;
 }
