@@ -1,5 +1,67 @@
 <div style=" margin-left: 17%;">
+  <!-- Modal detail for current user-->
+  <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content" style="width: 800px; margin-left: -30%">
+        <div>
+          <img style="height: 550px; width: 500px; object-fit: cover;float: left; margin-top: -0.05%" *ngFor="let x of status1.imageStatuses" src="{{x.url}}">
 
+          <table style="float: left;  margin: 10px">
+          <tr>
+              <td>
+                <img style="height: 35px; width: 35px" [src]="detailAvatar">
+              </td>
+              <td>
+                <p>{{status1.content}}</p>
+              </td>
+              <td>
+                <label for="edit{{account.id}}">
+                  <a class="nav-link">
+                    <button style="text-align: center" id="edit{{account.id}}" class="btn"
+                            (click)="addIdStatus(status1.id)"
+                            data-bs-toggle="modal" data-bs-target="#exampleModal">&nbsp;Sửa
+                    </button>
+                    <span class="sr-only">(current)</span></a>
+                </label>
+                <label for="delete{{account.id}}">
+                  <a class="nav-link">
+                    <button id="delete{{account.id}}" class="btn"
+                            (click)="addIdStatus(status1.id)" data-bs-toggle="modal"
+                            data-bs-target="#deleteStatus">&nbsp;Xóa
+                    </button>
+                    <span class="sr-only">(current)</span></a>
+                </label>
+              </td>
+
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal detail for guest-->
+  <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content" style="width: 800px; margin-left: -30%">
+        <div>
+          <img style="height: 550px; width: 500px; object-fit: cover;float: left; margin-top: -0.05%" *ngFor="let x of status1.imageStatuses" src="{{x.url}}">
+          <table style="float: left; margin: 10px">
+            <tr>
+<!--              <td>-->
+<!--               <img src=" {{status1.account.avatar}}">-->
+<!--              </td>-->
+              <td>
+                <p>{{status1.content}}</p>
+              </td>
+
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Modal edit-->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -174,10 +236,23 @@
       <div *ngIf="friendCheck<1 || !loginCheck || friendCheck === 4" style="margin-top: 50px">
         <div>
           <div class="row">
-            <div class="column" *ngFor="let s of statusPublic">
+            <div class="col-4" *ngFor="let s of statusPublic">
               <a>
-                <img class="d-block" style=" height: 255px; width: 255px; object-fit: cover"
+                <img (click)="addIdStatus(s.id)"
+                     data-bs-toggle="modal" data-bs-target="#exampleModal2" class="d-block imageClick" style=" height: 250px;width: 255px ; object-fit: cover; padding-bottom: 20px"
                      src="{{s.imageStatuses[0].url}}">
+                <div style="position: absolute; margin-top: -20%; margin-left: 30%">
+                  <div *ngIf="s.time < 60" style="margin-left: 10px">
+                    <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{s.time}} Phút Trước</p>
+                  </div>
+                  <div *ngIf=" s.time < 1440 && (s.time > 60 || s.time == 60)" style="margin-left: 10px">
+                    <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{(s.time - s.time % 60) / 60}} Giờ Trước</p>
+                  </div>
+                  <div *ngIf="s.time > 1440 || s.time == 1440" style="margin-left: 10px">
+                    <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{(s.time - s.time % 1440) / 1440}} Ngày
+                      Trước</p>
+                  </div>
+                </div>
               </a>
             </div>
           </div>
@@ -188,10 +263,23 @@
       <div *ngIf="friendCheck===1">
         <div>
           <div class="row">
-            <div class="column" *ngFor="let s of statusFriendOnlyAndPublic">
+            <div class="col-4" *ngFor="let s of statusFriendOnlyAndPublic">
               <a>
-                <img class="d-block" style=" height: 250px;width: 255px ; object-fit: cover"
+                <img (click)="addIdStatus(s.id)"
+                     data-bs-toggle="modal" data-bs-target="#exampleModal2" class="d-block imageClick" style=" height: 250px;width: 255px ; object-fit: cover; padding-bottom: 20px"
                      src="{{s.imageStatuses[0].url}}">
+                <div style="position: absolute; margin-top: -20%; margin-left: 30%">
+                  <div *ngIf="s.time < 60" style="margin-left: 10px">
+                    <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{s.time}} Phút Trước</p>
+                  </div>
+                  <div *ngIf=" s.time < 1440 && (s.time > 60 || s.time == 60)" style="margin-left: 10px">
+                    <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{(s.time - s.time % 60) / 60}} Giờ Trước</p>
+                  </div>
+                  <div *ngIf="s.time > 1440 || s.time == 1440" style="margin-left: 10px">
+                    <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{(s.time - s.time % 1440) / 1440}} Ngày
+                      Trước</p>
+                  </div>
+                </div>
               </a>
             </div>
           </div>
@@ -204,28 +292,24 @@
 
         <div>
           <div class="row">
-            <div class="column" *ngFor="let s of status.content">
+            <div class="col-4" *ngFor="let s of status.content">
 
               <a>
                 <img (click)="addIdStatus(s.id)"
-                     data-bs-toggle="modal" data-bs-target="#exampleModal" class="d-block" style=" height: 250px;width: 255px ; object-fit: cover"
+                     data-bs-toggle="modal" data-bs-target="#exampleModal1" class="d-block imageClick" style=" height: 250px;width: 255px ; object-fit: cover; padding-bottom: 20px"
                      src="{{s.imageStatuses[0].url}}">
-                <label for="edit{{account.id}}">
-                  <a class="nav-link">
-                    <button style="text-align: center" id="edit{{account.id}}" class="btn"
-                            (click)="addIdStatus(s.id)"
-                            data-bs-toggle="modal" data-bs-target="#exampleModal">&nbsp;Sửa
-                    </button>
-                    <span class="sr-only">(current)</span></a>
-                </label>
-                <label for="delete{{account.id}}">
-                  <a class="nav-link">
-                    <button id="delete{{account.id}}" class="btn"
-                            (click)="addIdStatus(s.id)" data-bs-toggle="modal"
-                            data-bs-target="#deleteStatus">&nbsp;Xóa
-                    </button>
-                    <span class="sr-only">(current)</span></a>
-                </label>
+                <div style="position: absolute; margin-top: -20%; margin-left: 30%">
+                  <div *ngIf="s.time < 60" style="margin-left: 10px">
+                    <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{s.time}} Phút Trước</p>
+                  </div>
+                  <div *ngIf=" s.time < 1440 && (s.time > 60 || s.time == 60)" style="margin-left: 10px">
+                    <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{(s.time - s.time % 60) / 60}} Giờ Trước</p>
+                  </div>
+                  <div *ngIf="s.time > 1440 || s.time == 1440" style="margin-left: 10px">
+                    <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{(s.time - s.time % 1440) / 1440}} Ngày
+                      Trước</p>
+                  </div>
+                </div>
               </a>
             </div>
           </div>

@@ -11,7 +11,7 @@ import {
   ViewChildren
 } from '@angular/core';
 import {AuthenticationService} from '../../service/authentication/authentication.service';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router, Routes} from '@angular/router';
 import {StatusService} from '../../service/status/status.service';
 import {Status} from '../../model/status-model/status';
 import {AccountRelationService} from '../../service/relation/account-relation.service';
@@ -57,12 +57,16 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   private loadAmount = 3;
   selectedImg: any = null;
   imgSrc1 = '';
+
+  detailAvatar = '';
+
   constructor(private authenticationService: AuthenticationService,
               private activatedRoute: ActivatedRoute,
               private statusService: StatusService,
               private accountRelationService: AccountRelationService,
               private privacyService: PrivacyService,
-              private angularFireStorage: AngularFireStorage) {
+              private angularFireStorage: AngularFireStorage,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -216,7 +220,8 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
   addIdStatus(id: number) {
     this.statusService.getById(id).subscribe(status => {
-      console.log(status);
+      console.log(status.account.username);
+      this.detailAvatar = status.account.avatar;
       this.status1 = status;
     });
   }
