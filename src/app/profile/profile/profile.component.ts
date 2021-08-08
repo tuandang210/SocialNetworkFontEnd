@@ -18,6 +18,9 @@ import {AccountRelationService} from '../../service/relation/account-relation.se
 import {Privacy} from '../../model/privacy/privacy';
 import {PrivacyService} from '../../service/privacy/privacy.service';
 import {AccountToken} from '../../model/account/account-token';
+import {finalize} from 'rxjs/operators';
+import {AngularFireStorage} from '@angular/fire/storage';
+import {StatusDto} from '../../model/status-model/status-dto';
 
 declare var $: any;
 
@@ -52,12 +55,14 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   private scrollContainer: any;
   private isNearBottom = true;
   private loadAmount = 3;
-
+  selectedImg: any = null;
+  imgSrc1 = '';
   constructor(private authenticationService: AuthenticationService,
               private activatedRoute: ActivatedRoute,
               private statusService: StatusService,
               private accountRelationService: AccountRelationService,
-              private privacyService: PrivacyService) {
+              private privacyService: PrivacyService,
+              private angularFireStorage: AngularFireStorage) {
   }
 
   ngOnInit() {
@@ -211,6 +216,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
   addIdStatus(id: number) {
     this.statusService.getById(id).subscribe(status => {
+      console.log(status);
       this.status1 = status;
     });
   }
@@ -227,9 +233,12 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     });
   }
 
-  createStatus(formStatus, id1, id2) {
+  createStatus(formStatus, id1, id2, imageUrl) {
+    let status12: StatusDto = {};
     formStatus.value.account.id = this.id1;
-    this.statusService.createStatus(formStatus.value).subscribe(() => {
+    formStatus.value.url = imageUrl;
+    status12 = formStatus.value;
+    this.statusService.createStatus(status12).subscribe(() => {
       this.getStatus(id1, id2);
     });
   }
@@ -312,5 +321,28 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         }
       }
     });
+  }
+
+  showImagePreview(event) {
+    if (event.target.files && event.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => this.imgSrc1 = event.target.result;
+      reader.readAsDataURL(event.target.files[0]);
+      this.selectedImg = event.target.files[0];
+
+      if (this.selectedImg != null) {
+        const filePath = `${this.selectedImg.name.split('.').splice(0, -1).join('.')}_${new Date().getTime()}`;
+        const fileRef = this.angularFireStorage.ref(filePath);
+        this.angularFireStorage.upload(filePath, this.selectedImg).snapshotChanges().pipe(
+          finalize(() => {
+            fileRef.getDownloadURL().subscribe(url => {
+              this.imgSrc1 = url;
+            });
+          })).subscribe();
+      }
+
+    } else {
+      this.selectedImg = null;
+    }
   }
 }

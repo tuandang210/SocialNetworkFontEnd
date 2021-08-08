@@ -1,9 +1,9 @@
 .frame {
-  height: 90%;
+  height: 92.3%;
   position: absolute;
-  width: 60%;
+  width: 61.6%;
   z-index: 100;
-  margin-top: 1%;
+  margin-top: 1px;
   overflow: scroll;
 }
 
@@ -11,7 +11,7 @@
   padding: 0;
   margin: 20px;
   /*background-color: whitesmoke;*/
-  border: 1px solid lightgray;
+  /*border: 1px solid lightgray;*/
   border-radius: 3px;
   text-align: justify;
   background-color: #FBFBFB;
@@ -33,7 +33,7 @@
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: darkgray;
+  background: whitesmoke;
   border-radius: 5px 5px 5px 5px;
 }
 
@@ -124,4 +124,23 @@
 
 .checkDiv {
   display: inline;
+}
+
+ /*Three image containers (use 25% for four, and 50% for two, etc) */
+.column {
+  float: left;
+  width: 33.33%;
+  padding: 10px;
+  flex: 33.33%;
+}
+
+/* Clear floats after image containers */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.row {
+  display: flex;
 }

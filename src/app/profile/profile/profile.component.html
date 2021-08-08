@@ -1,4 +1,4 @@
-<div style="width: 70%; margin-left: 18%;">
+<div style=" margin-left: 17%;">
 
 
   <!-- Modal edit-->
@@ -10,9 +10,10 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-           <textarea class="form-control beautify-textarea" cols="100" rows="4" type="text"
-                     name="content" required [(ngModel)]="status1.content"
-                     placeholder="Bạn đang nghĩ gì thế?"></textarea>
+          <img *ngFor="let x of status1.imageStatuses" src="{{x.url}}">
+          <textarea class="form-control beautify-textarea" cols="100" rows="4" type="text"
+                    name="content" required [(ngModel)]="status1.content"
+                    placeholder="Bạn đang nghĩ gì thế?"></textarea>
         </div>
         <div class="modal-footer">
           <button type="button" data-bs-dismiss="modal" (click)="saveStatus(id1, id2)" class="btn btn-primary">Lưu thay
@@ -52,25 +53,27 @@
           <h5 class="modal-title" id="createModalLabel" style="margin-left: 185px">Tạo bài viết</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form #statusForm="ngForm" (ngSubmit)="createStatus(statusForm, id1, id2)">
+        <form #statusForm="ngForm" (ngSubmit)="createStatus(statusForm, id1, id2, imgSrc1)">
           <div class="modal-body">
             <div>
               <div style="margin-bottom: -10px">
                 <select style="font-size: 14px; border: 1px solid lightgrey;height: 30px; border-radius: 5px"
                         name="privacy" [(ngModel)]="status2">
-                  <!--                  <option selected [value]="privacy[0].id">Công khai</option>-->
-                  <!--                  <option [value]="privacy[1].id">Bạn bè</option>-->
-                  <!--                  <option [value]="privacy[2].id">Chỉ mình tôi</option>-->
                   <option *ngFor="let x of privacy" [value]="x.id">{{x.name}}</option>
                 </select>
               </div>
               <div class="form-group">
                 <label for="inputEmail"></label>
                 <textarea class="form-control beautify-textarea" cols="100" rows="4" type="text"
-                          id="inputEmail" name="content" required [(ngModel)]="status2.content"
+                          id="inputEmail" name="content" required ngModel
                           placeholder="Bạn đang nghĩ gì thế?"></textarea>
                 <a *ngIf="statusForm.invalid">
                 </a>
+              </div>
+              <div>
+                <input hidden ngModel name="url" [value]="imgSrc1">
+                <input type="file" (change)="showImagePreview($event);" #preview>
+                <img style="height: 50px; width: 50px; object-fit: cover" [src]="imgSrc1" (click)="preview.click()">
               </div>
               <div>
                 <input hidden type="text" name="account" [(ngModel)]="currentAccount">
@@ -151,9 +154,10 @@
 
               </p>
               <p>
-                <input style="margin-top: -5px; margin-left: -14px; background-color: #F8F8F8; font-size: 14px; height: 35px"
-                       data-bs-toggle="modal"
-                       data-bs-target="#createModal" class="input-group-text okay" placeholder="Cập Nhật Trạng Thái">
+                <input
+                  style="margin-top: -5px; margin-left: -14px; background-color: #F8F8F8; font-size: 14px; height: 35px"
+                  data-bs-toggle="modal"
+                  data-bs-target="#createModal" class="input-group-text okay" placeholder="Cập Nhật Trạng Thái">
                 &nbsp;&nbsp;
               </p>
 
@@ -163,133 +167,50 @@
 
       </div>
     </div>
+
     <div style="margin-top: 220px">
+
+
       <div *ngIf="friendCheck<1 || !loginCheck || friendCheck === 4" style="margin-top: 50px">
-        <div *ngFor="let s of statusPublic" class="item">
-          <div>
-            <div class="dropdown" style="display: inline">
-              <button style=" background-color: #FBFBFB; margin-left: 670px" class="dropbtn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                     class="bi bi-three-dots"
-                     viewBox="0 0 16 16">
-                  <path
-                    d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
-                </svg>
-              </button>
+        <div>
+          <div class="row">
+            <div class="column" *ngFor="let s of statusPublic">
+              <a>
+                <img class="d-block" style=" height: 255px; width: 255px; object-fit: cover"
+                     src="{{s.imageStatuses[0].url}}">
+              </a>
             </div>
-            <div *ngIf="s.privacy.name === 'public'" style="margin-top: -25px"><img
-              style="width: 37px; height: 37px;border: 2px solid hotpink; object-fit: cover; border-radius: 30px"
-              src="{{s.account.avatar}}">&nbsp;&nbsp;<b>{{s.account.username}}</b>&nbsp;&nbsp;<img style="width: 17px; height: 17px" src="https://cdn0.iconfinder.com/data/icons/octicons/1024/globe-512.png">
-            </div>
-            <div *ngIf="s.privacy.name === 'friend-only'" style="margin-top: -25px"><img
-              style="width: 37px; height: 37px;border: 2px solid hotpink; object-fit: cover; border-radius: 30px"
-              src="{{s.account.avatar}}">&nbsp;&nbsp;<b>{{s.account.username}}</b>&nbsp;&nbsp;<svg
-              xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-people-fill"
-              viewBox="0 0 16 16">
-              <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-              <path fill-rule="evenodd"
-                    d="M5.216 14A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216z"/>
-              <path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
-            </svg>
-            </div>
-            <div *ngIf="s.privacy.name === 'only-me'" style="margin-top: -25px"><img
-              style="width: 37px; height: 37px;border: 2px solid hotpink; object-fit: cover; border-radius: 30px"
-              src="{{s.account.avatar}}">&nbsp;&nbsp;<b>{{s.account.username}}</b>&nbsp;&nbsp;<svg
-              style="margin-top: -2px" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
-              class="bi bi-lock-fill" viewBox="0 0 16 16">
-              <path
-                d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
-            </svg>
-            </div>
-            <div style="margin-top: 10px">{{s.content}}</div>
-
-          </div>
-          <div *ngIf="s.time < 60" style="margin-left: 10px">
-            <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9; margin-left: -8px">{{s.time}} Phút Trước</p>
-          </div>
-          <div *ngIf="s.time < 1440 && (s.time > 60 || s.time == 60)" style="margin-left: 10px">
-            <p
-              style="margin-top: 12px; font-size: 13px; color: #d9d9d9;margin-left: -8px">{{(s.time - s.time % 60) / 60}}
-              Giờ Trước</p>
-          </div>
-          <div *ngIf="s.time > 1440 || s.time == 1440" style="margin-left: 10px">
-            <p
-              style="margin-top: 12px; font-size: 13px; color: #d9d9d9; margin-left: -8px">{{(s.time - s.time % 1440) / 1440}}
-              Ngày
-              Trước</p>
           </div>
         </div>
       </div>
+
+
       <div *ngIf="friendCheck===1">
-        <div *ngFor="let s of statusFriendOnlyAndPublic" class="item">
-          <div>
-            <div class="dropdown" style="display: inline">
-              <button style=" background-color: #FBFBFB; margin-left: 670px" class="dropbtn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                     class="bi bi-three-dots"
-                     viewBox="0 0 16 16">
-                  <path
-                    d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
-                </svg>
-              </button>
+        <div>
+          <div class="row">
+            <div class="column" *ngFor="let s of statusFriendOnlyAndPublic">
+              <a>
+                <img class="d-block" style=" height: 250px;width: 255px ; object-fit: cover"
+                     src="{{s.imageStatuses[0].url}}">
+              </a>
             </div>
-            <div *ngIf="s.privacy.name === 'public'" style="margin-top: -25px"><img
-              style="width: 37px; height: 37px;border: 2px solid hotpink; object-fit: cover; border-radius: 30px"
-              src="{{s.account.avatar}}">&nbsp;&nbsp;<b>{{s.account.username}}</b>&nbsp;&nbsp;<img style="width: 17px; height: 17px" src="https://cdn0.iconfinder.com/data/icons/octicons/1024/globe-512.png">
-            </div>
-            <div *ngIf="s.privacy.name === 'friend-only'" style="margin-top: -25px"><img
-              style="width: 37px; height: 37px;border: 2px solid hotpink; object-fit: cover; border-radius: 30px"
-              src="{{s.account.avatar}}">&nbsp;&nbsp;<b>{{s.account.username}}</b>&nbsp;&nbsp;<svg
-              xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-people-fill"
-              viewBox="0 0 16 16">
-              <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-              <path fill-rule="evenodd"
-                    d="M5.216 14A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216z"/>
-              <path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
-            </svg>
-            </div>
-            <div *ngIf="s.privacy.name === 'only-me'" style="margin-top: -25px"><img
-              style="width: 37px; height: 37px;border: 2px solid hotpink; object-fit: cover; border-radius: 30px"
-              src="{{s.account.avatar}}">&nbsp;&nbsp;<b>{{s.account.username}}</b>&nbsp;&nbsp;<svg
-              style="margin-top: -2px" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
-              class="bi bi-lock-fill" viewBox="0 0 16 16">
-              <path
-                d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
-            </svg>
-            </div>
-            <div style="margin-top: 10px">{{s.content}}</div>
-
-          </div>
-          <div *ngIf="s.time < 60" style="margin-left: 10px">
-            <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9;margin-left: -8px">{{s.time}} Phút Trước</p>
-          </div>
-          <div *ngIf="s.time < 1440 && (s.time > 60 || s.time == 60)" style="margin-left: 10px">
-            <p
-              style="margin-top: 12px; font-size: 13px; color: #d9d9d9; margin-left: -8px">{{(s.time - s.time % 60) / 60}}
-              Giờ Trước</p>
-          </div>
-          <div *ngIf="s.time > 1440 || s.time == 1440" style="margin-left: 10px">
-            <p
-              style="margin-top: 12px; font-size: 13px; color: #d9d9d9;margin-left: -8px">{{(s.time - s.time % 1440) / 1440}}
-              Ngày
-              Trước</p>
           </div>
         </div>
       </div>
+
+
       <div *ngIf="checkOnlyMe">
-        <div *ngFor="let s of status.content" class="item">
-          <div>
-            <div class="dropdown" style="display: inline">
-              <button style=" background-color: #FBFBFB; margin-left: 670px" class="dropbtn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                     class="bi bi-three-dots"
-                     viewBox="0 0 16 16">
-                  <path
-                    d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
-                </svg>
-              </button>
-              <div style="margin-left: 600px" class="dropdown-content">
-                <label style="width: 100%" for="edit{{account.id}}">
+
+
+        <div>
+          <div class="row">
+            <div class="column" *ngFor="let s of status.content">
+
+              <a>
+                <img (click)="addIdStatus(s.id)"
+                     data-bs-toggle="modal" data-bs-target="#exampleModal" class="d-block" style=" height: 250px;width: 255px ; object-fit: cover"
+                     src="{{s.imageStatuses[0].url}}">
+                <label for="edit{{account.id}}">
                   <a class="nav-link">
                     <button style="text-align: center" id="edit{{account.id}}" class="btn"
                             (click)="addIdStatus(s.id)"
@@ -297,7 +218,7 @@
                     </button>
                     <span class="sr-only">(current)</span></a>
                 </label>
-                <label style="width: 100%" for="delete{{account.id}}">
+                <label for="delete{{account.id}}">
                   <a class="nav-link">
                     <button id="delete{{account.id}}" class="btn"
                             (click)="addIdStatus(s.id)" data-bs-toggle="modal"
@@ -305,43 +226,8 @@
                     </button>
                     <span class="sr-only">(current)</span></a>
                 </label>
-              </div>
+              </a>
             </div>
-            <div *ngIf="s.privacy.name === 'public'" style="margin-top: -25px"><img
-              style="width: 37px; height: 37px;border: 2px solid hotpink; object-fit: cover; border-radius: 30px"
-              src="{{s.account.avatar}}">&nbsp;&nbsp;<b>{{s.account.username}}</b>&nbsp;&nbsp;<img style="width: 17px; height: 17px" src="https://cdn0.iconfinder.com/data/icons/octicons/1024/globe-512.png">
-            </div>
-            <div *ngIf="s.privacy.name === 'friend-only'" style="margin-top: -25px"><img
-              style="width: 37px; height: 37px;border: 2px solid hotpink; object-fit: cover; border-radius: 30px"
-              src="{{s.account.avatar}}">&nbsp;&nbsp;<b>{{s.account.username}}</b>&nbsp;&nbsp;<svg
-              xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-people-fill"
-              viewBox="0 0 16 16">
-              <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-              <path fill-rule="evenodd"
-                    d="M5.216 14A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216z"/>
-              <path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
-            </svg>
-            </div>
-            <div *ngIf="s.privacy.name === 'only-me'" style="margin-top: -25px"><img
-              style="width: 37px; height: 37px;border: 2px solid hotpink; object-fit: cover; border-radius: 30px"
-              src="{{s.account.avatar}}">&nbsp;&nbsp;<b>{{s.account.username}}</b>&nbsp;&nbsp;<svg
-              style="margin-top: -2px" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
-              class="bi bi-lock-fill" viewBox="0 0 16 16">
-              <path
-                d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
-            </svg>
-            </div>
-            <div style="margin-top: 10px">{{s.content}}</div>
-          </div>
-          <div *ngIf="s.time < 60" style="margin-bottom: -10px">
-            <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{s.time}} Phút Trước</p>
-          </div>
-          <div *ngIf="s.time < 1440 && (s.time > 60 || s.time == 60)" style="margin-bottom: -10px">
-            <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{(s.time - s.time % 60) / 60}} Giờ Trước</p>
-          </div>
-          <div *ngIf="s.time > 1440 || s.time == 1440" style="margin-bottom: -10px">
-            <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{(s.time - s.time % 1440) / 1440}} Ngày
-              Trước</p>
           </div>
         </div>
       </div>
