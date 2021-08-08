@@ -1,1 +1,21 @@
 <p>chat works!</p>
+<table>
+  <tr>Name</tr>
+  <tr *ngFor="let chat of websocketService.chats">
+    <td>{{chat.name}}</td>
+  </tr>
+</table>
+
+<form #chatForm="ngForm" (ngSubmit)="createChat(chatForm)">
+  <table>
+    <tr>Name</tr>
+    <tr>
+      <td>
+        <input name="name" ngModel>
+      </td>
+    </tr>
+    <tr>
+      <td><button>send</button></td>
+    </tr>
+  </table>
+</form>
