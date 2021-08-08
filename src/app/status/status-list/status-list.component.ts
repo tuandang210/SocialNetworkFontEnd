@@ -25,7 +25,6 @@ export class StatusListComponent implements OnInit, AfterViewInit {
   private isNearBottom = true;
   private loadAmount = 3;
   privacy: Privacy[] = [];
-
   constructor(private statusService: StatusService, private privacyService: PrivacyService,
               private commentService: CommentService) {
   }
