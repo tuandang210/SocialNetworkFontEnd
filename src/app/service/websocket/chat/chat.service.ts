@@ -12,8 +12,8 @@ export class ChatService {
   constructor(private http: HttpClient) {
   }
 
-  getAll(): Observable<Chat[]> {
-    return this.http.get<Chat[]>(API_URL + '/products');
+  getAll(id1, id2): Observable<Chat[]> {
+    return this.http.get<Chat[]>(API_URL + '/chats/' + id1 + '/message/' + id2);
   }
 
   deleteProductById(id): Observable<Chat> {

@@ -4,6 +4,7 @@ import {Chat} from '../../model/chat';
 import * as SockJS from 'sockjs-client';
 import * as Stomp from 'stompjs';
 import {ChatService} from './chat/chat.service';
+import {AccountToken} from '../../model/account/account-token';
 
 const API_URL = `${environment.apiUrl}`;
 
@@ -12,15 +13,22 @@ const API_URL = `${environment.apiUrl}`;
 })
 export class WebsocketService {
   private stompClient: any;
-  public chats: Chat[] = [];
+  public message: Chat[] = [];
+  account: AccountToken = JSON.parse(localStorage.getItem('account'));
+  id2: number;
 
   constructor(private chatService: ChatService) {
-    this.getAllProduct();
   }
 
-  getAllProduct() {
-    this.chatService.getAll().subscribe(products => {
-      this.chats = products;
+  addId2(id2) {
+    this.id2 = id2;
+    this.getAllMessage(this.account.id, this.id2);
+  }
+
+  getAllMessage(id1, id2) {
+    this.message = [];
+    this.chatService.getAll(id1, id2).subscribe(message => {
+      this.message = message;
     });
   }
 
@@ -30,13 +38,19 @@ export class WebsocketService {
     this.stompClient.connect({}, frame => {
       this.stompClient.subscribe('/topic/products', data => {
         const jsonData = JSON.parse(data.body);
-        this.chats.push(jsonData);
+        this.message.push(jsonData);
       });
     });
   }
 
-  sendMessage(product) {
-    this.stompClient.send('/app/products', {}, JSON.stringify(product));
+  sendMessage(message, id1, id2) {
+    message.account1 = {
+      id: id1
+    };
+    message.account2 = {
+      id: id2
+    };
+    this.stompClient.send('/app/products', {}, JSON.stringify(message));
   }
 
   disconnect() {
