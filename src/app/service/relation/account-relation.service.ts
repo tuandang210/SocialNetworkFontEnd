@@ -27,6 +27,11 @@ export class AccountRelationService {
     return this.http.get<Account[]>(`${API_URL}/relations/friends/${id}`);
   }
 
+  // tìm tất cả bạn bè theo username
+  getAllFriendsByUsername(username, id): Observable<Account[]> {
+    return this.http.get<Account[]>(API_URL + '/relations/search/' + id + '?username=' + username);
+  }
+
   // Tìm tất cả khách
   getAllGuests(id): Observable<Account[]> {
     return this.http.get<Account[]>(`${API_URL}/relations/${id}/guests`);

@@ -3,4 +3,6 @@ export interface Chat {
   account1?: any;
   account2?: any;
   content?: string;
+  date?: string;
+  group?: any;
 }
