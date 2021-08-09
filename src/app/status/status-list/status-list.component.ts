@@ -53,11 +53,9 @@ export class StatusListComponent implements OnInit, AfterViewInit {
     this.getStatus(this.account.id);
     this.showPrivacy();
   }
-
   isCheck() {
     this.check = !this.check;
   }
-
   ngAfterViewInit() {
     this.scrollContainer = this.scrollFrame.nativeElement;
     this.itemElements.changes.subscribe(_ => this.onItemElementsChanged());
@@ -129,7 +127,6 @@ export class StatusListComponent implements OnInit, AfterViewInit {
     });
 
   }
-
   addIdStatus(id: number) {
     this.statusService.getById(id).subscribe(status => {
       this.status1 = status;
