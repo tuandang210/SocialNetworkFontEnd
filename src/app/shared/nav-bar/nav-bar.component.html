@@ -33,6 +33,9 @@
                placeholder="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tìm kiếm"
                id="example-search-input">
       </div>
+      <div *ngIf="!currentAccount || currentAccount.username !== 'admin'">
+        <a routerLink="/groups">Group</a>
+      </div>
       <div *ngIf="currentAccount && currentAccount.username === 'admin'">
         <input style="width: 220px; border-radius: 3px; height: 30px; margin-top: 6px"
                class="border-end-0 border" type="text"

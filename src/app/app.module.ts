@@ -16,6 +16,7 @@ import { RegisterComponent } from './register/register.component';
 import {AngularFireAuth} from '@angular/fire/auth';
 import { FirstPageComponent } from './first-page/first-page.component';
 import { ChatComponent } from './chat/chat.component';
+import { GroupComponent } from './chat/group/group.component';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { ChatComponent } from './chat/chat.component';
     RegisterComponent,
     FirstPageComponent,
     ChatComponent,
+    GroupComponent,
   ],
     imports: [
         BrowserModule,
