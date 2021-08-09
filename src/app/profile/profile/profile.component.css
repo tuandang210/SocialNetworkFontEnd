@@ -1,21 +1,19 @@
 .frame {
-  height: 92.3%;
+  height: 92.5%;
   position: absolute;
-  width: 61.6%;
+  width: 62.5%;
   z-index: 100;
-  margin-top: 1px;
   overflow: scroll;
 }
 
 .item {
   padding: 0;
-  margin: 20px;
+  margin: 10px;
   /*background-color: whitesmoke;*/
-  /*border: 1px solid lightgray;*/
+  border: 1px solid lightgray;
   border-radius: 3px;
   text-align: justify;
   background-color: #FBFBFB;
-
 }
 
 /* width */
@@ -27,13 +25,13 @@
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: white;
+  background: whitesmoke;
   height: 1px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: whitesmoke;
+  background: white;
   border-radius: 5px 5px 5px 5px;
 }
 
@@ -90,6 +88,35 @@
   border-radius: 10px;
 }
 
+.dropdown-content2 {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  /*min-width: 260px;*/
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  height: 115px;
+
+}
+
+.dropdown-content2 a {
+  color: black;
+  /*padding: 12px 16px;*/
+  text-decoration: none;
+  display: block;
+  width: 85px;
+  border-radius: 10px;
+  position: relative;
+}
+
+.dropdown-content2 a:hover {
+  background-color: #f1f1f1
+}
+
+.dropdown:hover .dropdown-content2 {
+  display: inline-block;
+  border-radius: 10px;
+}
 
 
 
@@ -148,39 +175,31 @@
   position: relative;
 }
 .imageClick:hover{
-  opacity: 0.7;
+  opacity: 0.5;
   cursor: pointer;
 }
 
-/*.overlay {*/
-/*  position: absolute;*/
-/*  top: 0;*/
-/*  bottom: 0;*/
-/*  left: 0;*/
-/*  right: 0;*/
-/*  height: 100%;*/
-/*  width: 100%;*/
-/*  opacity: 0;*/
-/*  transition: .5s ease;*/
-/*  !*background-color: #008CBA;*!*/
-/*}*/
-
-/*.overlay:hover {*/
-/*  opacity: 0.7;*/
-/*  cursor: pointer;*/
-/*}*/
-
-/*.text {*/
-/*  color: white;*/
-/*  font-size: 20px;*/
-/*  position: absolute;*/
-/*  top: 50%;*/
-/*  left: 50%;*/
-/*  -webkit-transform: translate(-50%, -50%);*/
-/*  -ms-transform: translate(-50%, -50%);*/
-/*  transform: translate(-50%, -50%);*/
-/*  text-align: center;*/
-/*}*/
 .timeClick {
   opacity: 0;
+}
+
+
+.frame1 {
+  height: 73.5%;
+  position: absolute;
+  width: 42%;
+  z-index: 100;
+  overflow: scroll;
+  margin-left: 58%;
+  margin-top: 11.7%;
+}
+
+.item1 {
+  padding: 10px;
+  /*margin: 20px;*/
+  /*background-color: whitesmoke;*/
+  /*border: 1px solid lightgray;*/
+  border-radius: 3px;
+  text-align: justify;
+  background-color: #FBFBFB;
 }

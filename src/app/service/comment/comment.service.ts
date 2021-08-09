@@ -19,13 +19,17 @@ export class CommentService {
     return this.http.get<Comments>(`${API_URL}/comment/${id}`);
   }
 
+  getCommentByStatusPagination(id, size): Observable<Comments[]> {
+    return this.http.get<Comments[]>(`${API_URL}/comment/page/${id}?size=${size}`);
+  }
+
 // tao moi comment
-  createComment(comment: Comments): Observable<Comments> {
+  createComment(comment, id1, statusId): Observable<Comments> {
     comment.account = {
-      id: comment.account
+      id: id1
     };
     comment.status = {
-      id: comment.status
+      id: statusId
     };
     return this.http.post<Comments>(`${API_URL}/comment`, comment);
   }

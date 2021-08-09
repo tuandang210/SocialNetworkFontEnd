@@ -90,3 +90,18 @@
   display: block;
   border-radius: 10px;
 }
+
+.frame1 {
+  height: 8%;
+  /*position: absolute;*/
+  width: 100%;
+  z-index: 100;
+  overflow: scroll;
+  /*margin-top: 110%;*/
+}
+
+.item1 {
+  border-radius: 3px;
+  text-align: justify;
+  background-color: #FBFBFB;
+}

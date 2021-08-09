@@ -12,6 +12,9 @@ import {finalize} from 'rxjs/operators';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {ImageStatus} from '../../model/status-model/image-status';
 import {StatusDto} from '../../model/status-model/status-dto';
+import {StatusCommentDto} from '../../model/status-model/status-comment-dto';
+import {Comment} from '@angular/compiler';
+import {any} from 'codelyzer/util/function';
 
 
 @Component({
@@ -20,7 +23,7 @@ import {StatusDto} from '../../model/status-model/status-dto';
   styleUrls: ['./status-list.component.css']
 })
 export class StatusListComponent implements OnInit, AfterViewInit {
-  status: Status[] = [];
+  status: StatusCommentDto[] = [];
   status1: Status = {};
   check = false;
   account: AccountToken = JSON.parse(localStorage.getItem('account'));
@@ -34,6 +37,10 @@ export class StatusListComponent implements OnInit, AfterViewInit {
   selectedImg: any = null;
   imgSrc1 = '';
   image: ImageStatus = {};
+  detailUsername = '';
+  detailIdUser = '';
+  comments: any = [];
+  idFindComment = '';
 
   constructor(private statusService: StatusService,
               private privacyService: PrivacyService,
@@ -89,6 +96,9 @@ export class StatusListComponent implements OnInit, AfterViewInit {
     if (id !== -1 && id !== null) {
       this.statusService.getNewsfeedPagination(id, this.loadAmount).subscribe(status => {
         this.status = status;
+        for (const i of this.status) {
+            this.getComment1(i.id);
+        }
       });
     }
   }
@@ -148,5 +158,23 @@ export class StatusListComponent implements OnInit, AfterViewInit {
     } else {
       this.selectedImg = null;
     }
+  }
+
+  getComment(id) {
+    this.commentService.getCommentByStatusPagination(id, 20).subscribe(comments => {
+      this.comments = comments;
+    });
+  }
+
+  getComment1(id) {
+    this.commentService.getCommentByStatusPagination(id, 3).subscribe(comments => {
+      this.comments = comments;
+    });
+  }
+
+  createComment(commentForm, id1, statusId) {
+    this.commentService.createComment(commentForm.value, id1, statusId).subscribe(() => {
+     this.getStatus(id1);
+    });
   }
 }

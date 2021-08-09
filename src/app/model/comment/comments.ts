@@ -3,4 +3,5 @@ export interface Comments {
   content?: string;
   account?: any;
   status?: any;
+  time?: string;
 }

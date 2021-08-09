@@ -21,6 +21,9 @@ import {AccountToken} from '../../model/account/account-token';
 import {finalize} from 'rxjs/operators';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {StatusDto} from '../../model/status-model/status-dto';
+import {CommentService} from '../../service/comment/comment.service';
+import {Comments} from '../../model/comment/comments';
+import {AccountService} from '../../service/account/account.service';
 
 declare var $: any;
 
@@ -50,15 +53,22 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   privacy: Privacy[] = [];
   currentAccount: AccountToken = {};
   isGuest = false;
+  id3 = '';
   @ViewChild('scrollFrame', {static: false}) scrollFrame: ElementRef;
   @ViewChildren('item') itemElements: QueryList<any>;
+  // @ViewChild('scrollFrame1', {static: false}) scrollFrame1: ElementRef;
+  // @ViewChildren('item1') itemElements1: QueryList<any>;
   private scrollContainer: any;
   private isNearBottom = true;
-  private loadAmount = 3;
+  private loadAmount = 6;
+  private loadAmount1 = 5;
   selectedImg: any = null;
   imgSrc1 = '';
-
+  detailUsername = '';
   detailAvatar = '';
+  detailIdUser = '';
+  comments: any = [];
+  comment1: Comments = {};
 
   constructor(private authenticationService: AuthenticationService,
               private activatedRoute: ActivatedRoute,
@@ -66,7 +76,9 @@ export class ProfileComponent implements OnInit, AfterViewInit {
               private accountRelationService: AccountRelationService,
               private privacyService: PrivacyService,
               private angularFireStorage: AngularFireStorage,
-              private router: Router) {
+              private router: Router,
+              private commentService: CommentService,
+              private accountService: AccountService) {
   }
 
   ngOnInit() {
@@ -220,9 +232,11 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
   addIdStatus(id: number) {
     this.statusService.getById(id).subscribe(status => {
-      console.log(status.account.username);
       this.detailAvatar = status.account.avatar;
+      this.detailUsername = status.account.username;
       this.status1 = status;
+      this.detailIdUser = status.account.id;
+      this.getComment(id);
     });
   }
 
@@ -260,8 +274,11 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     this.statusPublic = [];
     this.statusFriendOnlyAndPublic = [];
     this.status = [];
+    this.comments = [];
     this.scrollContainer = this.scrollFrame.nativeElement;
+    // this.scrollContainer = this.scrollFrame.nativeElement;
     this.itemElements.changes.subscribe(_ => this.onItemElementsChanged());
+    // this.itemElements.changes.subscribe(_ => this.onItemElementsChanged1());
     if (this.authenticationService.currentUserValue) {
       this.id1 = JSON.parse(localStorage.getItem('account')).id;
     }
@@ -310,6 +327,12 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     });
   }
 
+  getComment(id) {
+    this.commentService.getCommentByStatusPagination(id, 20).subscribe(comments => {
+      this.comments = comments;
+    });
+  }
+
   checkId(id1, id2) {
     return id1 != null && id2 != null && id1 === id2;
   }
@@ -348,6 +371,41 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
     } else {
       this.selectedImg = null;
+    }
+  }
+
+  createComment(commentForm, id1, statusId) {
+    this.commentService.createComment(commentForm.value, id1, statusId).subscribe(() => {
+      this.getComment(statusId);
+    });
+  }
+
+  private onItemElementsChanged1(): void {
+    if (this.isNearBottom) {
+      this.scrollToBottom1();
+    }
+  }
+
+  private scrollToBottom1(): void {
+    this.scrollContainer.scroll({
+      bottom: this.scrollContainer.scrollHeight,
+      left: 0,
+      behavior: 'smooth'
+    });
+  }
+
+  private isUserNearBottom1(): boolean {
+    const threshold = 0;
+    const position = this.scrollContainer.scrollTop + this.scrollContainer.offsetHeight;
+    const height = this.scrollContainer.scrollHeight;
+    return position > height - threshold;
+  }
+
+  scrolled1(id): void {
+    this.isNearBottom = this.isUserNearBottom1();
+    if (this.isNearBottom) {
+      this.loadAmount1 += 5;
+      this.addIdStatus(id);
     }
   }
 }

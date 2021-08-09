@@ -1,67 +1,100 @@
 <div style=" margin-left: 17%;">
-  <!-- Modal detail for current user-->
+  <!-- Modal detail -->
   <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content" style="width: 800px; margin-left: -30%">
+      <div class="modal-content" style="width: 830px; margin-left: -35%">
         <div>
-          <img style="height: 550px; width: 500px; object-fit: cover;float: left; margin-top: -0.05%" *ngFor="let x of status1.imageStatuses" src="{{x.url}}">
+          <img
+            style="height: 550px; width: 480px; object-fit: cover;float: left;margin-left: -0.05%; margin-top: -0.05%"
+            *ngFor="let x of status1.imageStatuses" src="{{x.url}}">
 
-          <table style="float: left;  margin: 10px">
-          <tr>
-              <td>
-                <img style="height: 35px; width: 35px" [src]="detailAvatar">
-              </td>
-              <td>
-                <p>{{status1.content}}</p>
-              </td>
-              <td>
-                <label for="edit{{account.id}}">
-                  <a class="nav-link">
-                    <button style="text-align: center" id="edit{{account.id}}" class="btn"
-                            (click)="addIdStatus(status1.id)"
-                            data-bs-toggle="modal" data-bs-target="#exampleModal">&nbsp;Sửa
-                    </button>
-                    <span class="sr-only">(current)</span></a>
-                </label>
-                <label for="delete{{account.id}}">
-                  <a class="nav-link">
-                    <button id="delete{{account.id}}" class="btn"
-                            (click)="addIdStatus(status1.id)" data-bs-toggle="modal"
-                            data-bs-target="#deleteStatus">&nbsp;Xóa
-                    </button>
-                    <span class="sr-only">(current)</span></a>
-                </label>
-              </td>
-
-            </tr>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- Modal detail for guest-->
-  <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content" style="width: 800px; margin-left: -30%">
-        <div>
-          <img style="height: 550px; width: 500px; object-fit: cover;float: left; margin-top: -0.05%" *ngFor="let x of status1.imageStatuses" src="{{x.url}}">
-          <table style="float: left; margin: 10px">
+          <table style="float: left;  margin: 15px; width: 35%">
             <tr>
-<!--              <td>-->
-<!--               <img src=" {{status1.account.avatar}}">-->
-<!--              </td>-->
               <td>
-                <p>{{status1.content}}</p>
+                <img style="height: 35px; width: 35px; border-radius: 50%; border: 2px solid hotpink"
+                     [src]="detailAvatar">&nbsp;&nbsp;<b>{{detailUsername}}</b>
               </td>
-
+            </tr>
+            <tr>
+              <td>
+                <p style="margin-left: 13%">{{status1.content}}</p>
+                <hr style="color: darkgrey">
+              </td>
             </tr>
           </table>
+
+
+          <div class="frame1" (scroll)="scrolled1(status1.id)">
+            <div style="margin-left: 0" *ngFor="let s of comments.content" class="item1">
+              <div>
+                <img style="height: 30px; width: 30px; border-radius: 50%; margin-left: 2%"
+                     src="{{s.account.avatar}}"><b style="margin-left: 2%">{{s.account.username}}</b>
+                <br>
+                <p style="margin-left: 13%; padding-top: 2%; width: 85%">{{s.content}}</p>
+                <div style="margin-top: -1%; margin-left: 10%">
+                  <div *ngIf=" s.time< 60" style="margin-left: 10px">
+                    <p style="margin-top: 12px; font-size: 13px; color: darkgrey">{{s.time}} Phút Trước</p>
+                  </div>
+                  <div *ngIf=" s.time < 1440 && (s.time > 60 || s.time == 60)" style="margin-left: 10px">
+                    <p style="margin-top: 12px; font-size: 13px; color: darkgrey">{{(s.time - s.time % 60) / 60}} Giờ
+                      Trước</p>
+                  </div>
+                  <div *ngIf="s.time > 1440 || s.time == 1440" style="margin-left: 10px">
+                    <p style="margin-top: 12px; font-size: 13px; color: darkgrey">{{(s.time - s.time % 1440) / 1440}}
+                      Ngày
+                      Trước</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div style="margin-top: 510px;margin-left: 97%;position: fixed">
+            <form #commentForm="ngForm" (ngSubmit)="createComment(commentForm, id1, status1.id)">
+              <input style="margin-top: -2%; background-color: #F8F8F8;" class="input-group-text" ngModel name="content"
+                     placeholder="Viết bình luận">
+              <button style="margin-top: -30%;  margin-left: 100%" class="btn">Đăng</button>
+            </form>
+            <div *ngIf="id1==detailIdUser" style="margin-top: -25%; margin-left: 145%">
+              <div style="float: right; margin-top: -26%;"
+                   class="dropdown">
+                <button style=" background-color: white" class="dropbtn">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                       class="bi bi-three-dots"
+                       viewBox="0 0 16 16">
+                    <path
+                      d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                  </svg>
+                </button>
+                <div class="dropdown-content2">
+                  <label style="width: 100%" for="edit{{account.id}}">
+                    <a class="nav-link">
+                      <button id="edit{{account.id}}" class="btn"
+                              (click)="addIdStatus(status1.id)"
+                              data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-dismiss="modal">Sửa
+                      </button>
+                      <span class="sr-only">(current)</span></a>
+                  </label>
+                  <label style="width: 100%" for="delete{{account.id}}">
+                    <a class="nav-link">
+                      <button id="delete{{account.id}}" class="btn"
+                              (click)="addIdStatus(status1.id)" data-bs-toggle="modal"
+                              data-bs-target="#deleteStatus" data-bs-dismiss="modal">Xóa
+                      </button>
+                      <span class="sr-only">(current)</span></a>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
+
+
+
 
   <!-- Modal edit-->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -72,7 +105,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <img *ngFor="let x of status1.imageStatuses" src="{{x.url}}">
+<!--          <img *ngFor="let x of status1.imageStatuses" src="{{x.url}}">-->
           <textarea class="form-control beautify-textarea" cols="100" rows="4" type="text"
                     name="content" required [(ngModel)]="status1.content"
                     placeholder="Bạn đang nghĩ gì thế?"></textarea>
@@ -126,7 +159,7 @@
               </div>
               <div class="form-group">
                 <label for="inputEmail"></label>
-                <textarea class="form-control beautify-textarea" cols="100" rows="4" type="text"
+                <textarea class="form-control beautify-textarea" cols="100" rows="3" type="text"
                           id="inputEmail" name="content" required ngModel
                           placeholder="Bạn đang nghĩ gì thế?"></textarea>
                 <a *ngIf="statusForm.invalid">
@@ -135,7 +168,7 @@
               <div>
                 <input hidden ngModel name="url" [value]="imgSrc1">
                 <input type="file" (change)="showImagePreview($event);" #preview>
-                <img style="height: 50px; width: 50px; object-fit: cover" [src]="imgSrc1" (click)="preview.click()">
+                <img *ngIf="imgSrc1" style="height: 100px; width: 100px; object-fit: cover" [src]="imgSrc1" (click)="preview.click()">
               </div>
               <div>
                 <input hidden type="text" name="account" [(ngModel)]="currentAccount">
@@ -233,23 +266,55 @@
     <div style="margin-top: 220px">
 
 
-      <div *ngIf="friendCheck<1 || !loginCheck || friendCheck === 4" style="margin-top: 50px">
+      <div *ngIf="(friendCheck<1 && loginCheck) || (friendCheck === 4 && loginCheck)" style="margin-top: 50px">
         <div>
           <div class="row">
             <div class="col-4" *ngFor="let s of statusPublic">
               <a>
                 <img (click)="addIdStatus(s.id)"
-                     data-bs-toggle="modal" data-bs-target="#exampleModal2" class="d-block imageClick" style=" height: 250px;width: 255px ; object-fit: cover; padding-bottom: 20px"
+                     data-bs-toggle="modal" data-bs-target="#exampleModal1" class="d-block imageClick"
+                     style=" height: 250px;width: 255px ; object-fit: cover; padding-bottom: 20px"
                      src="{{s.imageStatuses[0].url}}">
                 <div style="position: absolute; margin-top: -20%; margin-left: 30%">
                   <div *ngIf="s.time < 60" style="margin-left: 10px">
-                    <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{s.time}} Phút Trước</p>
+                    <p style="margin-top: 12px; font-size: 13px; color: darkgrey">{{s.time}} Phút Trước</p>
                   </div>
                   <div *ngIf=" s.time < 1440 && (s.time > 60 || s.time == 60)" style="margin-left: 10px">
-                    <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{(s.time - s.time % 60) / 60}} Giờ Trước</p>
+                    <p style="margin-top: 12px; font-size: 13px; color: darkgrey">{{(s.time - s.time % 60) / 60}} Giờ
+                      Trước</p>
                   </div>
                   <div *ngIf="s.time > 1440 || s.time == 1440" style="margin-left: 10px">
-                    <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{(s.time - s.time % 1440) / 1440}} Ngày
+                    <p style="margin-top: 12px; font-size: 13px; color: darkgrey">{{(s.time - s.time % 1440) / 1440}}
+                      Ngày
+                      Trước</p>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div *ngIf="!loginCheck " style="margin-top: 50px">
+        <div>
+          <div class="row">
+            <div class="col-4" *ngFor="let s of statusPublic">
+              <a>
+                <img class="d-block imageClick"
+                     style=" height: 250px;width: 255px ; object-fit: cover; padding-bottom: 20px"
+                     src="{{s.imageStatuses[0].url}}">
+                <div style="position: absolute; margin-top: -20%; margin-left: 30%">
+                  <div *ngIf="s.time < 60" style="margin-left: 10px">
+                    <p style="margin-top: 12px; font-size: 13px; color: darkgrey">{{s.time}} Phút Trước</p>
+                  </div>
+                  <div *ngIf=" s.time < 1440 && (s.time > 60 || s.time == 60)" style="margin-left: 10px">
+                    <p style="margin-top: 12px; font-size: 13px; color: darkgrey">{{(s.time - s.time % 60) / 60}} Giờ
+                      Trước</p>
+                  </div>
+                  <div *ngIf="s.time > 1440 || s.time == 1440" style="margin-left: 10px">
+                    <p style="margin-top: 12px; font-size: 13px; color: darkgrey">{{(s.time - s.time % 1440) / 1440}}
+                      Ngày
                       Trước</p>
                   </div>
                 </div>
@@ -266,17 +331,20 @@
             <div class="col-4" *ngFor="let s of statusFriendOnlyAndPublic">
               <a>
                 <img (click)="addIdStatus(s.id)"
-                     data-bs-toggle="modal" data-bs-target="#exampleModal2" class="d-block imageClick" style=" height: 250px;width: 255px ; object-fit: cover; padding-bottom: 20px"
+                     data-bs-toggle="modal" data-bs-target="#exampleModal1" class="d-block imageClick"
+                     style=" height: 250px;width: 255px ; object-fit: cover; padding-bottom: 20px"
                      src="{{s.imageStatuses[0].url}}">
                 <div style="position: absolute; margin-top: -20%; margin-left: 30%">
                   <div *ngIf="s.time < 60" style="margin-left: 10px">
-                    <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{s.time}} Phút Trước</p>
+                    <p style="margin-top: 12px; font-size: 13px; color: darkgrey">{{s.time}} Phút Trước</p>
                   </div>
                   <div *ngIf=" s.time < 1440 && (s.time > 60 || s.time == 60)" style="margin-left: 10px">
-                    <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{(s.time - s.time % 60) / 60}} Giờ Trước</p>
+                    <p style="margin-top: 12px; font-size: 13px; color: darkgrey">{{(s.time - s.time % 60) / 60}} Giờ
+                      Trước</p>
                   </div>
                   <div *ngIf="s.time > 1440 || s.time == 1440" style="margin-left: 10px">
-                    <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{(s.time - s.time % 1440) / 1440}} Ngày
+                    <p style="margin-top: 12px; font-size: 13px; color: darkgrey">{{(s.time - s.time % 1440) / 1440}}
+                      Ngày
                       Trước</p>
                   </div>
                 </div>
@@ -296,17 +364,20 @@
 
               <a>
                 <img (click)="addIdStatus(s.id)"
-                     data-bs-toggle="modal" data-bs-target="#exampleModal1" class="d-block imageClick" style=" height: 250px;width: 255px ; object-fit: cover; padding-bottom: 20px"
+                     data-bs-toggle="modal" data-bs-target="#exampleModal1" class="d-block imageClick"
+                     style=" height: 250px;width: 255px ; object-fit: cover; padding-bottom: 20px"
                      src="{{s.imageStatuses[0].url}}">
-                <div style="position: absolute; margin-top: -20%; margin-left: 30%">
+                <div style="position: absolute; margin-top: -12.5%; margin-left: 30%">
                   <div *ngIf="s.time < 60" style="margin-left: 10px">
-                    <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{s.time}} Phút Trước</p>
+                    <p style="margin-top: 12px; font-size: 13px; color: darkgrey">{{s.time}} Phút Trước</p>
                   </div>
                   <div *ngIf=" s.time < 1440 && (s.time > 60 || s.time == 60)" style="margin-left: 10px">
-                    <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{(s.time - s.time % 60) / 60}} Giờ Trước</p>
+                    <p style="margin-top: 12px; font-size: 13px; color: darkgrey">{{(s.time - s.time % 60) / 60}} Giờ
+                      Trước</p>
                   </div>
                   <div *ngIf="s.time > 1440 || s.time == 1440" style="margin-left: 10px">
-                    <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{(s.time - s.time % 1440) / 1440}} Ngày
+                    <p style="margin-top: 12px; font-size: 13px; color: darkgrey">{{(s.time - s.time % 1440) / 1440}}
+                      Ngày
                       Trước</p>
                   </div>
                 </div>
@@ -315,6 +386,10 @@
           </div>
         </div>
       </div>
+      <div class="text-center p-1 fadeIn second" style="background-color: white;height: 15px; margin-top: 3%; font-size: 11px; color: darkgrey">
+        © 2021 Instagram from Fantastic4
+      </div>
+
     </div>
   </div>
 

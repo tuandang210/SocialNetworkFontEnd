@@ -87,21 +87,41 @@
             </div>
           </div>
           <!--content-->
-          <div style="margin-left: 10px">
-            <p style="margin-top: 12px; text-align: justify">{{s.content}}</p>
+          <div style="margin-left: 10px; margin-top: 10px">
+
+            <p style=" text-align: justify"> <b>{{s.account.username}}</b>&nbsp;{{s.content}}</p>
+            <hr style="width: 98%">
+
+
+
+<!--            hien thi comment-->
+            <div class="frame1">
+              <div *ngFor="let x of s.comments" class="item1">
+                <div>
+                  <p><b>{{x.account.username}}</b>&nbsp;
+                  {{x.content}}</p>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div *ngIf="s.time < 60" style="margin-left: 10px">
-            <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{s.time}} Phút Trước</p>
+            <p style="margin-top: -3%; font-size: 13px; color: darkgrey">{{s.time}} Phút Trước</p>
           </div>
           <div *ngIf=" s.time < 1440 && (s.time > 60 || s.time == 60)" style="margin-left: 10px">
-            <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{(s.time - s.time % 60) / 60}} Giờ Trước</p>
+            <p style="margin-top: -3%;font-size: 13px; color: darkgrey">{{(s.time - s.time % 60) / 60}} Giờ Trước</p>
           </div>
           <div *ngIf="s.time > 1440 || s.time == 1440" style="margin-left: 10px">
-            <p style="margin-top: 12px; font-size: 13px; color: #d9d9d9">{{(s.time - s.time % 1440) / 1440}} Ngày
+            <p style="margin-top: -3%; font-size: 13px; color: darkgrey">{{(s.time - s.time % 1440) / 1440}} Ngày
               Trước</p>
           </div>
 
+
+          <form #commentForm="ngForm" (change)="createComment(commentForm, account.id, s.id)">
+            <input style="width: 96%; margin-left: 2%" class="form-control" ngModel name="content"
+                   placeholder="Viết bình luận">
+<!--            <button  class="btn btn-outline-primary">Đăng</button>-->
+          </form>
         </div>
         <br>
       </div>
@@ -128,7 +148,7 @@
             </div>
             <div class="form-group">
               <label for="inputEmail"></label>
-              <textarea class="form-control beautify-textarea" cols="100" rows="4"
+              <textarea class="form-control beautify-textarea" cols="100" rows="3"
                         id="inputEmail" name="content" required ngModel
                         placeholder="Bạn đang nghĩ gì thế?"></textarea>
               <a *ngIf="statusForm.invalid">
@@ -136,8 +156,8 @@
             </div>
             <div>
               <input hidden ngModel name="url" [value]="imgSrc1">
-              <input type="file" (change)="showImagePreview($event);" #preview>
-              <img style="height: 50px; width: 50px; object-fit: cover" [src]="imgSrc1" (click)="preview.click()">
+              <input  type="file" (change)="showImagePreview($event);" #preview>
+              <img *ngIf="imgSrc1" style="height: 100px; width: 100px; object-fit: cover" [src]="imgSrc1" (click)="preview.click()">
             </div>
             <div>
               <input hidden type="text" name="account" [(ngModel)]="account">

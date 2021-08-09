@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {Status} from '../../model/status-model/status';
 import {HttpClient} from '@angular/common/http';
 import {StatusDto} from '../../model/status-model/status-dto';
+import {StatusCommentDto} from '../../model/status-model/status-comment-dto';
 
 
 const API_URL = `${environment.apiUrl}`;
@@ -85,7 +86,7 @@ export class StatusService {
   }
 
   // Bảng tin có phân trang, truyền vào id lưu trong localStorage
-  getNewsfeedPagination(id, size): Observable<Status[]> {
-    return this.http.get<Status[]>(`${API_URL}/status/newsfeed/${id}?size=${size}`);
+  getNewsfeedPagination(id, size): Observable<StatusCommentDto[]> {
+    return this.http.get<StatusCommentDto[]>(`${API_URL}/status/newsfeed/${id}?size=${size}`);
   }
 }
