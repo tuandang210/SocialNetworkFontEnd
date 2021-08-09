@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {WebsocketService} from '../service/websocket/websocket.service';
 import {NgForm} from '@angular/forms';
 import {AccountToken} from '../model/account/account-token';
@@ -11,6 +11,8 @@ import {AccountService} from '../service/account/account.service';
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit, OnDestroy {
+  // @ts-ignore
+  @ViewChild('scrollMe') private myScrollContainer: ElementRef;
   account: AccountToken = JSON.parse(localStorage.getItem('account'));
   friends: any = [];
   friend: AccountToken = {};
@@ -21,6 +23,14 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.accountRelationService.getAllFriends(this.account.id).subscribe(accounts => {
       if (accounts !== null) {
         this.friends = accounts;
+      }
+    });
+  }
+
+  search(element) {
+    this.accountRelationService.getAllFriendsByUsername(element, this.account.id).subscribe(friends => {
+      if (friends !== null) {
+        this.friends = friends;
       }
     });
   }
@@ -41,6 +51,15 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.websocketService.connect();
     this.accountService.findById(id2).subscribe(friend => {
       this.friend = friend;
+      this.scrollToBottom();
     });
+  }
+
+
+  scrollToBottom(): void {
+    try {
+      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+    } catch (err) {
+    }
   }
 }
