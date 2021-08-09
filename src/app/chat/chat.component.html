@@ -1,115 +1,36 @@
-<div class="container clearfix">
-  <div class="people-list" id="people-list">
+<div style="width: 800px" class="container clearfix">
+  <div style="float: left" class="people-list" id="people-list">
     <div class="search">
-      <input type="text" placeholder="search" />
+      <input type="text" placeholder="search"/>
       <i class="fa fa-search"></i>
     </div>
-    <ul class="list">
-      <li class="clearfix">
-        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01.jpg" alt="avatar" />
+    <ul  class="list">
+      <li *ngFor="let friend of friends" (click)="addIdFriend(account.id, friend.id)" class="clearfix">
+        <img style="width: 20px;height: auto" [src]="friend.avatar" alt="avatar"/>
         <div class="about">
-          <div class="name">Vincent Porter</div>
+          <div class="name">{{friend.username}}</div>
           <div class="status">
             <i class="fa fa-circle online"></i> online
           </div>
         </div>
       </li>
 
-      <li class="clearfix">
-        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_02.jpg" alt="avatar" />
-        <div class="about">
-          <div class="name">Aiden Chavez</div>
-          <div class="status">
-            <i class="fa fa-circle offline"></i> left 7 mins ago
-          </div>
-        </div>
-      </li>
+      <!--      <li class="clearfix">-->
+      <!--        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_02.jpg" alt="avatar" />-->
+      <!--        <div class="about">-->
+      <!--          <div class="name">Aiden Chavez</div>-->
+      <!--          <div class="status">-->
+      <!--            <i class="fa fa-circle offline"></i> left 7 mins ago-->
+      <!--          </div>-->
+      <!--        </div>-->
+      <!--      </li>-->
 
-      <li class="clearfix">
-        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_03.jpg" alt="avatar" />
-        <div class="about">
-          <div class="name">Mike Thomas</div>
-          <div class="status">
-            <i class="fa fa-circle online"></i> online
-          </div>
-        </div>
-      </li>
-
-      <li class="clearfix">
-        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_04.jpg" alt="avatar" />
-        <div class="about">
-          <div class="name">Erica Hughes</div>
-          <div class="status">
-            <i class="fa fa-circle online"></i> online
-          </div>
-        </div>
-      </li>
-
-      <li class="clearfix">
-        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_05.jpg" alt="avatar" />
-        <div class="about">
-          <div class="name">Ginger Johnston</div>
-          <div class="status">
-            <i class="fa fa-circle online"></i> online
-          </div>
-        </div>
-      </li>
-
-      <li class="clearfix">
-        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_06.jpg" alt="avatar" />
-        <div class="about">
-          <div class="name">Tracy Carpenter</div>
-          <div class="status">
-            <i class="fa fa-circle offline"></i> left 30 mins ago
-          </div>
-        </div>
-      </li>
-
-      <li class="clearfix">
-        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_07.jpg" alt="avatar" />
-        <div class="about">
-          <div class="name">Christian Kelly</div>
-          <div class="status">
-            <i class="fa fa-circle offline"></i> left 10 hours ago
-          </div>
-        </div>
-      </li>
-
-      <li class="clearfix">
-        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_08.jpg" alt="avatar" />
-        <div class="about">
-          <div class="name">Monica Ward</div>
-          <div class="status">
-            <i class="fa fa-circle online"></i> online
-          </div>
-        </div>
-      </li>
-
-      <li class="clearfix">
-        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_09.jpg" alt="avatar" />
-        <div class="about">
-          <div class="name">Dean Henry</div>
-          <div class="status">
-            <i class="fa fa-circle offline"></i> offline since Oct 28
-          </div>
-        </div>
-      </li>
-
-      <li class="clearfix">
-        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_10.jpg" alt="avatar" />
-        <div class="about">
-          <div class="name">Peyton Mckinney</div>
-          <div class="status">
-            <i class="fa fa-circle online"></i> online
-          </div>
-        </div>
-      </li>
     </ul>
   </div>
 
-  <div class="chat">
+  <div style="float: left" class="chat">
     <div class="chat-header clearfix">
-      <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01_green.jpg" alt="avatar" />
+      <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01_green.jpg" alt="avatar"/>
 
       <div class="chat-about">
         <div class="chat-with">Chat with Vincent Porter</div>
@@ -119,97 +40,74 @@
     </div> <!-- end chat-header -->
 
     <div class="chat-history">
-      <ul>
-        <li class="clearfix">
+      <ul *ngFor="let message of websocketService.message">
+        <li *ngIf="message.account1.id == account.id"  class="clearfix">
           <div class="message-data align-right">
-            <span class="message-data-time" >10:10 AM, Today</span> &nbsp; &nbsp;
-            <span class="message-data-name" >Olia</span> <i class="fa fa-circle me"></i>
-
+            <span class="message-data-time">10:10 AM, Today</span> &nbsp; &nbsp;
+            <span class="message-data-name">Olia</span> <i class="fa fa-circle me"></i>
           </div>
           <div class="message other-message float-right">
-            Hi Vincent, how are you? How is the project coming along?
+            {{message.content}}
           </div>
         </li>
 
-        <li>
+        <li *ngIf="message.account1.id != account.id">
           <div class="message-data">
-            <span class="message-data-name"><i class="fa fa-circle online"></i> Vincent</span>
+            <span class="message-data-name"><i class="fa fa-circle online"></i>{{message.account1.username}}</span>
             <span class="message-data-time">10:12 AM, Today</span>
           </div>
           <div class="message my-message">
-            Are we meeting today? Project has been already finished and I have results to show you.
+            {{message.content}}
           </div>
         </li>
-
-        <li class="clearfix">
-          <div class="message-data align-right">
-            <span class="message-data-time" >10:14 AM, Today</span> &nbsp; &nbsp;
-            <span class="message-data-name" >Olia</span> <i class="fa fa-circle me"></i>
-
-          </div>
-          <div class="message other-message float-right">
-            Well I am not sure. The rest of the team is not here yet. Maybe in an hour or so? Have you faced any problems at the last phase of the project?
-          </div>
-        </li>
-
-        <li>
-          <div class="message-data">
-            <span class="message-data-name"><i class="fa fa-circle online"></i> Vincent</span>
-            <span class="message-data-time">10:20 AM, Today</span>
-          </div>
-          <div class="message my-message">
-            Actually everything was fine. I'm very excited to show this to our team.
-          </div>
-        </li>
-
-        <li>
-          <div class="message-data">
-            <span class="message-data-name"><i class="fa fa-circle online"></i> Vincent</span>
-            <span class="message-data-time">10:31 AM, Today</span>
-          </div>
-          <i class="fa fa-circle online"></i>
-          <i class="fa fa-circle online" style="color: #AED2A6"></i>
-          <i class="fa fa-circle online" style="color:#DAE9DA"></i>
-        </li>
+<!--        <li>-->
+<!--          <div class="message-data">-->
+<!--            <span class="message-data-name"><i class="fa fa-circle online"></i> Vincent</span>-->
+<!--            <span class="message-data-time">10:31 AM, Today</span>-->
+<!--          </div>-->
+<!--          <i class="fa fa-circle online"></i>-->
+<!--          <i class="fa fa-circle online" style="color: #AED2A6"></i>-->
+<!--          <i class="fa fa-circle online" style="color:#DAE9DA"></i>-->
+<!--        </li>-->
 
       </ul>
 
     </div> <!-- end chat-history -->
+    <form #message="ngForm" (ngSubmit)="createChat(message,account.id,friend.id)">
+      <div class="chat-message clearfix">
+        <textarea name="content" id="message-to-send" placeholder="Type your message" rows="3" ngModel></textarea>
 
-    <div class="chat-message clearfix">
-      <textarea name="message-to-send" id="message-to-send" placeholder ="Type your message" rows="3"></textarea>
+        <i class="fa fa-file-o"></i> &nbsp;&nbsp;&nbsp;
+        <i class="fa fa-file-image-o"></i>
 
-      <i class="fa fa-file-o"></i> &nbsp;&nbsp;&nbsp;
-      <i class="fa fa-file-image-o"></i>
-
-      <button>Send</button>
-
-    </div> <!-- end chat-message -->
+        <button>Send</button>
+      </div> <!-- end chat-message -->
+    </form>
 
   </div> <!-- end chat -->
 
 </div> <!-- end container -->
 
-<script id="message-template" type="text/x-handlebars-template">
-  <li class="clearfix">
-    <div class="message-data align-right">
-      <span class="message-data-time" >{{time}}, Today</span> &nbsp; &nbsp;
-      <span class="message-data-name" >Olia</span> <i class="fa fa-circle me"></i>
-    </div>
-    <div class="message other-message float-right">
-      {{messageOutput}}
-    </div>
-  </li>
-</script>
+<!--<script id="message-template" type="text/x-handlebars-template">-->
+<!--  <li class="clearfix">-->
+<!--    <div class="message-data align-right">-->
+<!--      <span class="message-data-time" >{{time}}, Today</span> &nbsp; &nbsp;-->
+<!--      <span class="message-data-name" >Olia</span> <i class="fa fa-circle me"></i>-->
+<!--    </div>-->
+<!--    <div class="message other-message float-right">-->
+<!--      {{messageOutput}}-->
+<!--    </div>-->
+<!--  </li>-->
+<!--</script>-->
 
-<script id="message-response-template" type="text/x-handlebars-template">
-  <li>
-    <div class="message-data">
-      <span class="message-data-name"><i class="fa fa-circle online"></i> Vincent</span>
-      <span class="message-data-time">{{time}}, Today</span>
-    </div>
-    <div class="message my-message">
-      {{response}}
-    </div>
-  </li>
-</script>
+<!--<script id="message-response-template" type="text/x-handlebars-template">-->
+<!--  <li>-->
+<!--    <div class="message-data">-->
+<!--      <span class="message-data-name"><i class="fa fa-circle online"></i> Vincent</span>-->
+<!--      <span class="message-data-time">{{time}}, Today</span>-->
+<!--    </div>-->
+<!--    <div class="message my-message">-->
+<!--      {{response}}-->
+<!--    </div>-->
+<!--  </li>-->
+<!--</script>-->

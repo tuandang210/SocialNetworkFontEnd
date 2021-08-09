@@ -4,6 +4,7 @@ import {LoginComponent} from './login/login.component';
 import {AuthGuard} from './helper/auth-guard';
 import {RegisterComponent} from './register/register.component';
 import {FirstPageComponent} from './first-page/first-page.component';
+import {ChatComponent} from './chat/chat.component';
 
 
 const routes: Routes = [{
@@ -29,6 +30,9 @@ const routes: Routes = [{
   }, {
     path: '',
     component: FirstPageComponent
+  }, {
+    path: `chats`,
+    component: ChatComponent
   }
 ];
 
