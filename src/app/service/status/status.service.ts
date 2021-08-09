@@ -4,6 +4,7 @@ import {environment} from '../../../environments/environment';
 import {Observable} from 'rxjs';
 import {Status} from '../../model/status-model/status';
 import {HttpClient} from '@angular/common/http';
+import {StatusDto} from '../../model/status-model/status-dto';
 
 
 const API_URL = `${environment.apiUrl}`;
@@ -20,7 +21,7 @@ export class StatusService {
     return this.http.get<Status[]>(`${API_URL}/status`);
   }
 
-  createStatus(status: Status): Observable<Status> {
+  createStatus(status: StatusDto): Observable<Status> {
     status.privacy = {
       id: status.privacy
     };

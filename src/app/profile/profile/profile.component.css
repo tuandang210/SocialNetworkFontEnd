@@ -1,17 +1,17 @@
 .frame {
-  height: 89%;
+  height: 92.3%;
   position: absolute;
-  width: 60%;
+  width: 61.6%;
   z-index: 100;
-  margin-top: -20px;
+  margin-top: 1px;
   overflow: scroll;
 }
 
 .item {
-  padding: 15px;
+  padding: 0;
   margin: 20px;
   /*background-color: whitesmoke;*/
-  border: 1px solid lightgray;
+  /*border: 1px solid lightgray;*/
   border-radius: 3px;
   text-align: justify;
   background-color: #FBFBFB;
@@ -33,7 +33,7 @@
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: darkgray;
+  background: whitesmoke;
   border-radius: 5px 5px 5px 5px;
 }
 
@@ -124,4 +124,63 @@
 
 .checkDiv {
   display: inline;
+}
+
+ /*Three image containers (use 25% for four, and 50% for two, etc) */
+.column {
+  float: left;
+  width: 33.33%;
+  padding: 10px;
+  flex: 33.33%;
+}
+
+/* Clear floats after image containers */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.row {
+  display: flex;
+}
+.imageClick {
+  position: relative;
+}
+.imageClick:hover{
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+/*.overlay {*/
+/*  position: absolute;*/
+/*  top: 0;*/
+/*  bottom: 0;*/
+/*  left: 0;*/
+/*  right: 0;*/
+/*  height: 100%;*/
+/*  width: 100%;*/
+/*  opacity: 0;*/
+/*  transition: .5s ease;*/
+/*  !*background-color: #008CBA;*!*/
+/*}*/
+
+/*.overlay:hover {*/
+/*  opacity: 0.7;*/
+/*  cursor: pointer;*/
+/*}*/
+
+/*.text {*/
+/*  color: white;*/
+/*  font-size: 20px;*/
+/*  position: absolute;*/
+/*  top: 50%;*/
+/*  left: 50%;*/
+/*  -webkit-transform: translate(-50%, -50%);*/
+/*  -ms-transform: translate(-50%, -50%);*/
+/*  transform: translate(-50%, -50%);*/
+/*  text-align: center;*/
+/*}*/
+.timeClick {
+  opacity: 0;
 }
