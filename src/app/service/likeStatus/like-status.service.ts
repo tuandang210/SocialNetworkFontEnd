@@ -15,8 +15,8 @@ export class LikeStatusService {
   }
 
   // hien thi like
-  getAllLikeStatus(id: number): Observable<LikeStatus> {
-    return this.http.get<LikeStatus>(`${API_URL}/likestatus`);
+  getAllLikeStatus(id: number): Observable<LikeStatus[]> {
+    return this.http.get<LikeStatus[]>(`${API_URL}/likestatus/${id}`);
   }
 
   // like

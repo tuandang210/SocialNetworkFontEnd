@@ -15,6 +15,8 @@ import {StatusDto} from '../../model/status-model/status-dto';
 import {StatusCommentDto} from '../../model/status-model/status-comment-dto';
 import {Comment} from '@angular/compiler';
 import {any} from 'codelyzer/util/function';
+import {LikeStatusService} from '../../service/likeStatus/like-status.service';
+import {LikeStatus} from '../../model/likeStatus/like-status';
 
 
 @Component({
@@ -41,21 +43,25 @@ export class StatusListComponent implements OnInit, AfterViewInit {
   detailIdUser = '';
   comments: any = [];
   idFindComment = '';
+  likes: any = [];
 
   constructor(private statusService: StatusService,
               private privacyService: PrivacyService,
               private commentService: CommentService,
               public imageStatusService: ImageStatusService,
-              private angularFireStorage: AngularFireStorage) {
+              private angularFireStorage: AngularFireStorage,
+              private likeStatusService: LikeStatusService) {
   }
 
   ngOnInit() {
     this.getStatus(this.account.id);
     this.showPrivacy();
   }
+
   isCheck() {
     this.check = !this.check;
   }
+
   ngAfterViewInit() {
     this.scrollContainer = this.scrollFrame.nativeElement;
     this.itemElements.changes.subscribe(_ => this.onItemElementsChanged());
@@ -95,7 +101,8 @@ export class StatusListComponent implements OnInit, AfterViewInit {
       this.statusService.getNewsfeedPagination(id, this.loadAmount).subscribe(status => {
         this.status = status;
         for (const i of this.status) {
-            this.getComment1(i.id);
+          this.getComment1(i.id);
+          this.getAllLike(i.id);
         }
       });
     }
@@ -127,6 +134,7 @@ export class StatusListComponent implements OnInit, AfterViewInit {
     });
 
   }
+
   addIdStatus(id: number) {
     this.statusService.getById(id).subscribe(status => {
       this.status1 = status;
@@ -171,7 +179,14 @@ export class StatusListComponent implements OnInit, AfterViewInit {
 
   createComment(commentForm, id1, statusId) {
     this.commentService.createComment(commentForm.value, id1, statusId).subscribe(() => {
-     this.getStatus(id1);
+      this.getStatus(id1);
+    });
+  }
+
+  getAllLike(idStatus) {
+    this.likeStatusService.getAllLikeStatus(idStatus).subscribe(likes => {
+      this.likes = likes;
+      console.log(likes);
     });
   }
 }
