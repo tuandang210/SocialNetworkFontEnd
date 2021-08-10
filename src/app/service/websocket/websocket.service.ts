@@ -6,6 +6,7 @@ import * as Stomp from 'stompjs';
 import {ChatService} from './chat/chat.service';
 import {AccountToken} from '../../model/account/account-token';
 import {ChatComponent} from '../../chat/chat.component';
+import {GroupService} from '../group/group/group.service';
 
 const API_URL = `${environment.apiUrl}`;
 
@@ -19,12 +20,23 @@ export class WebsocketService {
   id2: number;
   public group: Chat[] = [];
 
-  constructor(private chatService: ChatService) {
+  constructor(private chatService: ChatService, private groupService: GroupService) {
   }
 
-  addId2(id2) {
-    this.id2 = id2;
-    this.getAllMessage(this.account.id, this.id2);
+  addId2(id2, client) {
+    if (client === 1) {
+      this.id2 = id2;
+      this.getAllMessage(this.account.id, this.id2);
+    }
+    if (client === 2) {
+      this.getAllMessageGroup(id2);
+    }
+  }
+
+  getAllMessageGroup(groupId) {
+    this.groupService.getAll(groupId, 0).subscribe(message => {
+      this.group = message;
+    });
   }
 
   getAllMessage(id1, id2) {
@@ -81,6 +93,12 @@ export class WebsocketService {
       id: groupId
     };
     this.stompClient.send('/app/message', {}, JSON.stringify(message));
+  }
+
+  deleteMessage(client) {
+    if (client === 2) {
+      this.group = [];
+    }
   }
 
   disconnect() {
