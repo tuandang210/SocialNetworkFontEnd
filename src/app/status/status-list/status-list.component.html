@@ -101,8 +101,8 @@
           <div *ngIf="(s.likeStatuses.length == 0)">
             <p>
               <button
-                      (click)="createLike(account.id, s.id)"
-                      style="border: 0 solid white; background-color: white; margin-left: 1%; margin-top: 2%"><img
+                (click)="createLike(account.id, s.id)"
+                style="border: 0 solid white; background-color: white; margin-left: 1%; margin-top: 2%"><img
                 style=" width: 33px; height: 30px"
                 src="../../../assets/image/Screenshot 2021-08-09 222339.png"/>
               </button>
@@ -142,15 +142,16 @@
                 style=" width: 33px; height: 30px"
                 src="../../../assets/image/Screenshot 2021-08-09 235201.png"/>
               </button>
-              <button *ngIf="account.id == x.account.id " type="button" style="border: 0 solid white; background-color: white;"><img
+              <button *ngIf="account.id == x.account.id " type="button"
+                      style="border: 0 solid white; background-color: white;"><img
                 style=" width: 33px; height: 30px"
                 src="../../../assets/image/Screenshot 2021-08-10 101034.png"/>
               </button>
               <br *ngIf="account.id == x.account.id "><br *ngIf="account.id == x.account.id ">
-              <b *ngIf="account.id == x.account.id " style="margin-left: 1.8%">{{s.likeStatuses.length}}&nbsp;lượt thích</b>
+              <b *ngIf="account.id == x.account.id " style="margin-left: 1.8%">{{s.likeStatuses.length}}&nbsp;lượt
+                thích</b>
             </p>
           </div>
-
 
 
           <!--content-->
@@ -196,27 +197,49 @@
   </div>
 
   <!--  phan ben phai-->
-  <div style=" margin-left: 65%; float: left">
-    <table style="margin-top: 35px">
+  <div style=" margin-left: 65%; float: left;height: 100%">
+    <table style="margin-top: 35px;width: 150px;">
       <tr>
         <td><img style="height: 55px; width: 55px; border-radius: 50%; object-fit: cover;border: 1px solid lightgrey"
                  src="{{account.avatar}}"></td>
 
-        <td><p
-          style="margin-left: 15%;margin-top: 15%;width: 100px;text-overflow: ellipsis; white-space: nowrap; overflow: hidden">
+        <td style="width: 50px"><p
+          style="width: 150px;margin-top: 10%; margin-left:5%;text-overflow: ellipsis; white-space: nowrap; overflow: hidden">
           <b>{{account.username}}</b>
           <br>
           <span style="font-size: 14px; color: darkgrey">{{account.fullName}}</span></p></td>
-        <td><a>Chuyển</a></td>
+        <td><a style="float: right ;font-size: 14px" routerLink="/" (click)="signOut()">Chuyển</a></td>
       </tr>
       <tr>
-        <td colspan="3"><input style="font-size: 14px; background-color: #F8F8F8; border-radius: 5px; margin-top: 20px"
-                               class="input-group-text"
-                               placeholder="Bạn đang nghĩ gì thế?" data-bs-toggle="modal" data-bs-target="#createModal">
+        <td colspan="3"><input
+          style="width: 250px;font-size: 14px; background-color: #F8F8F8; border-radius: 5px; margin-top: 20px"
+          class="input-group-text"
+          placeholder="Bạn đang nghĩ gì thế?" data-bs-toggle="modal" data-bs-target="#createModal">
         </td>
       </tr>
-
+      <tr>
+        <td colspan="3">
+          <p style="margin-top: 10%; color: darkgrey">Gợi ý kết bạn</p>
+        </td>
+      </tr>
+      <tr *ngFor="let f of friends">
+        <td>
+          <a>
+            <img
+              style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%"
+              src="{{f.avatar}}">
+          </a>
+        </td>
+        <td>
+          <p
+            style="margin-left:-5%; margin-top:10%;width: 150px;text-overflow: ellipsis; white-space: nowrap; overflow: hidden">{{f.username}}</p>
+        </td>
+        <td><a style="float: right ;font-size: 14px" [routerLink]="['/profile', f.username]">Xem</a></td>
+      </tr>
     </table>
+    <div class="text-center p-1 fadeIn second" style="float: bottom;background-color: white;height: 15px; margin-top: 3%; font-size: 13px; color: darkgrey">
+      © 2021 Instagram from Fantastic4
+    </div>
   </div>
 </div>
 

@@ -16,6 +16,7 @@ import {StatusCommentDto} from '../../model/status-model/status-comment-dto';
 import {LikeStatusService} from '../../service/likeStatus/like-status.service';
 import {LikeStatus} from '../../model/likeStatus/like-status';
 import {AccountRelationService} from '../../service/relation/account-relation.service';
+import {AuthenticationService} from '../../service/authentication/authentication.service';
 
 
 @Component({
@@ -51,7 +52,8 @@ export class StatusListComponent implements OnInit, AfterViewInit {
               public imageStatusService: ImageStatusService,
               private angularFireStorage: AngularFireStorage,
               private likeStatusService: LikeStatusService,
-              private accountRelationService: AccountRelationService) {
+              private accountRelationService: AccountRelationService,
+              private authenticationService: AuthenticationService) {
   }
 
   ngOnInit() {
@@ -127,6 +129,7 @@ export class StatusListComponent implements OnInit, AfterViewInit {
     formStatus.value.url = imageUrl;
     status11 = formStatus.value;
     this.statusService.createStatus(status11).subscribe(() => {
+      this.getStatus(this.account.id);
     });
   }
 
@@ -210,6 +213,7 @@ export class StatusListComponent implements OnInit, AfterViewInit {
       this.friends = friends;
     });
   }
+
   checkIdAcc(account: AccountToken, likes1234): boolean {
     for (const x of likes1234) {
       if (account.id === x.account.id) {
@@ -217,5 +221,9 @@ export class StatusListComponent implements OnInit, AfterViewInit {
       }
     }
     return false;
+  }
+
+  signOut() {
+    this.authenticationService.logout();
   }
 }
