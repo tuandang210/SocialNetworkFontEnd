@@ -17,7 +17,7 @@ export class AccountRelationService {
   constructor(private http: HttpClient) {
   }
 
-  // Tìm mọi mọi quan hệ (không dùng)
+  // Tìm mọi quan hệ (không dùng)
   getAllRelations(): Observable<Relation[]> {
     return this.http.get<Relation[]>(`${API_URL}/relations`);
   }
