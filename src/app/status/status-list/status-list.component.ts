@@ -2,8 +2,7 @@ import {AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, View
 import {StatusService} from '../../service/status/status.service';
 import {Status} from '../../model/status-model/status';
 import {AccountToken} from '../../model/account/account-token';
-import {ActivatedRoute} from '@angular/router';
-import {FormControl, FormGroup, NgForm} from '@angular/forms';
+
 import {Privacy} from '../../model/privacy/privacy';
 import {PrivacyService} from '../../service/privacy/privacy.service';
 import {CommentService} from '../../service/comment/comment.service';
@@ -13,10 +12,10 @@ import {AngularFireStorage} from '@angular/fire/storage';
 import {ImageStatus} from '../../model/status-model/image-status';
 import {StatusDto} from '../../model/status-model/status-dto';
 import {StatusCommentDto} from '../../model/status-model/status-comment-dto';
-import {Comment} from '@angular/compiler';
-import {any} from 'codelyzer/util/function';
+
 import {LikeStatusService} from '../../service/likeStatus/like-status.service';
 import {LikeStatus} from '../../model/likeStatus/like-status';
+import {AccountRelationService} from '../../service/relation/account-relation.service';
 
 
 @Component({
@@ -41,21 +40,24 @@ export class StatusListComponent implements OnInit, AfterViewInit {
   image: ImageStatus = {};
   comments: any = [];
 
-  likes: any = [];
+  likeStatuses: any = [];
 
   likeStatus: LikeStatus = {};
+  friends: any = [];
 
   constructor(private statusService: StatusService,
               private privacyService: PrivacyService,
               private commentService: CommentService,
               public imageStatusService: ImageStatusService,
               private angularFireStorage: AngularFireStorage,
-              private likeStatusService: LikeStatusService) {
+              private likeStatusService: LikeStatusService,
+              private accountRelationService: AccountRelationService) {
   }
 
   ngOnInit() {
     this.getStatus(this.account.id);
     this.showPrivacy();
+    this.findAllFriend(this.account.id);
   }
 
   isCheck() {
@@ -100,7 +102,7 @@ export class StatusListComponent implements OnInit, AfterViewInit {
     if (id !== -1 && id !== null) {
       this.statusService.getNewsfeedPagination(id, this.loadAmount).subscribe(status => {
         this.status = status;
-        for (const i of this.status) {
+        for (const i of status) {
           this.getComment1(i.id);
           this.getAllLike(i.id);
         }
@@ -185,7 +187,8 @@ export class StatusListComponent implements OnInit, AfterViewInit {
 
   getAllLike(idStatus) {
     this.likeStatusService.getAllLikeStatus(idStatus).subscribe(likes => {
-      this.likes = likes;
+      this.likeStatuses = likes;
+      console.log(likes);
     });
   }
 
@@ -198,7 +201,21 @@ export class StatusListComponent implements OnInit, AfterViewInit {
 
   deleteLike(accountId, statusId) {
     this.likeStatusService.dislikeStatus(accountId, statusId).subscribe(() => {
-      this.getStatus(this.account.id);
+      this.getStatus(accountId);
     });
+  }
+
+  findAllFriend(accountId) {
+    this.accountRelationService.getAllFriends(accountId).subscribe(friends => {
+      this.friends = friends;
+    });
+  }
+  checkIdAcc(account: AccountToken, likes1234): boolean {
+    for (const x of likes1234) {
+      if (account.id === x.account.id) {
+        return true;
+      }
+    }
+    return false;
   }
 }

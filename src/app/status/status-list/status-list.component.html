@@ -3,8 +3,16 @@
 
     <div class="frame" (scroll)="scrolled(account.id)" #scrollFrame>
       <div>
-        <div style="height: 80px; width: 97%; border: 1px solid lightgrey; border-radius: 3px; margin-top: 3%">
-
+        <div style=" height: 108px;width: 97%; border: 1px solid lightgrey; border-radius: 3px; margin-top: 3%">
+          <div *ngFor="let f of friends" style="display: inline-block;width: 70px; margin-top: 3%; margin-left: 3%">
+            <a [routerLink]="['/profile', f.username]">
+              <img
+                style="width: 55px; height: 55px;border: 2px solid hotpink; object-fit: cover; border-radius: 30px"
+                src="{{f.avatar}}">
+            </a>
+            <p
+              style=" margin-left: 15%;text-overflow: ellipsis; white-space: nowrap; overflow: hidden">{{f.username}}</p>
+          </div>
         </div>
       </div>
 
@@ -90,36 +98,60 @@
             </div>
           </div>
           <!--          hien thi like-->
-          <div>
-            <form *ngIf="s.likeStatuses.length == 0" (click)="createLike(account.id, s.id)">
-              <button style="border: 0 solid white; background-color: white; margin-left: 1%; margin-top: 2%"><img
+          <div *ngIf="(s.likeStatuses.length == 0)">
+            <p>
+              <button
+                      (click)="createLike(account.id, s.id)"
+                      style="border: 0 solid white; background-color: white; margin-left: 1%; margin-top: 2%"><img
                 style=" width: 33px; height: 30px"
                 src="../../../assets/image/Screenshot 2021-08-09 222339.png"/>
               </button>
-              <button style="border: 0 solid white; background-color: white;"><img
+              <button type="button" style="border: 0 solid white; background-color: white;"><img
                 style=" width: 33px; height: 30px"
                 src="../../../assets/image/Screenshot 2021-08-10 101034.png"/>
               </button>
               <br><br>
               <b style="margin-left: 1.8%">0&nbsp;lượt thích</b>
-            </form>
+            </p>
 
           </div>
-          <div *ngFor="let x of s.likeStatuses">
 
-            <form *ngIf="account.id == x.account.id" (click)="deleteLike(account.id, s.id)">
-              <button style="border: 0 solid white; background-color: white; margin-left: 1%; margin-top: 2%"><img
+
+          <div *ngIf="(s.likeStatuses.length > 0) && !checkIdAcc(account, s.likeStatuses)">
+            <p>
+              <button
+                (click)="createLike(account.id, s.id)"
+                style="border: 0 solid white; background-color: white; margin-left: 1%; margin-top: 2%"><img
                 style=" width: 33px; height: 30px"
-                src="../../../assets/image/Screenshot 2021-08-09 235201.png"/>
+                src="../../../assets/image/Screenshot 2021-08-09 222339.png"/>
               </button>
-              <button style="border: 0 solid white; background-color: white;"><img
+              <button type="button" style="border: 0 solid white; background-color: white;"><img
                 style=" width: 33px; height: 30px"
                 src="../../../assets/image/Screenshot 2021-08-10 101034.png"/>
               </button>
               <br><br>
               <b style="margin-left: 1.8%">{{s.likeStatuses.length}}&nbsp;lượt thích</b>
-            </form>
+            </p>
           </div>
+
+
+          <div *ngFor="let x of s.likeStatuses">
+            <p>
+              <button *ngIf="account.id == x.account.id " (click)="deleteLike(account.id, s.id)"
+                      style="border: 0 solid white; background-color: white; margin-left: 1%; margin-top: 2%"><img
+                style=" width: 33px; height: 30px"
+                src="../../../assets/image/Screenshot 2021-08-09 235201.png"/>
+              </button>
+              <button *ngIf="account.id == x.account.id " type="button" style="border: 0 solid white; background-color: white;"><img
+                style=" width: 33px; height: 30px"
+                src="../../../assets/image/Screenshot 2021-08-10 101034.png"/>
+              </button>
+              <br *ngIf="account.id == x.account.id "><br *ngIf="account.id == x.account.id ">
+              <b *ngIf="account.id == x.account.id " style="margin-left: 1.8%">{{s.likeStatuses.length}}&nbsp;lượt thích</b>
+            </p>
+          </div>
+
+
 
           <!--content-->
           <div style="margin-left: 10px; margin-top: 10px">
@@ -164,18 +196,24 @@
   </div>
 
   <!--  phan ben phai-->
-  <div style=" margin-left: 63%; float: left">
-    <table style="margin-top: 20px">
+  <div style=" margin-left: 65%; float: left">
+    <table style="margin-top: 35px">
       <tr>
-        <td><img style="height: 55px; width: 55px; border-radius: 50%" src="{{account.avatar}}"></td>
+        <td><img style="height: 55px; width: 55px; border-radius: 50%; object-fit: cover;border: 1px solid lightgrey"
+                 src="{{account.avatar}}"></td>
 
-        <td> {{account.username}}</td>
+        <td><p
+          style="margin-left: 15%;margin-top: 15%;width: 100px;text-overflow: ellipsis; white-space: nowrap; overflow: hidden">
+          <b>{{account.username}}</b>
+          <br>
+          <span style="font-size: 14px; color: darkgrey">{{account.fullName}}</span></p></td>
         <td><a>Chuyển</a></td>
       </tr>
       <tr>
         <td colspan="3"><input style="font-size: 14px; background-color: #F8F8F8; border-radius: 5px; margin-top: 20px"
-                   class="input-group-text"
-                   placeholder="Bạn đang nghĩ gì thế?" data-bs-toggle="modal" data-bs-target="#createModal"></td>
+                               class="input-group-text"
+                               placeholder="Bạn đang nghĩ gì thế?" data-bs-toggle="modal" data-bs-target="#createModal">
+        </td>
       </tr>
 
     </table>
