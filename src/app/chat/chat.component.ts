@@ -47,8 +47,8 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   addIdFriend(id1, id2) {
-    this.websocketService.addId2(id2);
-    this.websocketService.connect();
+    this.websocketService.addId2(id2, 1);
+    this.websocketService.connect(1);
     this.accountService.findById(id2).subscribe(friend => {
       this.friend = friend;
       this.scrollToBottom();

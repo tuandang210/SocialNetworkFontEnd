@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {Status} from '../../model/status-model/status';
 import {HttpClient} from '@angular/common/http';
 import {StatusDto} from '../../model/status-model/status-dto';
+import {AccountDTO} from '../../model/dtoacount/account-dto';
 
 
 const API_URL = `${environment.apiUrl}`;
@@ -42,6 +43,10 @@ export class StatusService {
 
   findAccountByUsername(username: string): Observable<Account> {
     return this.http.get<Account>(`${API_URL}/profile?username=${username}`);
+  }
+
+  findAccountsByUsernameContaining(username: string): Observable<AccountDTO[]> {
+    return this.http.get<AccountDTO[]>(`${API_URL}/profile/containing?username=${username}`);
   }
 
   getStatusByAccountId(id): Observable<Status[]> {
