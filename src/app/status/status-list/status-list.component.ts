@@ -15,6 +15,8 @@ import {StatusDto} from '../../model/status-model/status-dto';
 import {StatusCommentDto} from '../../model/status-model/status-comment-dto';
 import {Comment} from '@angular/compiler';
 import {any} from 'codelyzer/util/function';
+import {LikeStatusService} from '../../service/likeStatus/like-status.service';
+import {LikeStatus} from '../../model/likeStatus/like-status';
 
 
 @Component({
@@ -37,25 +39,29 @@ export class StatusListComponent implements OnInit, AfterViewInit {
   selectedImg: any = null;
   imgSrc1 = '';
   image: ImageStatus = {};
-  detailUsername = '';
-  detailIdUser = '';
   comments: any = [];
-  idFindComment = '';
+
+  likes: any = [];
+
+  likeStatus: LikeStatus = {};
 
   constructor(private statusService: StatusService,
               private privacyService: PrivacyService,
               private commentService: CommentService,
               public imageStatusService: ImageStatusService,
-              private angularFireStorage: AngularFireStorage) {
+              private angularFireStorage: AngularFireStorage,
+              private likeStatusService: LikeStatusService) {
   }
 
   ngOnInit() {
     this.getStatus(this.account.id);
     this.showPrivacy();
   }
+
   isCheck() {
     this.check = !this.check;
   }
+
   ngAfterViewInit() {
     this.scrollContainer = this.scrollFrame.nativeElement;
     this.itemElements.changes.subscribe(_ => this.onItemElementsChanged());
@@ -95,7 +101,8 @@ export class StatusListComponent implements OnInit, AfterViewInit {
       this.statusService.getNewsfeedPagination(id, this.loadAmount).subscribe(status => {
         this.status = status;
         for (const i of this.status) {
-            this.getComment1(i.id);
+          this.getComment1(i.id);
+          this.getAllLike(i.id);
         }
       });
     }
@@ -127,6 +134,7 @@ export class StatusListComponent implements OnInit, AfterViewInit {
     });
 
   }
+
   addIdStatus(id: number) {
     this.statusService.getById(id).subscribe(status => {
       this.status1 = status;
@@ -158,7 +166,7 @@ export class StatusListComponent implements OnInit, AfterViewInit {
   }
 
   getComment(id) {
-    this.commentService.getCommentByStatusPagination(id, 20).subscribe(comments => {
+    this.commentService.getCommentByStatusId(id).subscribe(comments => {
       this.comments = comments;
     });
   }
@@ -171,7 +179,26 @@ export class StatusListComponent implements OnInit, AfterViewInit {
 
   createComment(commentForm, id1, statusId) {
     this.commentService.createComment(commentForm.value, id1, statusId).subscribe(() => {
-     this.getStatus(id1);
+      this.getStatus(id1);
+    });
+  }
+
+  getAllLike(idStatus) {
+    this.likeStatusService.getAllLikeStatus(idStatus).subscribe(likes => {
+      this.likes = likes;
+    });
+  }
+
+  createLike(userId, statusId) {
+    this.getStatus(userId);
+    this.likeStatusService.createLikeStatus(this.likeStatus, userId, statusId).subscribe(() => {
+      this.getStatus(userId);
+    });
+  }
+
+  deleteLike(accountId, statusId) {
+    this.likeStatusService.dislikeStatus(accountId, statusId).subscribe(() => {
+      this.getStatus(this.account.id);
     });
   }
 }

@@ -9,5 +9,7 @@ export interface StatusCommentDto {
 
   imageStatuses?: any;
 
+  likeStatuses?: any;
+
   comments?: any;
 }
