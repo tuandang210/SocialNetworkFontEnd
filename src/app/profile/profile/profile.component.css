@@ -20,12 +20,12 @@
 ::-webkit-scrollbar {
   width: 1px;
   padding: 1px;
-  color: whitesmoke;
+  color: white;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: whitesmoke;
+  background: white;
   height: 1px;
 }
 
@@ -185,7 +185,7 @@
 
 
 .frame1 {
-  height: 73.5%;
+  height: 59.5%;
   position: absolute;
   width: 42%;
   z-index: 100;

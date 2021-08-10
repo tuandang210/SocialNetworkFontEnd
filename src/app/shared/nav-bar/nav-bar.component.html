@@ -27,12 +27,12 @@
 
     <div class="input-group" style="margin-left: 235px">
       <div *ngIf="!currentAccount || currentAccount.username !== 'admin'">
-        <input #element style="width: 220px; border-radius: 3px; height: 30px; margin-top: 6px; font-size: 14px"
+        <input #element style="width: 330px; border-radius: 3px; height: 30px; margin-top: 6px; font-size: 14px; margin-left: -150px"
                (keyup)="search(element.value)"
                class="border-end-0 border" type="text"
-               placeholder="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tìm kiếm"
+               placeholder="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tìm kiếm"
                id="example-search-input">
-        <div style="position: fixed;background-color: whitesmoke;z-index: 999; border-radius: 5px">
+        <div style="margin-left: -140px;position: fixed;background-color: whitesmoke;z-index: 999; border-radius: 5px">
           <ul *ngFor="let account of accountDTO">
             <li><a (click)="routerLink(account.username)">{{account.username}}</a></li>
           </ul>
@@ -42,9 +42,9 @@
         <a routerLink="/groups">Group</a>
       </div>
       <div *ngIf="currentAccount && currentAccount.username === 'admin'">
-        <input style="width: 220px; border-radius: 3px; height: 30px; margin-top: 6px"
+        <input style="width: 330px; border-radius: 3px; height: 30px; margin-top: 6px; margin-left: -150px; font-size: 14px"
                class="border-end-0 border" type="text"
-               placeholder="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tìm kiếm"
+               placeholder="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tìm kiếm"
                id="example-search-input1">
       </div>
       <div style="margin-left: 150px">

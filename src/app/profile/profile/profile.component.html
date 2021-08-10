@@ -50,7 +50,64 @@
           </div>
 
 
-          <div style="margin-top: 510px;margin-left: 97%;position: fixed">
+          <div style="margin-top: 420px;margin-left: 97%;position: fixed">
+<!--            hien thi like-->
+            <div *ngIf="(likeStatuses.length == 0)">
+              <p>
+                <button
+                  (click)="createLike(account1.id, status1.id)"
+                  style="border: 0 solid white; background-color: white; margin-left: 1%; margin-top: 2%"><img
+                  style=" width: 33px; height: 30px"
+                  src="../../../assets/image/Screenshot 2021-08-09 222339.png"/>
+                </button>
+                <button type="button" style="border: 0 solid white; background-color: white;"><img
+                  style=" width: 33px; height: 30px"
+                  src="../../../assets/image/Screenshot 2021-08-10 101034.png"/>
+                </button>
+                <br>
+                <b style="margin-left: 5%">0&nbsp;lượt thích</b>
+              </p>
+
+            </div>
+
+
+            <div *ngIf="(likeStatuses.length > 0) && !checkIdAcc(authenticationService.currentUserValue, likeStatuses)">
+              <p>
+                <button
+                  (click)="createLike(account1.id, status1.id)"
+                  style="border: 0 solid white; background-color: white; margin-left: 1%; margin-top: 2%"><img
+                  style=" width: 33px; height: 30px"
+                  src="../../../assets/image/Screenshot 2021-08-09 222339.png"/>
+                </button>
+                <button type="button" style="border: 0 solid white; background-color: white;"><img
+                  style=" width: 33px; height: 30px"
+                  src="../../../assets/image/Screenshot 2021-08-10 101034.png"/>
+                </button>
+                <br>
+                <b style="margin-left: 5%">{{likeStatuses.length}}&nbsp;lượt thích</b>
+              </p>
+            </div>
+
+
+            <div *ngFor="let x of likeStatuses">
+              <p  *ngIf="account1.id == x.account.id">
+                <button (click)="deleteLike(account1.id, status1.id)"
+                        style="border: 0 solid white; background-color: white; margin-left: 1%; margin-top: 2%"><img
+                  style=" width: 33px; height: 30px"
+                  src="../../../assets/image/Screenshot 2021-08-09 235201.png"/>
+                </button>
+                <button type="button"
+                        style="border: 0 solid white; background-color: white;"><img
+                  style=" width: 33px; height: 30px"
+                  src="../../../assets/image/Screenshot 2021-08-10 101034.png"/>
+                </button>
+               <br>
+                <b style="margin-left: 5%">{{likeStatuses.length}}&nbsp;lượt
+                  thích</b>
+              </p>
+            </div>
+
+
             <form #commentForm="ngForm" (ngSubmit)="createComment(commentForm, id1, status1.id)">
               <input style="margin-top: -2%; background-color: #F8F8F8;" class="input-group-text" ngModel name="content"
                      placeholder="Viết bình luận">
