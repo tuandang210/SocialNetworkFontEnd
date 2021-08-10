@@ -177,7 +177,7 @@ export class StatusListComponent implements OnInit, AfterViewInit {
   }
 
   getComment1(id) {
-    this.commentService.getCommentByStatusPagination(id, 3).subscribe(comments => {
+    this.commentService.getCommentByStatusPagination(id, this.loadAmount).subscribe(comments => {
       this.comments = comments;
     });
   }
