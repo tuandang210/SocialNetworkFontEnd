@@ -20,18 +20,22 @@ export class LikeStatusService {
   }
 
   // like
-  createLikeStatus(likeStatus: LikeStatus): Observable<LikeStatus> {
+  createLikeStatus(likeStatus, userId, statusId): Observable<LikeStatus> {
     likeStatus.account = {
-      id: likeStatus.account
+      id: userId
     };
     likeStatus.status = {
-      id: likeStatus.status
+      id: statusId
     };
     return this.http.post<LikeStatus>(`${API_URL}/likestatus`, likeStatus);
   }
 
   // dislike
-  dislikeStatus(id: number): Observable<LikeStatus> {
-    return this.http.delete<LikeStatus>(`${API_URL}/likestatus`);
+  dislikeStatus(accountId, statusId): Observable<LikeStatus> {
+    return this.http.delete<LikeStatus>(`${API_URL}/likestatus/${accountId}?statusId=${statusId}`);
+  }
+
+  updateLike(id, likeStatus): Observable<LikeStatus> {
+    return this.http.put<LikeStatus>(`${API_URL}/likestatus/${id}`, likeStatus);
   }
 }

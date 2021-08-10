@@ -86,20 +86,52 @@
               </div>
             </div>
           </div>
+          <!--          hien thi like-->
+          <div>
+            <form *ngIf="s.likeStatuses.length == 0" (click)="createLike(account.id, s.id)">
+              <button style="border: 0 solid white; background-color: white; margin-left: 1%; margin-top: 2%"><img
+                style=" width: 33px; height: 30px"
+                src="../../../assets/image/Screenshot 2021-08-09 222339.png"/>
+              </button>
+              <button style="border: 0 solid white; background-color: white;"><img
+                style=" width: 33px; height: 30px"
+                src="../../../assets/image/Screenshot 2021-08-10 101034.png"/>
+              </button>
+              <br><br>
+              <b style="margin-left: 1.8%">0&nbsp;lượt thích</b>
+            </form>
+
+          </div>
+          <div *ngFor="let x of s.likeStatuses">
+
+            <form *ngIf="account.id == x.account.id" (click)="deleteLike(account.id, s.id)">
+              <button style="border: 0 solid white; background-color: white; margin-left: 1%; margin-top: 2%"><img
+                style=" width: 33px; height: 30px"
+                src="../../../assets/image/Screenshot 2021-08-09 235201.png"/>
+              </button>
+              <button style="border: 0 solid white; background-color: white;"><img
+                style=" width: 33px; height: 30px"
+                src="../../../assets/image/Screenshot 2021-08-10 101034.png"/>
+              </button>
+              <br><br>
+              <b style="margin-left: 1.8%">{{s.likeStatuses.length}}&nbsp;lượt thích</b>
+            </form>
+          </div>
+
           <!--content-->
           <div style="margin-left: 10px; margin-top: 10px">
 
-            <p style=" text-align: justify"> <b>{{s.account.username}}</b>&nbsp;{{s.content}}</p>
+            <p style=" text-align: justify"><b>{{s.account.username}}</b>&nbsp;{{s.content}}</p>
+            <p style="font-size: 14px; color: darkgrey">Có {{s.comments.length}} bình luận hiển thị</p>
             <hr style="width: 98%">
 
 
-
-<!--            hien thi comment-->
+            <!--            hien thi comment-->
             <div class="frame1">
               <div *ngFor="let x of s.comments" class="item1">
                 <div>
                   <p><b>{{x.account.username}}</b>&nbsp;
-                  {{x.content}}</p>
+                    {{x.content}}</p>
                 </div>
               </div>
             </div>
@@ -118,9 +150,9 @@
 
 
           <form #commentForm="ngForm" (change)="createComment(commentForm, account.id, s.id)">
-            <input style="width: 96%; margin-left: 2%" class="form-control" ngModel name="content"
+            <input style="width: 96%; margin-left: 2%; margin-bottom: -1%" class="form-control" ngModel name="content"
                    placeholder="Viết bình luận">
-<!--            <button  class="btn btn-outline-primary">Đăng</button>-->
+            <!--            <button  class="btn btn-outline-primary">Đăng</button>-->
           </form>
         </div>
         <br>
@@ -156,8 +188,9 @@
             </div>
             <div>
               <input hidden ngModel name="url" [value]="imgSrc1">
-              <input  type="file" (change)="showImagePreview($event);" #preview>
-              <img *ngIf="imgSrc1" style="height: 100px; width: 100px; object-fit: cover" [src]="imgSrc1" (click)="preview.click()">
+              <input type="file" (change)="showImagePreview($event);" #preview>
+              <img *ngIf="imgSrc1" style="height: 100px; width: 100px; object-fit: cover" [src]="imgSrc1"
+                   (click)="preview.click()">
             </div>
             <div>
               <input hidden type="text" name="account" [(ngModel)]="account">

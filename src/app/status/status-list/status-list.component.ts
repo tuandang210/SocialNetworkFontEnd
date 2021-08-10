@@ -39,11 +39,11 @@ export class StatusListComponent implements OnInit, AfterViewInit {
   selectedImg: any = null;
   imgSrc1 = '';
   image: ImageStatus = {};
-  detailUsername = '';
-  detailIdUser = '';
   comments: any = [];
-  idFindComment = '';
+
   likes: any = [];
+
+  likeStatus: LikeStatus = {};
 
   constructor(private statusService: StatusService,
               private privacyService: PrivacyService,
@@ -166,7 +166,7 @@ export class StatusListComponent implements OnInit, AfterViewInit {
   }
 
   getComment(id) {
-    this.commentService.getCommentByStatusPagination(id, 20).subscribe(comments => {
+    this.commentService.getCommentByStatusId(id).subscribe(comments => {
       this.comments = comments;
     });
   }
@@ -186,7 +186,19 @@ export class StatusListComponent implements OnInit, AfterViewInit {
   getAllLike(idStatus) {
     this.likeStatusService.getAllLikeStatus(idStatus).subscribe(likes => {
       this.likes = likes;
-      console.log(likes);
+    });
+  }
+
+  createLike(userId, statusId) {
+    this.getStatus(userId);
+    this.likeStatusService.createLikeStatus(this.likeStatus, userId, statusId).subscribe(() => {
+      this.getStatus(userId);
+    });
+  }
+
+  deleteLike(accountId, statusId) {
+    this.likeStatusService.dislikeStatus(accountId, statusId).subscribe(() => {
+      this.getStatus(this.account.id);
     });
   }
 }
