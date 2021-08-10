@@ -25,6 +25,7 @@ export class GroupComponent implements OnInit, OnDestroy {
   accountDTO: AccountDTO = {};
   groupId: number;
   checkButton = false;
+  checkWebsocket = false;
 
   constructor(private groupService: GroupService,
               public websocketService: WebsocketService,
@@ -63,8 +64,15 @@ export class GroupComponent implements OnInit, OnDestroy {
   }
 
   addIdAccount(groupId: number) {
+    if (this.checkWebsocket) {
+      this.ngOnDestroy();
+    } else {
+      this.checkWebsocket = true;
+    }
+    if (this.checkWebsocket) {
+      this.getAccountOnGroup(groupId);
+    }
     this.checkButton = true;
-    this.getAccountOnGroup(groupId);
     this.groupId = groupId;
     this.websocketService.addId2(groupId, 2);
     this.websocketService.connect(2);

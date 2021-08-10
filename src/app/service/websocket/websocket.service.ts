@@ -46,17 +46,16 @@ export class WebsocketService {
     });
   }
 
-  connect() {
+  connect(client) {
     const ws = new SockJS(`${API_URL}/ws`);
     this.stompClient = Stomp.over(ws);
     this.stompClient.connect({}, frame => {
-      this.frameMessage();
-      // if (client === 1) {
-      //   this.frameMessage();
-      // }
-      // if (client === 2) {
-      //   this.frameGroup();
-      // }
+      if (client === 1) {
+        this.frameMessage();
+      }
+      if (client === 2) {
+        this.frameGroup();
+      }
     });
   }
 

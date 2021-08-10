@@ -5,6 +5,8 @@ import {Observable} from 'rxjs';
 import {Status} from '../../model/status-model/status';
 import {HttpClient} from '@angular/common/http';
 import {StatusDto} from '../../model/status-model/status-dto';
+import {AccountDTO} from '../../model/dtoacount/account-dto';
+import {StatusCommentDto} from '../../model/status-model/status-comment-dto';
 
 
 const API_URL = `${environment.apiUrl}`;
