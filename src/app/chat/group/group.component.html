@@ -77,12 +77,12 @@
         <div class="chat-num-messages">already 1 902 messages</div>
       </div>
       <i class="fa fa-star">
-        <button *ngIf="checkButton" data-bs-toggle="modal"
-                data-bs-target="#addNewAccount" (click)="getFriends()" class="btn btn-outline-info">Thêm bạn vào nhóm (+)
-        </button>
       </i>
     </div> <!-- end chat-header -->
-    <button *ngIf="checkButton" (click)="exitGroup()" class="btn btn-outline-info">Rời nhóm ?
+    <button (click)="exitGroup()" class="btn btn-outline-info">Rời nhóm ?
+    </button>
+    <button *ngIf="checkButton" data-bs-toggle="modal"
+            data-bs-target="#addNewAccount" (click)="getFriends()" class="btn btn-outline-info">Thêm bạn vào nhóm (+)
     </button>
     <div #scrollMe class="chat-history">
       <ul *ngFor="let message of websocketService.group">

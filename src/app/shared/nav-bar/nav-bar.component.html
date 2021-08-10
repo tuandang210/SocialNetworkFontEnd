@@ -34,7 +34,7 @@
                id="example-search-input">
         <div style="position: absolute;background-color: whitesmoke;display: inline;z-index: 100">
           <ul *ngFor="let account of accountDTO">
-            <li><a (click)="routerLink(account.username)">{{account.username}}</a></li>
+            <a (click)="routerLink(account.username)">{{account.username}}</a>
           </ul>
         </div>
       </div>

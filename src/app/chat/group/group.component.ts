@@ -73,6 +73,7 @@ export class GroupComponent implements OnInit, OnDestroy {
       this.getAccountOnGroup(groupId);
     }
     this.checkButton = true;
+    this.getFriends();
     this.groupId = groupId;
     this.websocketService.addId2(groupId, 2);
     this.websocketService.connect(2);
