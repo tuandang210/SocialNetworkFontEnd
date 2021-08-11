@@ -23,8 +23,8 @@ export class ImageStatusService {
     return this.http.put<ImageStatus>(`${API_URL}/images/${id}`, image);
   }
 
-  createImage(image: ImageStatus): Observable<ImageStatus> {
-    return this.http.post<ImageStatus>(`${API_URL}/images`, image);
+  createImage(image): Observable<ImageStatus> {
+    return this.http.post<ImageStatus>(`${API_URL}/images`, {url: image});
   }
   deleteImage(id): Observable<ImageStatus> {
     return this.http.delete<ImageStatus>(`${API_URL}/images/${id}`);

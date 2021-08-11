@@ -35,18 +35,12 @@ export class CommentService {
   }
 
   // cap nhat
-  editComment(comment: Comments, id: number): Observable<Comments> {
-    comment.account = {
-      id: comment.account
-    };
-    comment.status = {
-      id: comment.status
-    };
-    return this.http.put<Comments>(`${API_URL}/comment/${id}`, comment);
+  editComment(comment, id1): Observable<Comments> {
+    return this.http.put<Comments>(`${API_URL}/comment/${id1}`, {content: comment});
   }
 
   // xoa
   deleteComment(id: number): Observable<Comments> {
-    return this.http.delete<Comments>(`${API_URL}/comment.${id}`);
+    return this.http.delete<Comments>(`${API_URL}/comment/${id}`);
   }
 }
