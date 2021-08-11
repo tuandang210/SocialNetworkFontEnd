@@ -60,6 +60,9 @@ export class AccountPasswordComponent implements OnInit {
       }, 2000);
     }, error => {
       this.isError = true;
+      setTimeout(() => {
+        this.isError = false;
+      }, 1500);
     });
   }
 
