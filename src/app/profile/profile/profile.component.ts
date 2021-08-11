@@ -1,11 +1,11 @@
 import {
-  AfterContentInit,
+
   AfterViewInit,
   Component,
   ElementRef,
-  EventEmitter,
+
   OnInit,
-  Output,
+
   QueryList,
   ViewChild,
   ViewChildren
@@ -24,6 +24,8 @@ import {StatusDto} from '../../model/status-model/status-dto';
 import {CommentService} from '../../service/comment/comment.service';
 import {Comments} from '../../model/comment/comments';
 import {AccountService} from '../../service/account/account.service';
+import {LikeStatusService} from '../../service/likeStatus/like-status.service';
+import {LikeStatus} from '../../model/likeStatus/like-status';
 
 declare var $: any;
 
@@ -53,11 +55,8 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   privacy: Privacy[] = [];
   currentAccount: AccountToken = {};
   isGuest = false;
-  id3 = '';
   @ViewChild('scrollFrame', {static: false}) scrollFrame: ElementRef;
   @ViewChildren('item') itemElements: QueryList<any>;
-  // @ViewChild('scrollFrame1', {static: false}) scrollFrame1: ElementRef;
-  // @ViewChildren('item1') itemElements1: QueryList<any>;
   private scrollContainer: any;
   private isNearBottom = true;
   private loadAmount = 6;
@@ -69,8 +68,10 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   detailIdUser = '';
   comments: any = [];
   comment1: Comments = {};
-
-  constructor(private authenticationService: AuthenticationService,
+  likeStatuses: any = [];
+  likeStatus: LikeStatus = {};
+  account1: AccountToken = JSON.parse(localStorage.getItem('account'));
+  constructor(public authenticationService: AuthenticationService,
               private activatedRoute: ActivatedRoute,
               private statusService: StatusService,
               private accountRelationService: AccountRelationService,
@@ -78,7 +79,8 @@ export class ProfileComponent implements OnInit, AfterViewInit {
               private angularFireStorage: AngularFireStorage,
               private router: Router,
               private commentService: CommentService,
-              private accountService: AccountService) {
+              private accountService: AccountService,
+              private likeStatusService: LikeStatusService) {
   }
 
   ngOnInit() {
@@ -237,6 +239,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
       this.status1 = status;
       this.detailIdUser = status.account.id;
       this.getComment(id);
+      this.getAllLike(id);
     });
   }
 
@@ -317,19 +320,23 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     if (id1 !== -1 && id1 !== null) {
       this.statusService.getAllStatusOfMySelfPagination(id1, this.loadAmount).subscribe(status => {
         this.status = status;
+        this.getAllLike(id1);
       });
       this.statusService.getAllStatusOfFriendPagination(id2, this.loadAmount).subscribe(statusFriendOnlyAndPublic => {
         this.statusFriendOnlyAndPublic = statusFriendOnlyAndPublic;
+        this.getAllLike(id2);
       });
     }
     this.statusService.getAllPublicStatusOfGuestPagination(id2, this.loadAmount).subscribe(statusPublic => {
       this.statusPublic = statusPublic;
+      this.getAllLike(id2);
     });
   }
 
   getComment(id) {
     this.commentService.getCommentByStatusPagination(id, 20).subscribe(comments => {
       this.comments = comments;
+      this.getAllLike(id);
     });
   }
 
@@ -407,5 +414,33 @@ export class ProfileComponent implements OnInit, AfterViewInit {
       this.loadAmount1 += 5;
       this.addIdStatus(id);
     }
+  }
+
+  getAllLike(idStatus) {
+    this.likeStatusService.getAllLikeStatus(idStatus).subscribe(likes => {
+      this.likeStatuses = likes;
+    });
+  }
+
+  createLike(userId, statusId) {
+    this.getStatus(userId, statusId);
+    this.likeStatusService.createLikeStatus(this.likeStatus, userId, statusId).subscribe(() => {
+      this.getStatus(userId, statusId);
+    });
+  }
+
+  deleteLike(accountId, statusId) {
+    this.likeStatusService.dislikeStatus(accountId, statusId).subscribe(() => {
+      this.getStatus(accountId, statusId);
+    });
+  }
+
+  checkIdAcc(account: AccountToken, likes1234): boolean {
+    for (const x of likes1234) {
+      if (account.id === x.account.id) {
+        return true;
+      }
+    }
+    return false;
   }
 }

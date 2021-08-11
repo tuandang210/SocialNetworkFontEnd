@@ -158,7 +158,7 @@
           <div style="margin-left: 10px; margin-top: 10px">
 
             <p style=" text-align: justify"><b>{{s.account.username}}</b>&nbsp;{{s.content}}</p>
-            <p style="font-size: 14px; color: darkgrey">Có {{s.comments.length}} bình luận hiển thị</p>
+            <a id="oklaaa" (click)="addIdStatus(s.id)" data-bs-toggle="modal" data-bs-target="#exampleModal11" style="font-size: 14px; color: darkgrey">Xem tất cả bình luận</a>
             <hr style="width: 98%">
 
 
@@ -222,19 +222,48 @@
           <p style="margin-top: 10%; color: darkgrey">Gợi ý kết bạn</p>
         </td>
       </tr>
-      <tr *ngFor="let f of friends">
+      <tr>
         <td>
           <a>
             <img
               style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%"
-              src="{{f.avatar}}">
+              src="https://image.thanhnien.vn/1024/uploaded/dotuan/2020_08_18/anh1_jvzj.jpg">
           </a>
         </td>
         <td>
           <p
-            style="margin-left:-5%; margin-top:10%;width: 150px;text-overflow: ellipsis; white-space: nowrap; overflow: hidden">{{f.username}}</p>
+            style="margin-left:-5%; margin-top:10%;width: 150px;text-overflow: ellipsis; white-space: nowrap; overflow: hidden">sooyaaa<br><span style="font-size: 13px; color: darkgrey">Gợi ý kết bạn</span></p>
         </td>
-        <td><a style="float: right ;font-size: 14px" [routerLink]="['/profile', f.username]">Xem</a></td>
+        <td><a style="float: right ;font-size: 14px" [routerLink]="['/profile', 'sooyaaa']">Xem</a></td>
+      </tr>
+      <tr>
+        <td>
+          <a>
+            <img
+              style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%"
+              src="https://cdn.baogiaothong.vn/upload/images/2021-3/article_img/2021-07-29/img-bgt-2021-04-1627531841-width700height425.jpg">
+          </a>
+        </td>
+        <td>
+          <p
+            style="margin-left:-5%; margin-top:10%;width: 150px;text-overflow: ellipsis; white-space: nowrap; overflow: hidden">roses_are_rosie<br><span style="font-size: 13px; color: darkgrey">Gợi ý kết bạn</span></p>
+        </td>
+        <td><a style="float: right ;font-size: 14px" [routerLink]="['/profile', 'roses_are_rosie']">Xem</a></td>
+      </tr>
+      <tr>
+        <td>
+          <a>
+            <img
+              style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%"
+              src="https://static2.yan.vn/YanNews/2167221/202006/quynh-kool-la-ai-tieu-su-doi-tu-su-nghiep-cua-nua-dien-vien-0111ba9b.jpg">
+          </a>
+        </td>
+        <td>
+          <p
+            style="margin-left:-5%; margin-top:10%;width: 150px;text-overflow: ellipsis; white-space: nowrap; overflow: hidden">actressquynkool<br><span style="font-size: 13px; color: darkgrey">Gợi ý kết bạn</span>
+          </p>
+        </td>
+        <td><a style="float: right ;font-size: 14px" [routerLink]="['/profile', 'actressquynkool']">Xem</a></td>
       </tr>
     </table>
     <div class="text-center p-1 fadeIn second" style="float: bottom;background-color: white;height: 15px; margin-top: 3%; font-size: 13px; color: darkgrey">
@@ -330,6 +359,158 @@
         <button type="button" data-bs-dismiss="modal" (click)="saveStatus()" class="btn btn-primary">Lưu thay đổi
         </button>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal detail -->
+<div class="modal fade" id="exampleModal11" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content" style="width: 830px; margin-left: -35%">
+      <div>
+        <img
+          style="height: 550px; width: 480px; object-fit: cover;float: left;margin-left: -0.05%; margin-top: -0.05%"
+          *ngFor="let x of status1.imageStatuses" src="{{x.url}}">
+
+        <table style="float: left;  margin: 15px; width: 35%">
+          <tr>
+            <td>
+              <img style="height: 35px; width: 35px; border-radius: 50%; border: 2px solid hotpink"
+                   [src]="detailAvatar">&nbsp;&nbsp;<b>{{detailUsername}}</b>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <p style="margin-left: 13%">{{status1.content}}</p>
+              <hr style="color: darkgrey">
+            </td>
+          </tr>
+        </table>
+
+
+        <div class="frame2">
+          <div style="margin-left: 0" *ngFor="let s of comments123" class="item2">
+            <div>
+              <img style="height: 30px; width: 30px; border-radius: 50%; margin-left: 2%"
+                   src="{{s.account.avatar}}"><b style="margin-left: 2%">{{s.account.username}}</b>
+              <br>
+              <p style="margin-left: 13%; padding-top: 2%; width: 85%">{{s.content}}</p>
+              <div style="margin-top: -1%; margin-left: 10%">
+                <div *ngIf=" s.time< 60" style="margin-left: 10px">
+                  <p style="margin-top: 12px; font-size: 13px; color: darkgrey">{{s.time}} Phút Trước</p>
+                </div>
+                <div *ngIf=" s.time < 1440 && (s.time > 60 || s.time == 60)" style="margin-left: 10px">
+                  <p style="margin-top: 12px; font-size: 13px; color: darkgrey">{{(s.time - s.time % 60) / 60}} Giờ
+                    Trước</p>
+                </div>
+                <div *ngIf="s.time > 1440 || s.time == 1440" style="margin-left: 10px">
+                  <p style="margin-top: 12px; font-size: 13px; color: darkgrey">{{(s.time - s.time % 1440) / 1440}}
+                    Ngày
+                    Trước</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div style="margin-top: 420px;margin-left: 60%;position: absolute">
+          <!--            hien thi like-->
+          <div *ngIf="(likeStatuses11.length == 0)">
+            <p>
+              <button
+                (click)="createLike(account.id, status1.id)"
+                style="border: 0 solid white; background-color: white; margin-left: 1%; margin-top: 2%"><img
+                style=" width: 33px; height: 30px"
+                src="../../../assets/image/Screenshot 2021-08-09 222339.png"/>
+              </button>
+              <button type="button" style="border: 0 solid white; background-color: white;"><img
+                style=" width: 33px; height: 30px"
+                src="../../../assets/image/Screenshot 2021-08-10 101034.png"/>
+              </button>
+              <br>
+              <b style="margin-left: 5%">0&nbsp;lượt thích</b>
+            </p>
+
+          </div>
+
+
+          <div *ngIf="(likeStatuses11.length > 0) && !checkIdAcc(account, likeStatuses11)">
+            <p>
+              <button
+                (click)="createLike(account.id, status1.id)"
+                style="border: 0 solid white; background-color: white; margin-left: 1%; margin-top: 2%"><img
+                style=" width: 33px; height: 30px"
+                src="../../../assets/image/Screenshot 2021-08-09 222339.png"/>
+              </button>
+              <button type="button" style="border: 0 solid white; background-color: white;"><img
+                style=" width: 33px; height: 30px"
+                src="../../../assets/image/Screenshot 2021-08-10 101034.png"/>
+              </button>
+              <br>
+              <b style="margin-left: 5%">{{likeStatuses11.length}}&nbsp;lượt thích</b>
+            </p>
+          </div>
+
+
+          <div *ngFor="let x of likeStatuses11">
+            <p  *ngIf="account.id == x.account.id">
+              <button (click)="deleteLike(account.id, status1.id)"
+                      style="border: 0 solid white; background-color: white; margin-left: 1%; margin-top: 2%"><img
+                style=" width: 33px; height: 30px"
+                src="../../../assets/image/Screenshot 2021-08-09 235201.png"/>
+              </button>
+              <button type="button"
+                      style="border: 0 solid white; background-color: white;"><img
+                style=" width: 33px; height: 30px"
+                src="../../../assets/image/Screenshot 2021-08-10 101034.png"/>
+              </button>
+              <br>
+              <b style="margin-left: 5%">{{likeStatuses11.length}}&nbsp;lượt
+                thích</b>
+            </p>
+          </div>
+
+
+          <form #commentForm="ngForm" (ngSubmit)="createComment(commentForm, account.id, status1.id)">
+            <input style="margin-top: -2%; background-color: #F8F8F8; width: 315px" class="input-group-text" ngModel name="content"
+                   placeholder="Viết bình luận">
+          </form>
+<!--          <div *ngIf="account.id==detailIdUser" style="margin-top: -25%; margin-left: 145%">-->
+<!--            <div style="float: right; margin-top: -26%;"-->
+<!--                 class="dropdown">-->
+<!--              <button style=" background-color: white" class="dropbtn">-->
+<!--                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"-->
+<!--                     class="bi bi-three-dots"-->
+<!--                     viewBox="0 0 16 16">-->
+<!--                  <path-->
+<!--                    d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>-->
+<!--                </svg>-->
+<!--              </button>-->
+<!--              <div class="dropdown-content2">-->
+<!--                <label style="width: 100%" for="edit11">-->
+<!--                  <a class="nav-link">-->
+<!--                    <button id="edit11" class="btn"-->
+<!--                            (click)="addIdStatus(status1.id)"-->
+<!--                            data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-dismiss="modal">Sửa-->
+<!--                    </button>-->
+<!--                    <span class="sr-only">(current)</span></a>-->
+<!--                </label>-->
+<!--                <label style="width: 100%" for="delete11">-->
+<!--                  <a class="nav-link">-->
+<!--                    <button id="delete11" class="btn"-->
+<!--                            (click)="addIdStatus(status1.id)" data-bs-toggle="modal"-->
+<!--                            data-bs-target="#deleteStatus" data-bs-dismiss="modal">Xóa-->
+<!--                    </button>-->
+<!--                    <span class="sr-only">(current)</span></a>-->
+<!--                </label>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+
+        </div>
       </div>
     </div>
   </div>

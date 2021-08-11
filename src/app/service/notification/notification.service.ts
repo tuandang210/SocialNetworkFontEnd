@@ -16,32 +16,39 @@ export class NotificationService {
   constructor(private http: HttpClient) {
   }
 
-  /* truyền vào id lưu trong localStorage với 3 phương thức get
+  /* truyền vào id lưu trong localStorage với 4 phương thức
    */
 
   // tìm tất cả thông báo
-  getAllNotificationByAccountId(id): Observable<Notification[]> {
-    return this.http.get<Notification[]>(`${API_URL}/notification/account/${id}`);
+  getAllNotificationByAccountId(accountId): Observable<Notification[]> {
+    return this.http.get<Notification[]>(`${API_URL}/notification/account/${accountId}`);
   }
 
   // tìm các thông báo chưa đọc
-  getAllUnreadNotification(id): Observable<Notification[]> {
-    return this.http.get<Notification[]>(`${API_URL}/notification/account/unread/${id}`);
+  getAllUnreadNotification(accountId): Observable<Notification[]> {
+    return this.http.get<Notification[]>(`${API_URL}/notification/account/unread/${accountId}`);
   }
 
   // tìm các thông báo đã đọc
-  getAllReadNotification(id): Observable<Notification[]> {
-    return this.http.get<Notification[]>(`${API_URL}/notification/account/read/${id}`);
+  getAllReadNotification(accountId): Observable<Notification[]> {
+    return this.http.get<Notification[]>(`${API_URL}/notification/account/read/${accountId}`);
   }
 
-  // lưu thông báo khi bạn bè like status, nên gọi ngay sau khi gọi phương thức like
-  saveLikeNotification(like: LikeStatus): Observable<Notification> {
-    return this.http.post<Notification>(`${API_URL}/notification/like`, like);
+  // đánh dấu đã đọc tất cả thông báo
+  markAllAsRead(accountId): Observable<Notification[]> {
+    return this.http.put<Notification[]>(`${API_URL}/notification/readAll/${accountId}`, {});
   }
 
-  // lưu thông báo khi bạn bè comment vào status, nên gọi ngay sau khi gọi phương thức comment
-  saveCommentNotification(comment: Comments): Observable<Notification> {
-    return this.http.post<Notification>(`${API_URL}/notification/comment`, comment);
+  /* 2 API dưới đây truyền vào id của thông báo
+   */
+
+  // đánh dấu đã đọc một thông báo
+  markAsRead(notificationId): Observable<Notification> {
+    return this.http.put<Notification>(`${API_URL}/notification/read/${notificationId}`, {});
   }
 
+  // đánh dấu chưa đọc một thông báo
+  markAsUnread(notificationId): Observable<Notification> {
+    return this.http.put<Notification>(`${API_URL}/notification/unread/${notificationId}`, {});
+  }
 }
