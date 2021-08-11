@@ -5,3 +5,28 @@ ul li a{
   margin-right: 20px;
 }
 
+.toolstip {
+
+}
+
+.toolstiptext {
+  visibility: hidden;
+  width: 150px;
+  background-color: beige;
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+
+  /* Position the tooltip */
+  position: relative;
+  z-index: 1;
+  top: 3px;
+  left: 60%;
+
+}
+
+.toolstip:hover .toolstiptext {
+  visibility: visible;
+}
+
