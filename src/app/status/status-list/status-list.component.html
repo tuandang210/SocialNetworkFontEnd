@@ -158,7 +158,7 @@
           <div style="margin-left: 10px; margin-top: 10px">
 
             <p style=" text-align: justify"><b>{{s.account.username}}</b>&nbsp;{{s.content}}</p>
-            <p style="font-size: 14px; color: darkgrey">Có {{s.comments.length}} bình luận hiển thị</p>
+            <p style="font-size: 14px; color: darkgrey">Bình luận</p>
             <hr style="width: 98%">
 
 
@@ -222,19 +222,48 @@
           <p style="margin-top: 10%; color: darkgrey">Gợi ý kết bạn</p>
         </td>
       </tr>
-      <tr *ngFor="let f of friends">
+      <tr>
         <td>
           <a>
             <img
               style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%"
-              src="{{f.avatar}}">
+              src="https://image.thanhnien.vn/1024/uploaded/dotuan/2020_08_18/anh1_jvzj.jpg">
           </a>
         </td>
         <td>
           <p
-            style="margin-left:-5%; margin-top:10%;width: 150px;text-overflow: ellipsis; white-space: nowrap; overflow: hidden">{{f.username}}</p>
+            style="margin-left:-5%; margin-top:10%;width: 150px;text-overflow: ellipsis; white-space: nowrap; overflow: hidden">sooyaaa<br><span style="font-size: 13px; color: darkgrey">Gợi ý kết bạn</span></p>
         </td>
-        <td><a style="float: right ;font-size: 14px" [routerLink]="['/profile', f.username]">Xem</a></td>
+        <td><a style="float: right ;font-size: 14px" [routerLink]="['/profile', 'sooyaaa']">Xem</a></td>
+      </tr>
+      <tr>
+        <td>
+          <a>
+            <img
+              style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%"
+              src="https://cdn.baogiaothong.vn/upload/images/2021-3/article_img/2021-07-29/img-bgt-2021-04-1627531841-width700height425.jpg">
+          </a>
+        </td>
+        <td>
+          <p
+            style="margin-left:-5%; margin-top:10%;width: 150px;text-overflow: ellipsis; white-space: nowrap; overflow: hidden">roses_are_rosie<br><span style="font-size: 13px; color: darkgrey">Gợi ý kết bạn</span></p>
+        </td>
+        <td><a style="float: right ;font-size: 14px" [routerLink]="['/profile', 'roses_are_rosie']">Xem</a></td>
+      </tr>
+      <tr>
+        <td>
+          <a>
+            <img
+              style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%"
+              src="https://static2.yan.vn/YanNews/2167221/202006/quynh-kool-la-ai-tieu-su-doi-tu-su-nghiep-cua-nua-dien-vien-0111ba9b.jpg">
+          </a>
+        </td>
+        <td>
+          <p
+            style="margin-left:-5%; margin-top:10%;width: 150px;text-overflow: ellipsis; white-space: nowrap; overflow: hidden">actressquynkool<br><span style="font-size: 13px; color: darkgrey">Gợi ý kết bạn</span>
+          </p>
+        </td>
+        <td><a style="float: right ;font-size: 14px" [routerLink]="['/profile', 'actressquynkool']">Xem</a></td>
       </tr>
     </table>
     <div class="text-center p-1 fadeIn second" style="float: bottom;background-color: white;height: 15px; margin-top: 3%; font-size: 13px; color: darkgrey">

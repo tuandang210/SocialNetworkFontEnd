@@ -82,7 +82,7 @@
         </button>
       </i>
     </div> <!-- end chat-header -->
-    <button *ngIf="checkButton" (click)="exitGroup()" class="btn btn-outline-info">Rời nhóm ?
+    <button (click)="exitGroup()" class="btn btn-outline-info">Rời nhóm ?
     </button>
     <div #scrollMe class="chat-history">
       <ul *ngFor="let message of websocketService.group">
