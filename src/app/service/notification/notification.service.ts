@@ -36,7 +36,7 @@ export class NotificationService {
 
   // đánh dấu đã đọc tất cả thông báo
   markAllAsRead(accountId): Observable<Notification[]> {
-    return this.http.put<Notification[]>(`${API_URL}/notification/readAll/${accountId}`, {});
+    return this.http.get<Notification[]>(`${API_URL}/notification/readAll/${accountId}`);
   }
 
   /* 2 API dưới đây truyền vào id của thông báo
@@ -44,11 +44,11 @@ export class NotificationService {
 
   // đánh dấu đã đọc một thông báo
   markAsRead(notificationId): Observable<Notification> {
-    return this.http.put<Notification>(`${API_URL}/notification/read/${notificationId}`, {});
+    return this.http.get<Notification>(`${API_URL}/notification/read/${notificationId}`);
   }
 
   // đánh dấu chưa đọc một thông báo
   markAsUnread(notificationId): Observable<Notification> {
-    return this.http.put<Notification>(`${API_URL}/notification/unread/${notificationId}`, {});
+    return this.http.get<Notification>(`${API_URL}/notification/unread/${notificationId}`);
   }
 }

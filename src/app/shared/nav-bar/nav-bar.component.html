@@ -25,7 +25,7 @@
                                                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/1200px-Instagram_logo.svg.png"></a>
     </div>
 
-    <div class="input-group" style="margin-left: 235px">
+    <div class="input-group" style="margin-left: 210px">
       <div *ngIf="(!currentAccount) || (currentAccount.username !== 'admin')">
         <input #element
                style="width: 330px; border-radius: 3px; height: 30px; margin-top: 15px; font-size: 14px; margin-left: -150px"
@@ -79,13 +79,58 @@
 
           <!--          thông báo-->
           <li class="nav-item" *ngIf="currentAccount && currentAccount.username !== 'admin'">
-            <a style="margin-left: -17px" class="nav-link">
+            <button type="button" style="margin-left: -17px; margin-top: 5px; background-color: white; border: none"
+                    class="btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
+                    (click) = getAllNotification()>
               <img style="height: 30px; width: 30px" src="../../../assets/image/notification_icon.png"/>
               <span class="sr-only">(current)</span>
-            </a>
+            </button>
+            <ul class="dropdown-menu">
+              <div *ngIf="notifications == null || notifications.length == 0">
+                <li class="dropdown-item">Bạn chưa có thông báo nào</li>
+              </div>
+              <div *ngIf="(notifications != null) && (notifications.length > 0)">
+                <li class="dropdown-item">
+                  <p>Bạn có {{unreadNotificationLength}} thông báo mới&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button type="button" style="color: dodgerblue; text-decoration: underline; "
+                            (click)="markAllAsRead()">Đánh dấu tất cả là đã đọc
+                    </button>
+                  </p>
+                </li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" *ngFor="let noti of notifications">
+                      <span *ngIf="noti.like != null">
+                      <img
+                      style="border-radius: 30px; width: 30px; height: 30px; object-fit: cover; border: 1px solid #d9d9d9"
+                      src="{{noti.like.account.avatar}}"/>
+                      </span>
+                      <span *ngIf="noti.comment != null">
+                    <img
+                      style="border-radius: 30px; width: 30px; height: 30px; object-fit: cover; border: 1px solid #d9d9d9"
+                      src="{{noti.comment.account.avatar}}"/>
+                  </span>
+                      <span *ngIf="noti.like == null && noti.comment == null">
+                    <img
+                      style="border-radius: 30px; width: 30px; height: 30px; object-fit: cover; border: 1px solid #d9d9d9"
+                      src="{{noti.status.account.avatar}}"/>
+                  </span>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>
+                        {{noti.content | lowercase}}
+                      </span>
+                      <span *ngIf="noti.isRead == false">
+
+                      <img style="margin-top: 5px; float: right" src="../../../assets/image/unread_icon.jpg" height="10" width="10"/>
+                      </span>
+                </a></li>
+              </div>
+            </ul>
           </li>
 
-          <li style="margin-left: -10px" *ngIf="currentAccount && currentAccount.username !== 'admin'" class="nav-item">
+
+          <!--          ảnh đại diện-->
+          <li style="margin-left: 10px" *ngIf="currentAccount && currentAccount.username !== 'admin'" class="nav-item">
             <a [routerLink]="['/profile', currentAccount.username]"
                class="nav-link"> <img
               style="border-radius: 30px; width: 30px; height: 30px; object-fit: cover; border: 1px solid #d9d9d9"
@@ -95,7 +140,7 @@
           <li *ngIf="currentAccount && currentAccount.username === 'admin'" class="nav-item">
             <a class="nav-link">
               <img style="border-radius: 30px; width: 30px; height: 30px; object-fit: cover; border: 1px solid #d9d9d9"
-              src="{{currentAccount.avatar}}"></a>
+                   src="{{currentAccount.avatar}}"></a>
           </li>
 
           <li style="margin-left: -25px" *ngIf="currentAccount && currentAccount.username === 'admin'" class="nav-item">

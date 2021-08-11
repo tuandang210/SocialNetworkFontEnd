@@ -5,6 +5,8 @@ import {Router} from '@angular/router';
 import {AccountDTO} from '../../model/dtoacount/account-dto';
 import {AccountService} from '../../service/account/account.service';
 import {StatusService} from '../../service/status/status.service';
+import {Notification} from '../../model/notification/notification';
+import {NotificationService} from '../../service/notification/notification.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -14,10 +16,13 @@ import {StatusService} from '../../service/status/status.service';
 export class NavBarComponent implements OnInit {
   currentAccount: AccountToken = {};
   accountDTO: AccountDTO[] = [];
+  notifications: Notification[] = [];
+  unreadNotificationLength = 0;
 
   constructor(private authenticationService: AuthenticationService,
               private router: Router,
-              private statusService: StatusService) {
+              private statusService: StatusService,
+              private notificationService: NotificationService) {
     this.authenticationService.currentAccountSubject.subscribe(account => {
       this.currentAccount = account;
     });
@@ -42,5 +47,44 @@ export class NavBarComponent implements OnInit {
   routerLink(username: string) {
     this.accountDTO = [];
     this.router.navigate(['/profile/' + username]);
+  }
+
+  getAllNotification() {
+    const account = JSON.parse(localStorage.getItem('account'));
+    if (account == null) {
+      return;
+    }
+    this.notificationService.getAllNotificationByAccountId(account.id).subscribe(
+      notiList => {
+        this.notifications = notiList;
+        this.notificationService.getAllUnreadNotification(account.id).subscribe(
+          unreadList => {
+            if (unreadList == null) {
+              this.unreadNotificationLength = 0;
+            } else {
+              this.unreadNotificationLength = unreadList.length;
+            }
+          }
+        );
+      },
+      e => console.log(e)
+    );
+  }
+
+  markAllAsRead() {
+    const account: AccountToken = JSON.parse(localStorage.getItem('account'));
+    if (account == null) {
+      return;
+    }
+    this.notificationService.markAllAsRead(account.id).subscribe(
+      () => this.getAllNotification()
+    );
+  }
+
+  markAsRead(notificationId) {
+    this.notificationService.markAsRead(notificationId).subscribe(
+      (noti) => this.getAllNotification(),
+      e => console.log(e)
+    );
   }
 }
