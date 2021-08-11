@@ -3,5 +3,6 @@ export interface Comments {
   content?: string;
   account?: any;
   status?: any;
+  date?: string;
   time?: string;
 }

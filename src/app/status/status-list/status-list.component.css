@@ -105,3 +105,27 @@
   text-align: justify;
   background-color: #FBFBFB;
 }
+
+.frame2 {
+  height: 59.5%;
+  position: absolute;
+  width: 42%;
+  z-index: 100;
+  overflow: scroll;
+  margin-left: 58%;
+  margin-top: 11.7%;
+}
+
+.item2 {
+  padding: 10px;
+  /*margin: 20px;*/
+  /*background-color: whitesmoke;*/
+  /*border: 1px solid lightgray;*/
+  border-radius: 3px;
+  text-align: justify;
+  background-color: #FBFBFB;
+}
+
+#oklaaa:hover {
+  cursor: pointer;
+}
