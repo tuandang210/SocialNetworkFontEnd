@@ -195,6 +195,7 @@ export class StatusListComponent implements OnInit, AfterViewInit {
   createComment(commentForm, id1, statusId) {
     this.commentService.createComment(commentForm.value, id1, statusId).subscribe(() => {
       this.getStatus(id1);
+      this.addIdStatus(statusId);
     });
   }
 
@@ -207,7 +208,6 @@ export class StatusListComponent implements OnInit, AfterViewInit {
   getAllLikeIn1Status(idStatus) {
     this.likeStatusService.getAllLikeStatus(idStatus).subscribe(likes => {
       this.likeStatuses11 = likes;
-      console.log(likes);
     });
   }
 
@@ -215,12 +215,14 @@ export class StatusListComponent implements OnInit, AfterViewInit {
     this.getStatus(userId);
     this.likeStatusService.createLikeStatus(this.likeStatus, userId, statusId).subscribe(() => {
       this.getStatus(userId);
+      this.addIdStatus(statusId);
     });
   }
 
   deleteLike(accountId, statusId) {
     this.likeStatusService.dislikeStatus(accountId, statusId).subscribe(() => {
       this.getStatus(accountId);
+      this.addIdStatus(statusId);
     });
   }
 
