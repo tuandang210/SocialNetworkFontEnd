@@ -73,7 +73,7 @@
 
       <div style="float:left;">
         <div>
-          <b>Email  </b>
+          <b>Email <span style="color: red">*</span></b>
           <div><input style="width: 400px" class="input-group-text" type="text" formControlName="email"></div>
           <div>
             <div style="width: 400px" *ngIf="email.invalid && (email.dirty || email.touched)"
@@ -81,6 +81,9 @@
 
               <div *ngIf="email.errors?.pattern">
                 Định dạng email giống example@gmail.com
+              </div>
+              <div *ngIf="email.errors?.required">
+                Email không được để trống
               </div>
             </div>
           </div>
