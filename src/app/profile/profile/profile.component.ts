@@ -1,17 +1,6 @@
-import {
-
-  AfterViewInit,
-  Component,
-  ElementRef,
-
-  OnInit,
-
-  QueryList,
-  ViewChild,
-  ViewChildren
-} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {AuthenticationService} from '../../service/authentication/authentication.service';
-import {ActivatedRoute, Router, Routes} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {StatusService} from '../../service/status/status.service';
 import {Status} from '../../model/status-model/status';
 import {AccountRelationService} from '../../service/relation/account-relation.service';
@@ -71,6 +60,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   likeStatuses: any = [];
   likeStatus: LikeStatus = {};
   account1: AccountToken = JSON.parse(localStorage.getItem('account'));
+
   constructor(public authenticationService: AuthenticationService,
               private activatedRoute: ActivatedRoute,
               private statusService: StatusService,
@@ -243,8 +233,13 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     });
   }
 
-  saveStatus(id1, id2) {
-    this.statusService.editStatus(this.status1, this.status1.id).subscribe(() => {
+  saveStatus(formStatus, id1, id2, imageUrl) {
+    let status78: StatusDto = {};
+    formStatus.value.account.id = this.id1;
+    formStatus.value.url = imageUrl;
+    status78 = formStatus.value;
+    console.log(status78);
+    this.statusService.editStatus(status78, this.status1.id).subscribe(() => {
       this.getStatus(id1, id2);
     });
   }
@@ -374,6 +369,8 @@ export class ProfileComponent implements OnInit, AfterViewInit {
               this.imgSrc1 = url;
             });
           })).subscribe();
+      } else {
+        this.imgSrc1 = this.status1.imageStatuses[0].url;
       }
 
     } else {
