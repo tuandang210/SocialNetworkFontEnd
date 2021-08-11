@@ -1,22 +1,21 @@
-<div style="width: 800px" class="container clearfix">
+<div style="width: 602px" class="container clearfix">
   <div style="float: left" class="people-list" id="people-list">
     <div class="search">
-      <input #element type="text" (keyup)="search(element.value)" placeholder="search"/>
-      <i class="fa fa-search"></i>
+      <input #element type="text" style="margin-left: 10px; background-color: whitesmoke" (keyup)="search(element.value)" placeholder="Tìm kiếm"/>
     </div>
     <div class="list">
-      <div class="form-check" style="background-color: white" *ngFor="let friend of friends"
+      <div class="form-check" style="background-color: whitesmoke " *ngFor="let friend of friends"
            (click)="addIdFriend(account.id, friend.id)">
-        <label class="form-check-label" for="flexRadioDefault{{friend.id}}">
-          <img style="width: 20px;height: auto;border-radius: 24px" [src]="friend.avatar" alt="avatar"/>
+        <label class="form-check-label" for="flexRadioDefault{{friend.id}}" style="margin-left: -2%">
+          <img style="width: 27px;height: 27px;border-radius: 50%; margin-top: 15px" [src]="friend.avatar" alt="avatar"/>
           <div class="about">
-            <div class="name">{{friend.username}}</div>
+            <div class="name oklla" style="width:80px;text-overflow: ellipsis; white-space: nowrap; overflow: hidden">{{friend.username}}</div>
             <div class="status">
-              <i class="fa fa-circle online"></i> online
+              <i class="fa fa-circle online"></i> trực tuyến
             </div>
           </div>
         </label>
-        <input style="width: 20px;border: #a8aab1;float: right" type="radio" id="flexRadioDefault{{friend.id}}">
+        <input style="width: 20px;border: #a8aab1;float: right; margin-top: 15px" type="radio" id="flexRadioDefault{{friend.id}}">
       </div>
 
       <!--      <li class="clearfix">-->
@@ -34,20 +33,18 @@
 
   <div style="float: left" class="chat">
     <div class="chat-header clearfix">
-      <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01_green.jpg" alt="avatar"/>
+      <img *ngIf="friend.username" style="width: 40px; height: 40px; object-fit: cover; border-radius: 50%" src="{{friend.avatar}}" />
 
       <div class="chat-about">
-        <div class="chat-with">Chat with Vincent Porter</div>
-        <div class="chat-num-messages">already 1 902 messages</div>
+        <div class="chat-with" style="width: 250px;text-overflow: ellipsis; white-space: nowrap; overflow: hidden">{{friend.username}}</div>
       </div>
-      <i class="fa fa-star"></i>
     </div> <!-- end chat-header -->
     <div #scrollMe class="chat-history">
       <ul *ngFor="let message of websocketService.message">
         <li *ngIf="message.account1.id == account.id" class="clearfix">
           <div class="message-data align-right">
-            <span class="message-data-time">{{message.date}}, Today</span> &nbsp; &nbsp;
-            <span class="message-data-name">{{message.account1.username}}</span> <i class="fa fa-circle me"></i>
+            <span class="message-data-time">{{message.date}}</span> &nbsp; &nbsp;
+            <span class="message-data-name">{{message.account1.username}}</span> &nbsp;<i class="fa fa-circle me"></i>
           </div>
           <div class="message other-message float-right">
             {{message.content}}
@@ -56,8 +53,8 @@
 
         <li *ngIf="message.account1.id != account.id">
           <div class="message-data">
-            <span class="message-data-name"><i class="fa fa-circle online"></i>{{message.account1.username}}</span>
-            <span class="message-data-time">{{message.date}}, Today</span>
+            <span class="message-data-name"><i class="fa fa-circle online">&nbsp;</i>{{message.account1.username}}</span>
+            <span class="message-data-time">{{message.date}}</span>
           </div>
           <div class="message my-message">
             {{message.content}}
@@ -78,12 +75,8 @@
     </div> <!-- end chat-history -->
     <form #message="ngForm" (ngSubmit)="createChat(message,account.id,friend.id)">
       <div class="chat-message clearfix">
-        <textarea name="content" id="message-to-send" placeholder="Type your message" rows="3" ngModel></textarea>
-
-        <i class="fa fa-file-o"></i> &nbsp;&nbsp;&nbsp;
-        <i class="fa fa-file-image-o"></i>
-
-        <button>Send</button>
+        <textarea name="content" id="message-to-send" placeholder="Soạn tin nhắn" rows="2" ngModel></textarea>
+        <button>Gửi</button>
       </div> <!-- end chat-message -->
     </form>
 
