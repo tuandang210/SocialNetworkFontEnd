@@ -17,6 +17,7 @@ import {AngularFireAuth} from '@angular/fire/auth';
 import { FirstPageComponent } from './first-page/first-page.component';
 import { ChatComponent } from './chat/chat.component';
 import { GroupComponent } from './chat/group/group.component';
+import { PageComponent } from './viewpage/page/page.component';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { GroupComponent } from './chat/group/group.component';
     FirstPageComponent,
     ChatComponent,
     GroupComponent,
+    PageComponent,
   ],
     imports: [
         BrowserModule,

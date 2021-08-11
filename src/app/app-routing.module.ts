@@ -6,6 +6,7 @@ import {RegisterComponent} from './register/register.component';
 import {FirstPageComponent} from './first-page/first-page.component';
 import {ChatComponent} from './chat/chat.component';
 import {GroupComponent} from './chat/group/group.component';
+import {PageComponent} from './viewpage/page/page.component';
 
 
 const routes: Routes = [{
@@ -38,6 +39,10 @@ const routes: Routes = [{
   {
     path: 'groups',
     component: GroupComponent
+  },
+  {
+    path: `pages`,
+    component: PageComponent
   }
 ];
 

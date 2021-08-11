@@ -1,0 +1,284 @@
+<p>page works!</p>
+<div class="navbar">
+  <footer style="width: 100%" class="card-footer">
+  </footer>
+  <div style="background-color: #5fbae9" class="nav col-3">
+    <div style="text-align: center">
+      <button class="btn btn-outline-info"
+              data-bs-toggle="modal"
+              data-bs-target="#createPage">Create Page (+)
+      </button>
+    </div>
+    <div class="container">
+      <div *ngFor="let page of pages;index as i">
+        <span (click)="goPage(page.id)">{{i + 1}}.{{page.name}}</span>
+      </div>
+    </div>
+  </div>
+  <div style="background-color: #86bb71" class="nav col-9">
+    <div class="container">
+      <div class="card-footer">
+        <span>{{page.name}}</span>
+      </div>
+      <div class="container-fluid">
+        <div class="col-3"><input
+          style="width: 250px;font-size: 14px; background-color: #F8F8F8; border-radius: 5px; margin-top: 20px"
+          class="input-group-text"
+          placeholder="Bạn đang nghĩ gì thế?" data-bs-toggle="modal" data-bs-target="#createModal">
+        </div>
+        <div class="frame" (scroll)="scrolled(page.id)" #scrollFrame>
+          <!--                    <div>-->
+          <!--                      <div style=" height: 108px;width: 97%; border: 1px solid lightgrey; border-radius: 3px; margin-top: 3%">-->
+          <!--                        <div *ngFor="let status of statusPage"-->
+          <!--                             style="display: inline-block;width: 70px; margin-top: 3%; margin-left: 3%">-->
+          <!--                          <a [routerLink]="['/profile', status.account.username]">-->
+          <!--                            <img-->
+          <!--                              style="width: 55px; height: 55px;border: 2px solid hotpink; object-fit: cover; border-radius: 30px"-->
+          <!--                              src="{{status.account.avatar}}">-->
+          <!--                          </a>-->
+          <!--                          <p-->
+          <!--                            style=" margin-left: 15%;text-overflow: ellipsis; white-space: nowrap; overflow: hidden">{{status.account.username}}</p>-->
+          <!--                        </div>-->
+          <!--                      </div>-->
+          <!--                    </div>-->
+
+          <div style="margin-left: 0" *ngFor="let status of statusPage" class="item">
+            <div style=" border-radius: 3px">
+              <div style="margin-left: 10px;margin-top: 10px">
+                <div *ngIf="status.privacy.name === 'public'">
+                  <a [routerLink]="['/profile', status.account.username]">
+                    <img
+                      style="width: 37px; height: 37px;border: 2px solid hotpink; object-fit: cover; border-radius: 30px"
+                      src="{{status.account.avatar}}">
+                  </a>
+                  &nbsp;<b>{{status.account.username}}</b>&nbsp;&nbsp;<img
+                  style="width: 17px; height: 17px; margin-left: -3px"
+                  src="https://cdn0.iconfinder.com/data/icons/octicons/1024/globe-512.png">
+                </div>
+                <div *ngIf="status.privacy.name === 'friend-only'">
+                  <a [routerLink]="['/profile', status.account.username]">
+                    <img
+                      style="width: 37px; height: 37px;border: 2px solid hotpink; object-fit: cover; border-radius: 30px"
+                      src="{{status.account.avatar}}">
+                  </a>
+                  &nbsp;<b>{{status.account.username}}</b>&nbsp;&nbsp;<svg
+                  xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
+                  class="bi bi-people-fill"
+                  viewBox="0 0 16 16">
+                  <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                  <path fill-rule="evenodd"
+                        d="M5.216 14A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216z"/>
+                  <path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
+                </svg>
+                </div>
+                <div *ngIf="status.privacy.name === 'only-me'">
+                  <a [routerLink]="['/profile', status.account.username]">
+                    <img
+                      style="width: 37px; height: 37px;border: 2px solid hotpink; object-fit: cover; border-radius: 30px"
+                      src="{{status.account.avatar}}">
+                  </a>
+                  &nbsp;<b>{{status.account.username}}</b>&nbsp;&nbsp;<svg
+                  style="margin-top: -2px" xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
+                  class="bi bi-lock-fill" viewBox="0 0 16 16">
+                  <path
+                    d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/>
+                </svg>
+                </div>
+                <div *ngIf="status.account.id==accountId" style="float: right; margin-top: -40px; margin-right: 5px"
+                     class="dropdown">
+                  <button style=" background-color: white" class="dropbtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-three-dots"
+                         viewBox="0 0 16 16">
+                      <path
+                        d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                    </svg>
+                  </button>
+                  <div class="dropdown-content">
+                    <label style="width: 100%" for="edit{{accountId}}">
+                      <a class="nav-link">
+                        <button id="edit{{accountId}}" class="btn"
+                                (click)="addIdStatus(status.id)"
+                                data-bs-toggle="modal" data-bs-target="#exampleModal">Sửa
+                        </button>
+                        <span class="sr-only">(current)</span></a>
+                    </label>
+                    <label style="width: 100%" for="delete{{accountId}}">
+                      <a class="nav-link">
+                        <button id="delete{{accountId}}" class="btn"
+                                (click)="addIdStatus(status.id)" data-bs-toggle="modal"
+                                data-bs-target="#deleteStatus">Xóa
+                        </button>
+                        <span class="sr-only">(current)</span></a>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+
+              <!-- hien thi anh 2.0-->
+              <div style="margin-top: 12px" id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <img style="max-height: 700px; object-fit: cover" class="d-block w-100"
+                         src="{{status.imageStatuses[0].url}}">
+                  </div>
+                </div>
+              </div>
+              <!--          hien thi like-->
+              <div *ngIf="(status.likeStatus.length == 0)">
+                <p>
+                  <button
+                    (click)="createLike(accountId, status.id)"
+                    style="border: 0 solid white; background-color: white; margin-left: 1%; margin-top: 2%"><img
+                    style=" width: 33px; height: 30px"
+                    src="../../../assets/image/Screenshot 2021-08-09 222339.png"/>
+                  </button>
+                  <button type="button" style="border: 0 solid white; background-color: white;"><img
+                    style=" width: 33px; height: 30px"
+                    src="../../../assets/image/Screenshot 2021-08-10 101034.png"/>
+                  </button>
+                  <br><br>
+                  <b style="margin-left: 1.8%">0&nbsp;lượt thích</b>
+                </p>
+
+              </div>
+
+
+              <div *ngIf="(status.likeStatus.length > 0) && !checkIdAcc(account, status.likeStatus)">
+                <p>
+                  <button
+                    (click)="createLike(accountId, status.id)"
+                    style="border: 0 solid white; background-color: white; margin-left: 1%; margin-top: 2%"><img
+                    style=" width: 33px; height: 30px"
+                    src="../../../assets/image/Screenshot 2021-08-09 222339.png"/>
+                  </button>
+                  <button type="button" style="border: 0 solid white; background-color: white;"><img
+                    style=" width: 33px; height: 30px"
+                    src="../../../assets/image/Screenshot 2021-08-10 101034.png"/>
+                  </button>
+                  <br><br>
+                  <b style="margin-left: 1.8%">{{status.likeStatus.length}}&nbsp;lượt thích</b>
+                </p>
+              </div>
+
+
+              <div *ngFor="let likes of status.likeStatus">
+                <p>
+                  <button *ngIf="accountId == likes.account.id " (click)="deleteLike(accountId, status.id)"
+                          style="border: 0 solid white; background-color: white; margin-left: 1%; margin-top: 2%"><img
+                    style=" width: 33px; height: 30px"
+                    src="../../../assets/image/Screenshot 2021-08-09 235201.png"/>
+                  </button>
+                  <button *ngIf="accountId == likes.account.id " type="button"
+                          style="border: 0 solid white; background-color: white;"><img
+                    style=" width: 33px; height: 30px"
+                    src="../../../assets/image/Screenshot 2021-08-10 101034.png"/>
+                  </button>
+                  <br *ngIf="accountId == likes.account.id "><br *ngIf="accountId == likes.account.id ">
+                  <b *ngIf="accountId == likes.account.id " style="margin-left: 1.8%">{{status.likeStatus.length}}&nbsp;lượt
+                    thích</b>
+                </p>
+              </div>
+
+
+              <!--content-->
+              <div style="margin-left: 10px; margin-top: 10px">
+
+                <p style=" text-align: justify"><b>{{status.account.username}}</b>&nbsp;{{status.content}}</p>
+                <hr style="width: 98%">
+
+
+                <!--            hien thi comment-->
+
+                <div *ngIf="status.time < 60" style="margin-left: 10px">
+                  <p style="margin-top: -3%; font-size: 13px; color: darkgrey">{{status.time}} Phút Trước</p>
+                </div>
+                <div *ngIf=" status.time < 1440 && (status.time > 60 || status.time == 60)" style="margin-left: 10px">
+                  <p style="margin-top: -3%;font-size: 13px; color: darkgrey">{{(status.time - status.time % 60) / 60}}
+                    Giờ
+                    Trước</p>
+                </div>
+                <div *ngIf="status.time > 1440 || status.time == 1440" style="margin-left: 10px">
+                  <p
+                    style="margin-top: -3%; font-size: 13px; color: darkgrey">{{(status.time - status.time % 1440) / 1440}}
+                    Ngày
+                    Trước</p>
+                </div>
+                <form #commentForm="ngForm" (change)="createComment(commentForm, accountId, status.id)">
+                  <input style="width: 96%; margin-left: 2%; margin-bottom: -1%" class="form-control" ngModel
+                         name="content"
+                         placeholder="Viết bình luận">
+                </form>
+              </div>
+              <br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--moda tạo một page mới-->
+<div class="modal fade" id="createPage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createPageLabel"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form #groupForm="ngForm" (ngSubmit)="createPage(groupForm.value)">
+        <div class="modal-body">
+          <input type="text" name="name" placeholder="Tên group ?" ngModel>
+        </div>
+        <div class="modal-footer">
+          <button data-bs-dismiss="modal"
+                  class="btn btn-primary">Tạo
+          </button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- đăng status-->
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createModalLabel" style="margin-left: 185px">Tạo bài viết</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form #statusForm="ngForm" (ngSubmit)="createStatus(statusForm.value, imgSrc1) ">
+        <div class="modal-body">
+          <div>
+            <div style="margin-bottom: -10px">
+              <select style="font-size: 14px; border: 1px solid lightgrey;height: 30px; border-radius: 5px"
+                      name="privacy" [(ngModel)]="status">
+                <option *ngFor="let privacy of privacy" [value]="privacy.id">{{privacy.name}}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="inputEmail"></label>
+              <textarea class="form-control beautify-textarea" cols="100" rows="3"
+                        id="inputEmail" name="content" required ngModel
+                        placeholder="Bạn đang nghĩ gì thế?"></textarea>
+            </div>
+            <div>
+              <input type="file" (change)="showImagePreview($event);" #preview>
+              <img *ngIf="imgSrc1" style="height: 100px; width: 100px; object-fit: cover" [src]="imgSrc1"
+                   (click)="preview.click()">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Đăng</button>
+          <button id="button" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
