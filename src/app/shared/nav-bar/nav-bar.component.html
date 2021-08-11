@@ -96,10 +96,10 @@
             </button>
             <ul style="margin-left: 150px" class="dropdown-menu" id="noti-menu">
               <div *ngIf="notifications == null || notifications.length == 0">
-                <li class="dropdown-item">Bạn chưa có thông báo nào</li>
+                <li style="background-color: lightblue" class="dropdown-item">Bạn chưa có thông báo nào</li>
               </div>
               <div *ngIf="(notifications != null) && (notifications.length > 0)">
-                <li style="background-color: beige" class="dropdown-item" *ngIf="unreadNotificationLength > 0">
+                <li style="background-color: antiquewhite" class="dropdown-item" *ngIf="unreadNotificationLength > 0">
                   Bạn có {{unreadNotificationLength}} thông báo mới
                   <span class="toolstip">
                     <img (click)="markAllAsRead()" style="margin-top: -3px; height: 30px; width: 30px; float: right; cursor: pointer" src="../../../assets/image/unread_left.png"/>
@@ -115,7 +115,7 @@
                 <li>
                   <hr class="dropdown-divider">
                 </li>
-                <li><a class="dropdown-item" *ngFor="let noti of notifications">
+                <li><a style="cursor: pointer;" (click)="markAsRead(noti.id)" class="dropdown-item" *ngFor="let noti of notifications">
                       <span *ngIf="noti.like != null">
                       <img
                       style="border-radius: 30px; width: 30px; height: 30px; object-fit: cover; border: 1px solid #d9d9d9"
@@ -189,18 +189,13 @@
         </ul>
       </div>
     </div>
-
   </div>
-
-
 </nav>
+
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-<script>
-  $('#markAllRead').click(function (){
-    $('#noti-menu', this ).slide();
-  })
-</script>
 </body>
 </html>
