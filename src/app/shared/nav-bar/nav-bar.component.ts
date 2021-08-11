@@ -7,6 +7,7 @@ import {AccountService} from '../../service/account/account.service';
 import {StatusService} from '../../service/status/status.service';
 import {Notification} from '../../model/notification/notification';
 import {NotificationService} from '../../service/notification/notification.service';
+import {Status} from '../../model/status-model/status';
 
 @Component({
   selector: 'app-nav-bar',
@@ -77,13 +78,14 @@ export class NavBarComponent implements OnInit {
       return;
     }
     this.notificationService.markAllAsRead(account.id).subscribe(
-      () => this.getAllNotification()
+      () => this.getAllNotification(),
+      e => console.log(e)
     );
   }
 
   markAsRead(notificationId) {
     this.notificationService.markAsRead(notificationId).subscribe(
-      (noti) => this.getAllNotification(),
+      () => this.getAllNotification(),
       e => console.log(e)
     );
   }
