@@ -12,6 +12,8 @@ import {PrivacyService} from '../../service/privacy/privacy.service';
 import {StatusDto} from '../../model/status-model/status-dto';
 import {StatusService} from '../../service/status/status.service';
 import {StatusDTORequest} from '../../model/page/status-dtorequest';
+import {LikeStatusService} from '../../service/likeStatus/like-status.service';
+import {LikeStatus} from '../../model/likeStatus/like-status';
 
 @Component({
   selector: 'app-page',
@@ -30,20 +32,30 @@ export class PageComponent implements OnInit, AfterViewInit {
   page: Page = {};
   statusPage: StatusDTO[] = [];
   status: Status = {};
+  status1: Status = {};
   selectedImg: any = null;
   imgSrc1 = '';
   image: ImageStatus = {};
   privacy: Privacy[] = [];
+  likeStatus: LikeStatus = {};
+  likeStatuses: any = [];
 
   constructor(private pageService: PageService,
               private angularFireStorage: AngularFireStorage,
               private privacyService: PrivacyService,
-              private statusService: StatusService) {
+              private statusService: StatusService,
+              private likeStatusService: LikeStatusService) {
     this.getAllPageByAccountId();
     this.showPrivacy();
   }
 
   ngOnInit() {
+  }
+
+  getAllLike(idStatus) {
+    this.likeStatusService.getAllLikeStatus(idStatus).subscribe(likes => {
+      this.likeStatuses = likes;
+    });
   }
 
   createPage(page) {
@@ -108,17 +120,38 @@ export class PageComponent implements OnInit, AfterViewInit {
   createComment(commentForm, id, id2: number) {
   }
 
-  deleteLike(accountId: number, id: number) {
+  deleteLike(accountId, statusId) {
+    this.likeStatusService.dislikeStatus(accountId, statusId).subscribe(() => {
+      this.getAllStatusByPageId(this.page.id, this.loadAmount);
+      // this.addIdStatus(statusId);
+    });
+  }
+  createLike(userId, statusId) {
+    this.getAllStatusByPageId(this.page.id, this.loadAmount);
+    this.likeStatusService.createLikeStatus(this.likeStatus, userId, statusId).subscribe(() => {
+      this.getAllStatusByPageId(this.page.id, this.loadAmount);
+      // this.addIdStatus(statusId);
+    });
   }
 
-  createLike(accountId: number, id: number) {
-  }
-
-  checkIdAcc(account: number, likeStatus: any) {
+  checkIdAcc(account: AccountToken, likeStatus: any) {
+    for (const x of likeStatus) {
+      if (account.id === x.account.id) {
+        return true;
+      }
+    }
     return false;
   }
 
   addIdStatus(id: number) {
+    this.statusService.getById(id).subscribe(status => {
+      this.status1 = status;
+      // this.detailAvatar = status.account.avatar;
+      // this.detailUsername = status.account.username;
+      // this.detailIdUser = status.account.id;
+      // this.getComment(id);
+      // this.getAllLikeIn1Status(id);
+    });
   }
 
   createStatus(statusForm, imgSrc1) {
@@ -160,6 +193,7 @@ export class PageComponent implements OnInit, AfterViewInit {
       this.selectedImg = null;
     }
   }
+
   showPrivacy() {
     this.privacyService.showPrivacy().subscribe(privacy => {
       this.privacy = privacy;

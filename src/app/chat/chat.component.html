@@ -4,16 +4,20 @@
       <input #element type="text" (keyup)="search(element.value)" placeholder="search"/>
       <i class="fa fa-search"></i>
     </div>
-    <ul  class="list">
-      <li *ngFor="let friend of friends" (click)="addIdFriend(account.id, friend.id)" class="clearfix">
-        <img style="width: 20px;height: auto" [src]="friend.avatar" alt="avatar"/>
-        <div class="about">
-          <div class="name">{{friend.username}}</div>
-          <div class="status">
-            <i class="fa fa-circle online"></i> online
+    <div class="list">
+      <div class="form-check" style="background-color: white" *ngFor="let friend of friends"
+           (click)="addIdFriend(account.id, friend.id)">
+        <label class="form-check-label" for="flexRadioDefault{{friend.id}}">
+          <img style="width: 20px;height: auto;border-radius: 24px" [src]="friend.avatar" alt="avatar"/>
+          <div class="about">
+            <div class="name">{{friend.username}}</div>
+            <div class="status">
+              <i class="fa fa-circle online"></i> online
+            </div>
           </div>
-        </div>
-      </li>
+        </label>
+        <input style="width: 20px;border: #a8aab1;float: right" type="radio" id="flexRadioDefault{{friend.id}}">
+      </div>
 
       <!--      <li class="clearfix">-->
       <!--        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_02.jpg" alt="avatar" />-->
@@ -25,7 +29,7 @@
       <!--        </div>-->
       <!--      </li>-->
 
-    </ul>
+    </div>
   </div>
 
   <div style="float: left" class="chat">
@@ -40,7 +44,7 @@
     </div> <!-- end chat-header -->
     <div #scrollMe class="chat-history">
       <ul *ngFor="let message of websocketService.message">
-        <li *ngIf="message.account1.id == account.id"  class="clearfix">
+        <li *ngIf="message.account1.id == account.id" class="clearfix">
           <div class="message-data align-right">
             <span class="message-data-time">{{message.date}}, Today</span> &nbsp; &nbsp;
             <span class="message-data-name">{{message.account1.username}}</span> <i class="fa fa-circle me"></i>
@@ -59,15 +63,15 @@
             {{message.content}}
           </div>
         </li>
-<!--        <li>-->
-<!--          <div class="message-data">-->
-<!--            <span class="message-data-name"><i class="fa fa-circle online"></i> Vincent</span>-->
-<!--            <span class="message-data-time">10:31 AM, Today</span>-->
-<!--          </div>-->
-<!--          <i class="fa fa-circle online"></i>-->
-<!--          <i class="fa fa-circle online" style="color: #AED2A6"></i>-->
-<!--          <i class="fa fa-circle online" style="color:#DAE9DA"></i>-->
-<!--        </li>-->
+        <!--        <li>-->
+        <!--          <div class="message-data">-->
+        <!--            <span class="message-data-name"><i class="fa fa-circle online"></i> Vincent</span>-->
+        <!--            <span class="message-data-time">10:31 AM, Today</span>-->
+        <!--          </div>-->
+        <!--          <i class="fa fa-circle online"></i>-->
+        <!--          <i class="fa fa-circle online" style="color: #AED2A6"></i>-->
+        <!--          <i class="fa fa-circle online" style="color:#DAE9DA"></i>-->
+        <!--        </li>-->
 
       </ul>
 

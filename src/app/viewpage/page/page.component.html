@@ -9,7 +9,7 @@
               data-bs-target="#createPage">Create Page (+)
       </button>
     </div>
-    <div class="container">
+    <div style="display: inline" class="container">
       <div *ngFor="let page of pages;index as i">
         <span (click)="goPage(page.id)">{{i + 1}}.{{page.name}}</span>
       </div>
@@ -24,7 +24,7 @@
         <div class="col-3"><input
           style="width: 250px;font-size: 14px; background-color: #F8F8F8; border-radius: 5px; margin-top: 20px"
           class="input-group-text"
-          placeholder="Bạn đang nghĩ gì thế?" data-bs-toggle="modal" data-bs-target="#createModal">
+          placeholder="Đăng bài ?" data-bs-toggle="modal" data-bs-target="#createModal">
         </div>
         <div class="frame" (scroll)="scrolled(page.id)" #scrollFrame>
           <!--                    <div>-->
@@ -141,7 +141,6 @@
                   <br><br>
                   <b style="margin-left: 1.8%">0&nbsp;lượt thích</b>
                 </p>
-
               </div>
 
 
@@ -170,7 +169,7 @@
                     style=" width: 33px; height: 30px"
                     src="../../../assets/image/Screenshot 2021-08-09 235201.png"/>
                   </button>
-                  <button *ngIf="accountId == likes.account.id " type="button"
+                  <button type="button"
                           style="border: 0 solid white; background-color: white;"><img
                     style=" width: 33px; height: 30px"
                     src="../../../assets/image/Screenshot 2021-08-10 101034.png"/>
@@ -188,9 +187,6 @@
                 <p style=" text-align: justify"><b>{{status.account.username}}</b>&nbsp;{{status.content}}</p>
                 <hr style="width: 98%">
 
-
-                <!--            hien thi comment-->
-
                 <div *ngIf="status.time < 60" style="margin-left: 10px">
                   <p style="margin-top: -3%; font-size: 13px; color: darkgrey">{{status.time}} Phút Trước</p>
                 </div>
@@ -205,11 +201,12 @@
                     Ngày
                     Trước</p>
                 </div>
-                <form #commentForm="ngForm" (change)="createComment(commentForm, accountId, status.id)">
-                  <input style="width: 96%; margin-left: 2%; margin-bottom: -1%" class="form-control" ngModel
-                         name="content"
-                         placeholder="Viết bình luận">
-                </form>
+<!--                viết comment-->
+<!--                <form #commentForm="ngForm" (change)="createComment(commentForm, accountId, status.id)">-->
+<!--                  <input style="width: 96%; margin-left: 2%; margin-bottom: -1%" class="form-control" ngModel-->
+<!--                         name="content"-->
+<!--                         placeholder="Viết bình luận">-->
+<!--                </form>-->
               </div>
               <br>
             </div>

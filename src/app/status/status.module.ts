@@ -11,7 +11,8 @@ import { StatusEditComponent } from './status-edit/status-edit.component';
 @NgModule({
     declarations: [StatusListComponent, StatusCrateComponent, StatusEditComponent],
     exports: [
-        StatusCrateComponent
+        StatusCrateComponent,
+        StatusEditComponent
     ],
     imports: [
         CommonModule,
