@@ -36,9 +36,9 @@
                placeholder="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tìm kiếm"
                id="example-search-input">
         <div style="margin-left: -140px;position: fixed;background-color: whitesmoke;z-index: 999; border-radius: 5px">
-          <ul *ngFor="let account of accountDTO">
-            <a (click)="routerLink(account.username)">{{account.username}}</a>
-          </ul>
+          <div *ngFor="let account of accountDTO" style=" padding: 10px" class="checkcheck" >
+            <a (click)="routerLink(account.username)"><img style="object-fit: cover;height: 27px; width: 27px; border-radius: 50%" src="{{account.avatar}}">&nbsp;&nbsp;&nbsp;&nbsp;{{account.username}}</a>
+          </div>
         </div>
       </div>
 <!--      <div *ngIf="currentAccount && currentAccount.username !== 'admin'">-->
@@ -56,7 +56,7 @@
           placeholder="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tìm kiếm"
           id="example-search-input1">
       </div>
-      <div style="margin-left: 90px; margin-top: 7px">
+      <div style="margin-left: 115px; margin-top: 7px">
         <ul class="navbar-nav">
           <li class="nav-item" *ngIf="!currentAccount || currentAccount && currentAccount.username !== 'admin'">
             <a style="margin-top: -1px" class="nav-link" routerLink="/status"><img style="height: 30px; width: 30px"
@@ -103,7 +103,7 @@
                   Bạn có {{unreadNotificationLength}} thông báo mới
                   <span class="toolstip">
                     <img (click)="markAllAsRead()" style="margin-top: -3px; height: 30px; width: 30px; float: right; cursor: pointer" src="../../../assets/image/unread_left.png"/>
-                    <span class="toolstiptext">Đánh dấu tất cả là đã đọc</span>
+<!--                    <span class="toolstiptext">Đánh dấu tất cả là đã đọc</span>-->
                   </span>
                 </li>
                 <li style="background-color: lightgreen" class="dropdown-item" *ngIf="unreadNotificationLength == 0">

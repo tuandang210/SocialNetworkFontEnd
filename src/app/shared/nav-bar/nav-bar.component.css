@@ -30,3 +30,7 @@ ul li a{
   visibility: visible;
 }
 
+.checkcheck:hover {
+  cursor: pointer;
+  background-color: lavender;
+}

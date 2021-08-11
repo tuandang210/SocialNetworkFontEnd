@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {AuthenticationService} from '../service/authentication/authentication.service';
+import {AccountToken} from '../model/account/account-token';
 
 @Component({
   selector: 'app-first-page',
@@ -6,8 +8,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./first-page.component.css']
 })
 export class FirstPageComponent implements OnInit {
-
-  constructor() { }
+  constructor(public authenticationService: AuthenticationService) {
+  }
 
   ngOnInit() {
   }

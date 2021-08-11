@@ -35,11 +35,11 @@
                   <div *ngIf=" s.time< 60" style="margin-left: 10px">
                     <p style="margin-top: 12px; font-size: 13px; color: darkgrey">{{s.time}} Phút Trước
                       <!--                    sua comment-->
-                      <button style="font-size: 13px; color: darkgrey; margin-top: -1%" *ngIf="account.id == s.account.id" class="btn"
+                      <button style="font-size: 13px; color: darkgrey; margin-top: -1%" *ngIf="account1.id == s.account.id" class="btn"
                               (click)="editComment(s.id, s.content)"
                               data-bs-toggle="modal" data-bs-target="#exampleModal66">Sửa
                       </button>
-                      <button style="font-size: 13px; color: darkgrey; margin-top: -1%" *ngIf="account.id == s.account.id" class="btn"
+                      <button style="font-size: 13px; color: darkgrey; margin-top: -1%" *ngIf="account1.id == s.account.id" class="btn"
                               (click)="deleteComment(s.id)">Xóa
                       </button></p>
                   </div>
@@ -47,11 +47,11 @@
                     <p style="margin-top: 12px; font-size: 13px; color: darkgrey">{{(s.time - s.time % 60) / 60}} Giờ
                       Trước
                       <!--                    sua comment-->
-                      <button style="font-size: 13px; color: darkgrey; margin-top: -1%" *ngIf="account.id == s.account.id" class="btn"
+                      <button style="font-size: 13px; color: darkgrey; margin-top: -1%" *ngIf="account1.id == s.account.id" class="btn"
                               (click)="editComment(s.id, s.content)"
                               data-bs-toggle="modal" data-bs-target="#exampleModal66">Sửa
                       </button>
-                      <button style="font-size: 13px; color: darkgrey; margin-top: -1%" *ngIf="account.id == s.account.id" class="btn"
+                      <button style="font-size: 13px; color: darkgrey; margin-top: -1%" *ngIf="account1.id == s.account.id" class="btn"
                               (click)="deleteComment(s.id)">Xóa
                       </button></p>
                   </div>
@@ -60,11 +60,11 @@
                       Ngày
                       Trước
                       <!--                    sua comment-->
-                      <button style="font-size: 13px; color: darkgrey; margin-top: -1%" *ngIf="account.id == s.account.id" class="btn"
+                      <button style="font-size: 13px; color: darkgrey; margin-top: -1%" *ngIf="account1.id == s.account.id" class="btn"
                               (click)="editComment(s.id, s.content)"
                               data-bs-toggle="modal" data-bs-target="#exampleModal66">Sửa
                       </button>
-                      <button style="font-size: 13px; color: darkgrey; margin-top: -1%" *ngIf="account.id == s.account.id" class="btn"
+                      <button style="font-size: 13px; color: darkgrey; margin-top: -1%" *ngIf="account1.id == s.account.id" class="btn"
                               (click)="deleteComment(s.id)">Xóa
                       </button>
                     </p>
