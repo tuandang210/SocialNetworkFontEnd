@@ -19,7 +19,9 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
     <div style="margin-left: 150px">
-      <a *ngIf="currentAccount"><img style="width: 120px; height: 90%; object-fit: cover"
+      <a *ngIf="currentAccount && currentAccount.username != 'admin'" routerLink="/status"><img style="width: 120px; height: 90%; object-fit: cover"
+                                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/1200px-Instagram_logo.svg.png"></a>
+      <a *ngIf="currentAccount && currentAccount.username == 'admin'"><img style="width: 120px; height: 90%; object-fit: cover"
                                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/1200px-Instagram_logo.svg.png"></a>
       <a *ngIf="!currentAccount" routerLink="/"><img style="width: 120px; height: 90%; object-fit: cover"
                                                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/1200px-Instagram_logo.svg.png"></a>
