@@ -1,17 +1,6 @@
-import {
-
-  AfterViewInit,
-  Component,
-  ElementRef,
-
-  OnInit,
-
-  QueryList,
-  ViewChild,
-  ViewChildren
-} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {AuthenticationService} from '../../service/authentication/authentication.service';
-import {ActivatedRoute, Router, Routes} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {StatusService} from '../../service/status/status.service';
 import {Status} from '../../model/status-model/status';
 import {AccountRelationService} from '../../service/relation/account-relation.service';
@@ -26,6 +15,7 @@ import {Comments} from '../../model/comment/comments';
 import {AccountService} from '../../service/account/account.service';
 import {LikeStatusService} from '../../service/likeStatus/like-status.service';
 import {LikeStatus} from '../../model/likeStatus/like-status';
+import {ImageStatusService} from '../../service/image-status/image-status.service';
 
 declare var $: any;
 
@@ -71,6 +61,10 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   likeStatuses: any = [];
   likeStatus: LikeStatus = {};
   account1: AccountToken = JSON.parse(localStorage.getItem('account'));
+  contentStatus = '';
+  idComment = '';
+  contentComment = '';
+
   constructor(public authenticationService: AuthenticationService,
               private activatedRoute: ActivatedRoute,
               private statusService: StatusService,
@@ -80,7 +74,8 @@ export class ProfileComponent implements OnInit, AfterViewInit {
               private router: Router,
               private commentService: CommentService,
               private accountService: AccountService,
-              private likeStatusService: LikeStatusService) {
+              private likeStatusService: LikeStatusService,
+              private imageStatusService: ImageStatusService) {
   }
 
   ngOnInit() {
@@ -236,16 +231,25 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     this.statusService.getById(id).subscribe(status => {
       this.detailAvatar = status.account.avatar;
       this.detailUsername = status.account.username;
-      this.status1 = status;
       this.detailIdUser = status.account.id;
+      this.contentStatus = status.content;
+      this.status1 = status;
+      this.imgSrc1 = status.imageStatuses[0].url;
       this.getComment(id);
       this.getAllLike(id);
     });
   }
 
-  saveStatus(id1, id2) {
-    this.statusService.editStatus(this.status1, this.status1.id).subscribe(() => {
+  saveStatus(formStatus, id1, id2, imageUrl) {
+    const status78: StatusDto = {};
+    status78.account = {
+      id: id1
+    };
+    status78.content = this.contentStatus;
+    status78.imageStatuses = imageUrl;
+    this.statusService.editStatus(status78, this.status1.id).subscribe(() => {
       this.getStatus(id1, id2);
+      // this.addIdStatus(this.status1.id);
     });
   }
 
@@ -258,7 +262,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   createStatus(formStatus, id1, id2, imageUrl) {
     let status12: StatusDto = {};
     formStatus.value.account.id = this.id1;
-    formStatus.value.url = imageUrl;
+    formStatus.value.imageStatuses = imageUrl;
     status12 = formStatus.value;
     this.statusService.createStatus(status12).subscribe(() => {
       this.getStatus(id1, id2);
@@ -372,10 +376,10 @@ export class ProfileComponent implements OnInit, AfterViewInit {
           finalize(() => {
             fileRef.getDownloadURL().subscribe(url => {
               this.imgSrc1 = url;
+              this.imageStatusService.createImage(url).subscribe();
             });
           })).subscribe();
       }
-
     } else {
       this.selectedImg = null;
     }
@@ -442,5 +446,22 @@ export class ProfileComponent implements OnInit, AfterViewInit {
       }
     }
     return false;
+  }
+
+  deleteComment(idComment) {
+    this.commentService.deleteComment(idComment).subscribe(() => {
+      this.addIdStatus(this.status1.id);
+    });
+  }
+
+  editComment(idComment, contentComment) {
+    this.idComment = idComment;
+    this.contentComment = contentComment;
+  }
+
+  saveComment() {
+    this.commentService.editComment(this.contentComment, this.idComment).subscribe(() => {
+      this.addIdStatus(this.status1.id);
+    });
   }
 }

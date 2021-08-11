@@ -50,6 +50,9 @@ export class StatusListComponent implements OnInit, AfterViewInit {
   detailIdUser = '';
   comments123: any = [];
   likeStatuses11: any = [];
+  contentStatus = '';
+  idComment = '';
+  contentComment = '';
 
   constructor(private statusService: StatusService,
               private privacyService: PrivacyService,
@@ -117,9 +120,22 @@ export class StatusListComponent implements OnInit, AfterViewInit {
     }
   }
 
-  saveStatus() {
-    this.statusService.editStatus(this.status1, this.status1.id).subscribe(() => {
-      this.getStatus(this.account.id);
+  // saveStatus() {
+  //   this.statusService.editStatus(this.status1, this.status1.id).subscribe(() => {
+  //     this.getStatus(this.account.id);
+  //   });
+  // }
+
+  saveStatus(formStatus, id1, imageUrl) {
+    const status78: StatusDto = {};
+    status78.account = {
+      id: id1
+    };
+    status78.content = this.contentStatus;
+    status78.imageStatuses = imageUrl;
+    this.statusService.editStatus(status78, this.status1.id).subscribe(() => {
+      this.getStatus(id1);
+      // this.addIdStatus(this.status1.id);
     });
   }
 
@@ -131,7 +147,7 @@ export class StatusListComponent implements OnInit, AfterViewInit {
 
   createStatus(formStatus, imageUrl) {
     let status11: StatusDto = {};
-    formStatus.value.url = imageUrl;
+    formStatus.value.imageStatuses = imageUrl;
     status11 = formStatus.value;
     this.statusService.createStatus(status11).subscribe(() => {
       this.getStatus(this.account.id);
@@ -151,6 +167,8 @@ export class StatusListComponent implements OnInit, AfterViewInit {
       this.detailAvatar = status.account.avatar;
       this.detailUsername = status.account.username;
       this.detailIdUser = status.account.id;
+      this.contentStatus = status.content;
+      this.imgSrc1 = status.imageStatuses[0].url;
       this.getComment(id);
       this.getAllLikeIn1Status(id);
     });
@@ -171,6 +189,7 @@ export class StatusListComponent implements OnInit, AfterViewInit {
           finalize(() => {
             fileRef.getDownloadURL().subscribe(url => {
               this.imgSrc1 = url;
+              this.imageStatusService.createImage(url).subscribe();
             });
           })).subscribe();
       }
@@ -243,5 +262,22 @@ export class StatusListComponent implements OnInit, AfterViewInit {
 
   signOut() {
     this.authenticationService.logout();
+  }
+
+  deleteComment(idComment) {
+    this.commentService.deleteComment(idComment).subscribe(() => {
+      this.addIdStatus(this.status1.id);
+    });
+  }
+
+  editComment(idComment, contentComment) {
+    this.idComment = idComment;
+    this.contentComment = contentComment;
+  }
+
+  saveComment() {
+    this.commentService.editComment(this.contentComment, this.idComment).subscribe(() => {
+      this.addIdStatus(this.status1.id);
+    });
   }
 }

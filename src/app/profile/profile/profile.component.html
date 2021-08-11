@@ -1,4 +1,4 @@
-<div style=" margin-left: 17%;">
+<div style=" margin-left: 15%;">
   <!-- Modal detail -->
   <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -33,16 +33,41 @@
                 <p style="margin-left: 13%; padding-top: 2%; width: 85%">{{s.content}}</p>
                 <div style="margin-top: -1%; margin-left: 10%">
                   <div *ngIf=" s.time< 60" style="margin-left: 10px">
-                    <p style="margin-top: 12px; font-size: 13px; color: darkgrey">{{s.time}} Phút Trước</p>
+                    <p style="margin-top: 12px; font-size: 13px; color: darkgrey">{{s.time}} Phút Trước
+                      <!--                    sua comment-->
+                      <button style="font-size: 13px; color: darkgrey; margin-top: -1%" *ngIf="account.id == s.account.id" class="btn"
+                              (click)="editComment(s.id, s.content)"
+                              data-bs-toggle="modal" data-bs-target="#exampleModal66">Sửa
+                      </button>
+                      <button style="font-size: 13px; color: darkgrey; margin-top: -1%" *ngIf="account.id == s.account.id" class="btn"
+                              (click)="deleteComment(s.id)">Xóa
+                      </button></p>
                   </div>
                   <div *ngIf=" s.time < 1440 && (s.time > 60 || s.time == 60)" style="margin-left: 10px">
                     <p style="margin-top: 12px; font-size: 13px; color: darkgrey">{{(s.time - s.time % 60) / 60}} Giờ
-                      Trước</p>
+                      Trước
+                      <!--                    sua comment-->
+                      <button style="font-size: 13px; color: darkgrey; margin-top: -1%" *ngIf="account.id == s.account.id" class="btn"
+                              (click)="editComment(s.id, s.content)"
+                              data-bs-toggle="modal" data-bs-target="#exampleModal66">Sửa
+                      </button>
+                      <button style="font-size: 13px; color: darkgrey; margin-top: -1%" *ngIf="account.id == s.account.id" class="btn"
+                              (click)="deleteComment(s.id)">Xóa
+                      </button></p>
                   </div>
                   <div *ngIf="s.time > 1440 || s.time == 1440" style="margin-left: 10px">
                     <p style="margin-top: 12px; font-size: 13px; color: darkgrey">{{(s.time - s.time % 1440) / 1440}}
                       Ngày
-                      Trước</p>
+                      Trước
+                      <!--                    sua comment-->
+                      <button style="font-size: 13px; color: darkgrey; margin-top: -1%" *ngIf="account.id == s.account.id" class="btn"
+                              (click)="editComment(s.id, s.content)"
+                              data-bs-toggle="modal" data-bs-target="#exampleModal66">Sửa
+                      </button>
+                      <button style="font-size: 13px; color: darkgrey; margin-top: -1%" *ngIf="account.id == s.account.id" class="btn"
+                              (click)="deleteComment(s.id)">Xóa
+                      </button>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -51,7 +76,7 @@
 
 
           <div style="margin-top: 420px;margin-left: 97%;position: fixed">
-<!--            hien thi like-->
+            <!--            hien thi like-->
             <div *ngIf="(likeStatuses.length == 0)">
               <p>
                 <button
@@ -90,7 +115,7 @@
 
 
             <div *ngFor="let x of likeStatuses">
-              <p  *ngIf="account1.id == x.account.id">
+              <p *ngIf="account1.id == x.account.id">
                 <button (click)="deleteLike(account1.id, status1.id)"
                         style="border: 0 solid white; background-color: white; margin-left: 1%; margin-top: 2%"><img
                   style=" width: 33px; height: 30px"
@@ -101,7 +126,7 @@
                   style=" width: 33px; height: 30px"
                   src="../../../assets/image/Screenshot 2021-08-10 101034.png"/>
                 </button>
-               <br>
+                <br>
                 <b style="margin-left: 5%">{{likeStatuses.length}}&nbsp;lượt
                   thích</b>
               </p>
@@ -109,11 +134,11 @@
 
 
             <form #commentForm="ngForm" (ngSubmit)="createComment(commentForm, id1, status1.id)">
-              <input style="margin-top: -2%; background-color: #F8F8F8;" class="input-group-text" ngModel name="content"
+              <input style="margin-top: -2%; background-color: #F8F8F8; width: 320px; margin-left: 2%"
+                     class="input-group-text" ngModel name="content"
                      placeholder="Viết bình luận">
-              <button style="margin-top: -30%;  margin-left: 100%" class="btn">Đăng</button>
             </form>
-            <div *ngIf="id1==detailIdUser" style="margin-top: -25%; margin-left: 145%">
+            <div *ngIf="id1==detailIdUser" style="margin-top: -15%; margin-left: 55%">
               <div style="float: right; margin-top: -26%;"
                    class="dropdown">
                 <button style=" background-color: white" class="dropbtn">
@@ -150,29 +175,61 @@
     </div>
   </div>
 
+  <!-- modal edit comment-->
+  <div class="modal fade" id="exampleModal66" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="_exampleModalLabel">Cập nhật bình luận</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form class="form-group" #statusForm="ngForm" (ngSubmit)="saveComment()">
+          <div class="modal-body">
+            <input class="input-group-text" name="content" [(ngModel)]="contentComment">
+
+          </div>
+          <div class="modal-footer">
+            <button data-bs-dismiss="modal" class="btn btn-primary">Lưu thay đổi</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
 
 
   <!-- Modal edit-->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Cập nhật bài viết</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
-<!--          <img *ngFor="let x of status1.imageStatuses" src="{{x.url}}">-->
-          <textarea class="form-control beautify-textarea" cols="100" rows="4" type="text"
-                    name="content" required [(ngModel)]="status1.content"
-                    placeholder="Bạn đang nghĩ gì thế?"></textarea>
-        </div>
-        <div class="modal-footer">
-          <button type="button" data-bs-dismiss="modal" (click)="saveStatus(id1, id2)" class="btn btn-primary">Lưu thay
-            đổi
-          </button>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-        </div>
+        <form class="form-group" #statusForm="ngForm" (ngSubmit)="saveStatus(statusForm, id1, id2, imgSrc1)">
+          <div class="modal-body">
+
+            <div>
+            <textarea class="form-control beautify-textarea" cols="100" rows="4" type="text"
+                      name="content" [(ngModel)]="contentStatus"
+                      placeholder="Bạn đang nghĩ gì thế?"></textarea>
+            </div>
+            <div>
+              <input type="file" (change)="showImagePreview($event);" #preview>
+              <img style="height: 100px; width: 100px; object-fit: cover" [src]="imgSrc1"
+                   (click)="preview.click()">
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button data-bs-dismiss="modal" class="btn btn-primary">Lưu thay đổi</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+          </div>
+        </form>
+
       </div>
     </div>
   </div>
@@ -197,7 +254,7 @@
       </div>
     </div>
   </div>
-
+  <!--modal create-->
   <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -223,9 +280,10 @@
                 </a>
               </div>
               <div>
-                <input hidden ngModel name="url" [value]="imgSrc1">
+                <input hidden ngModel name="imageStatuses" [value]="imgSrc1">
                 <input type="file" (change)="showImagePreview($event);" #preview>
-                <img *ngIf="imgSrc1" style="height: 100px; width: 100px; object-fit: cover" [src]="imgSrc1" (click)="preview.click()">
+                <img *ngIf="imgSrc1" style="height: 100px; width: 100px; object-fit: cover" [src]="imgSrc1"
+                     (click)="preview.click()">
               </div>
               <div>
                 <input hidden type="text" name="account" [(ngModel)]="currentAccount">
@@ -321,7 +379,7 @@
     </div>
 
     <div style="margin-top: 220px">
-
+      <hr style="color: lightgrey; margin-left: 1%">
 
       <div *ngIf="(friendCheck<1 && loginCheck) || (friendCheck === 4 && loginCheck)" style="margin-top: 50px">
         <div>
@@ -330,9 +388,9 @@
               <a>
                 <img (click)="addIdStatus(s.id)"
                      data-bs-toggle="modal" data-bs-target="#exampleModal1" class="d-block imageClick"
-                     style=" height: 250px;width: 255px ; object-fit: cover; padding-bottom: 20px"
+                     style=" height: 290px;width: 300px ; object-fit: cover; margin-bottom: 20px; padding: 10px"
                      src="{{s.imageStatuses[0].url}}">
-                <div style="position: absolute; margin-top: -20%; margin-left: 30%">
+                <div style="position: absolute; margin-top: -20%; margin-left: 33%">
                   <div *ngIf="s.time < 60" style="margin-left: 10px">
                     <p style="margin-top: 12px; font-size: 13px; color: darkgrey">{{s.time}} Phút Trước</p>
                   </div>
@@ -359,9 +417,9 @@
             <div class="col-4" *ngFor="let s of statusPublic">
               <a>
                 <img class="d-block imageClick"
-                     style=" height: 250px;width: 255px ; object-fit: cover; padding-bottom: 20px"
+                     style="height: 290px;width: 300px ; object-fit: cover; margin-bottom: 20px; padding: 10px"
                      src="{{s.imageStatuses[0].url}}">
-                <div style="position: absolute; margin-top: -20%; margin-left: 30%">
+                <div style="position: absolute; margin-top: -20%; margin-left: 33%">
                   <div *ngIf="s.time < 60" style="margin-left: 10px">
                     <p style="margin-top: 12px; font-size: 13px; color: darkgrey">{{s.time}} Phút Trước</p>
                   </div>
@@ -389,9 +447,9 @@
               <a>
                 <img (click)="addIdStatus(s.id)"
                      data-bs-toggle="modal" data-bs-target="#exampleModal1" class="d-block imageClick"
-                     style=" height: 250px;width: 255px ; object-fit: cover; padding-bottom: 20px"
+                     style="height: 290px;width: 300px ; object-fit: cover; margin-bottom: 20px; padding: 10px"
                      src="{{s.imageStatuses[0].url}}">
-                <div style="position: absolute; margin-top: -20%; margin-left: 30%">
+                <div style="position: absolute; margin-top: -20%; margin-left: 33%">
                   <div *ngIf="s.time < 60" style="margin-left: 10px">
                     <p style="margin-top: 12px; font-size: 13px; color: darkgrey">{{s.time}} Phút Trước</p>
                   </div>
@@ -422,9 +480,9 @@
               <a>
                 <img (click)="addIdStatus(s.id)"
                      data-bs-toggle="modal" data-bs-target="#exampleModal1" class="d-block imageClick"
-                     style=" height: 250px;width: 255px ; object-fit: cover; padding-bottom: 20px"
+                     style=" height: 290px;width: 300px ; object-fit: cover; margin-bottom: 20px; padding: 10px"
                      src="{{s.imageStatuses[0].url}}">
-                <div style="position: absolute; margin-top: -12.5%; margin-left: 30%">
+                <div style="position: absolute; margin-top: -12.5%; margin-left: 33%">
                   <div *ngIf="s.time < 60" style="margin-left: 10px">
                     <p style="margin-top: 12px; font-size: 13px; color: darkgrey">{{s.time}} Phút Trước</p>
                   </div>
@@ -443,7 +501,8 @@
           </div>
         </div>
       </div>
-      <div class="text-center p-1 fadeIn second" style="background-color: white;height: 15px; margin-top: 3%; font-size: 13px; color: darkgrey">
+      <div class="text-center p-1 fadeIn second"
+           style="background-color: white;height: 15px; margin-top: 3%; font-size: 13px; color: darkgrey">
         © 2021 Instagram from Fantastic4
       </div>
 

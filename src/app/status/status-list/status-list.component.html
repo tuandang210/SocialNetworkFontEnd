@@ -174,10 +174,12 @@
           </div>
 
           <div *ngIf="s.time < 60" style="margin-left: 10px">
-            <p style="margin-top: -3%; font-size: 13px; color: darkgrey">{{s.time}} Phút Trước</p>
+            <p style="margin-top: -3%; font-size: 13px; color: darkgrey">{{s.time}} Phút Trước
+             </p>
           </div>
           <div *ngIf=" s.time < 1440 && (s.time > 60 || s.time == 60)" style="margin-left: 10px">
-            <p style="margin-top: -3%;font-size: 13px; color: darkgrey">{{(s.time - s.time % 60) / 60}} Giờ Trước</p>
+            <p style="margin-top: -3%;font-size: 13px; color: darkgrey">{{(s.time - s.time % 60) / 60}} Giờ Trước
+              </p>
           </div>
           <div *ngIf="s.time > 1440 || s.time == 1440" style="margin-left: 10px">
             <p style="margin-top: -3%; font-size: 13px; color: darkgrey">{{(s.time - s.time % 1440) / 1440}} Ngày
@@ -272,7 +274,7 @@
   </div>
 </div>
 
-
+<!--modal create-->
 <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -298,7 +300,7 @@
               </a>
             </div>
             <div>
-              <input hidden ngModel name="url" [value]="imgSrc1">
+              <input hidden ngModel name="imageStatuses" [value]="imgSrc1">
               <input type="file" (change)="showImagePreview($event);" #preview>
               <img *ngIf="imgSrc1" style="height: 100px; width: 100px; object-fit: cover" [src]="imgSrc1"
                    (click)="preview.click()">
@@ -344,22 +346,34 @@
 
 <!-- Modal edit-->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Cập nhật bài viết</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-           <textarea class="form-control beautify-textarea" cols="100" rows="4" type="text"
-                     name="content" required [(ngModel)]="status1.content"
-                     placeholder="Bạn đang nghĩ gì thế?"></textarea>
-      </div>
-      <div class="modal-footer">
-        <button type="button" data-bs-dismiss="modal" (click)="saveStatus()" class="btn btn-primary">Lưu thay đổi
-        </button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-      </div>
+      <form class="form-group" #statusForm="ngForm" (ngSubmit)="saveStatus(statusForm, account.id, imgSrc1)">
+        <div class="modal-body">
+
+          <div>
+            <textarea class="form-control beautify-textarea" cols="100" rows="4" type="text"
+                      name="content" [(ngModel)]="contentStatus"
+                      placeholder="Bạn đang nghĩ gì thế?"></textarea>
+          </div>
+          <div>
+            <input type="file" (change)="showImagePreview($event);" #preview>
+            <img style="height: 100px; width: 100px; object-fit: cover" [src]="imgSrc1"
+                 (click)="preview.click()">
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button data-bs-dismiss="modal" class="btn btn-primary">Lưu thay đổi</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        </div>
+      </form>
+
     </div>
   </div>
 </div>
@@ -399,16 +413,40 @@
               <p style="margin-left: 13%; padding-top: 2%; width: 85%">{{s.content}}</p>
               <div style="margin-top: -1%; margin-left: 10%">
                 <div *ngIf=" s.time< 60" style="margin-left: 10px">
-                  <p style="margin-top: 12px; font-size: 13px; color: darkgrey">{{s.time}} Phút Trước</p>
+                  <p style="margin-top: 12px; font-size: 13px; color: darkgrey">{{s.time}} Phút Trước
+                    <!--                    sua comment-->
+                    <button style="font-size: 13px; color: darkgrey; margin-top: -1%" *ngIf="account.id == s.account.id" class="btn"
+                            (click)="editComment(s.id, s.content)"
+                            data-bs-toggle="modal" data-bs-target="#exampleModal66">Sửa
+                    </button>
+                    <button style="font-size: 13px; color: darkgrey; margin-top: -1%" *ngIf="account.id == s.account.id" class="btn"
+                            (click)="deleteComment(s.id)">Xóa
+                    </button></p>
                 </div>
                 <div *ngIf=" s.time < 1440 && (s.time > 60 || s.time == 60)" style="margin-left: 10px">
                   <p style="margin-top: 12px; font-size: 13px; color: darkgrey">{{(s.time - s.time % 60) / 60}} Giờ
-                    Trước</p>
+                    Trước
+                    <!--                    sua comment-->
+                    <button style="font-size: 13px; color: darkgrey; margin-top: -1%" *ngIf="account.id == s.account.id" class="btn"
+                            (click)="editComment(s.id, s.content)"
+                            data-bs-toggle="modal" data-bs-target="#exampleModal66">Sửa
+                    </button>
+                    <button style="font-size: 13px; color: darkgrey; margin-top: -1%" *ngIf="account.id == s.account.id" class="btn"
+                            (click)="deleteComment(s.id)">Xóa
+                    </button></p>
                 </div>
                 <div *ngIf="s.time > 1440 || s.time == 1440" style="margin-left: 10px">
                   <p style="margin-top: 12px; font-size: 13px; color: darkgrey">{{(s.time - s.time % 1440) / 1440}}
                     Ngày
-                    Trước</p>
+                    Trước
+                    <!--                    sua comment-->
+                    <button style="font-size: 13px; color: darkgrey; margin-top: -1%" *ngIf="account.id == s.account.id" class="btn"
+                            (click)="editComment(s.id, s.content)"
+                            data-bs-toggle="modal" data-bs-target="#exampleModal66">Sửa
+                    </button>
+                    <button style="font-size: 13px; color: darkgrey; margin-top: -1%" *ngIf="account.id == s.account.id" class="btn"
+                            (click)="deleteComment(s.id)">Xóa
+                    </button></p>
                 </div>
               </div>
             </div>
@@ -478,40 +516,33 @@
             <input style="margin-top: -2%; background-color: #F8F8F8; width: 315px" class="input-group-text" ngModel name="content"
                    placeholder="Viết bình luận">
           </form>
-<!--          <div *ngIf="account.id==detailIdUser" style="margin-top: -25%; margin-left: 145%">-->
-<!--            <div style="float: right; margin-top: -26%;"-->
-<!--                 class="dropdown">-->
-<!--              <button style=" background-color: white" class="dropbtn">-->
-<!--                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"-->
-<!--                     class="bi bi-three-dots"-->
-<!--                     viewBox="0 0 16 16">-->
-<!--                  <path-->
-<!--                    d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>-->
-<!--                </svg>-->
-<!--              </button>-->
-<!--              <div class="dropdown-content2">-->
-<!--                <label style="width: 100%" for="edit11">-->
-<!--                  <a class="nav-link">-->
-<!--                    <button id="edit11" class="btn"-->
-<!--                            (click)="addIdStatus(status1.id)"-->
-<!--                            data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-dismiss="modal">Sửa-->
-<!--                    </button>-->
-<!--                    <span class="sr-only">(current)</span></a>-->
-<!--                </label>-->
-<!--                <label style="width: 100%" for="delete11">-->
-<!--                  <a class="nav-link">-->
-<!--                    <button id="delete11" class="btn"-->
-<!--                            (click)="addIdStatus(status1.id)" data-bs-toggle="modal"-->
-<!--                            data-bs-target="#deleteStatus" data-bs-dismiss="modal">Xóa-->
-<!--                    </button>-->
-<!--                    <span class="sr-only">(current)</span></a>-->
-<!--                </label>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- modal edit comment-->
+<div class="modal fade" id="exampleModal66" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="_exampleModalLabel">Cập nhật bình luận</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form class="form-group" #statusForm="ngForm" (ngSubmit)="saveComment()">
+        <div class="modal-body">
+          <input class="input-group-text" name="content" [(ngModel)]="contentComment">
+
+        </div>
+        <div class="modal-footer">
+          <button data-bs-dismiss="modal" class="btn btn-primary">Lưu thay đổi</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        </div>
+      </form>
+
     </div>
   </div>
 </div>

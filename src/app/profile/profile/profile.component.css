@@ -1,14 +1,14 @@
 .frame {
   height: 92.5%;
   position: absolute;
-  width: 62.5%;
+  width: 72%;
   z-index: 100;
   overflow: scroll;
 }
 
 .item {
   padding: 0;
-  margin: 10px;
+  margin: 20px;
   /*background-color: whitesmoke;*/
   border: 1px solid lightgray;
   border-radius: 3px;
@@ -88,6 +88,37 @@
   border-radius: 10px;
 }
 
+.dropdown-content3 {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  /*min-width: 260px;*/
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  max-height: 55px;
+
+}
+
+.dropdown-content3 a {
+  color: black;
+  /*padding: 12px 16px;*/
+  text-decoration: none;
+  display: block;
+  width: 85px;
+  border-radius: 10px;
+  position: relative;
+}
+
+.dropdown-content3 a:hover {
+  background-color: #f1f1f1
+}
+
+.dropdown:hover .dropdown-content3 {
+  display: inline-block;
+  border-radius: 10px;
+}
+
+
 .dropdown-content2 {
   display: none;
   position: absolute;
@@ -117,8 +148,6 @@
   display: inline-block;
   border-radius: 10px;
 }
-
-
 
 
 
