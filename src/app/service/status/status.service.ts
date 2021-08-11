@@ -30,6 +30,10 @@ export class StatusService {
     return this.http.post<Status>(`${API_URL}/status`, status);
   }
 
+  createStatusVS2(status): Observable<Status> {
+    return this.http.post<Status>(`${API_URL}/status`, status);
+  }
+
   editStatus(status: Status, id: number): Observable<Status> {
     return this.http.put<Status>(`${API_URL}/status/${id}`, status);
   }
