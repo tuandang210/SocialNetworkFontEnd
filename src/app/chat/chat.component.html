@@ -7,7 +7,7 @@
       <div class="form-check" style="background-color: whitesmoke " *ngFor="let friend of friends"
            (click)="addIdFriend(account.id, friend.id)">
         <label class="form-check-label" for="flexRadioDefault{{friend.id}}" style="margin-left: -2%">
-          <img style="width: 27px;height: 27px;border-radius: 50%; margin-top: 15px" [src]="friend.avatar" alt="avatar"/>
+          <img style="width: 27px;height: 27px;border-radius: 50%; object-fit: cover;border: 1px solid deeppink;margin-top: 15px" [src]="friend.avatar" alt="avatar"/>
           <div class="about">
             <div class="name oklla" style="width:80px;text-overflow: ellipsis; white-space: nowrap; overflow: hidden">{{friend.username}}</div>
             <div class="status">
@@ -15,7 +15,7 @@
             </div>
           </div>
         </label>
-        <input style="width: 20px;border: #a8aab1;float: right; margin-top: 15px" type="radio" id="flexRadioDefault{{friend.id}}">
+<!--        <input style="width: 20px;border: #a8aab1;float: right; margin-top: 15px" type="radio" id="flexRadioDefault{{friend.id}}">-->
       </div>
 
       <!--      <li class="clearfix">-->
