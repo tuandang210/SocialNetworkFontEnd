@@ -44,52 +44,47 @@
   </div>
 </div>
 
-<div style="width: 800px" class="container clearfix">
-  <div style="float: left" class="people-list" id="people-list">
+<div style="width: 602px; margin-left: 340px" class="container clearfix">
+  <div style="float: left; width: 198px" class="people-list" id="people-list">
     <div class="search">
-      <input #element type="text" (keyup)="search(element.value)" placeholder="search"/>
-      <i class="fa fa-search"></i>
+      <input #element type="text" style="margin-left: 8px; background-color: whitesmoke;" (keyup)="search(element.value)" placeholder="Tìm kiếm"/>
     </div>
     <div>
-      <button class="btn btn-outline-info"
+      <button style="margin-left: 60px; padding: 5px" class="btn btn-outline-primary"
               data-bs-toggle="modal"
-              data-bs-target="#deleteStatus">Create Group
+              data-bs-target="#deleteStatus">Tạo nhóm
       </button>
     </div>
-    <ul class="list">
-      <li *ngFor="let group of groups" (click)="addIdAccount(group.id)" class="clearfix">
+    <div class="list">
+      <div style="background-color: whitesmoke " *ngFor="let group of groups" (click)="addIdAccount(group.id)" class="clearfix">
         <div class="about">
           <div style="color: #5fbae9" class="name">{{group.name}}</div>
           <div class="status">
-            <i class="fa fa-circle online"></i> online
+            <i class="fa fa-circle online"></i> Trực tuyến
           </div>
         </div>
-      </li>
-    </ul>
+      </div>
+    </div>
   </div>
 
   <div style="float: left" class="chat">
     <div class="chat-header clearfix">
-      <img [src]="account.avatar" style="width: 55px;height: 55px;border: none;border-radius: 24px" alt="avatar"/>
+      <img [src]="account.avatar" style="margin-top: 5px;width: 40px;height: 40px;border: none;border-radius: 50%" alt="avatar"/>
 
-      <div class="chat-about">
-        <div class="chat-with">Chat with &nbsp;&nbsp; {{account.username}}</div>
-        <div class="chat-num-messages">already 1 902 messages</div>
-      </div>
-      <i class="fa fa-star">
+      <div style="margin-left: 5px" class="chat-about">
         <button *ngIf="checkButton" data-bs-toggle="modal"
-                data-bs-target="#addNewAccount" (click)="getFriends()" class="btn btn-outline-info">Thêm bạn vào nhóm (+)
-        </button>
-      </i>
+                data-bs-target="#addNewAccount" (click)="getFriends()" class="btn btn-outline-info">Thêm bạn        </button>&nbsp;
+        <button (click)="exitGroup()" class="btn btn-outline-info">Rời nhóm </button>
+      </div>
     </div> <!-- end chat-header -->
-    <button (click)="exitGroup()" class="btn btn-outline-info">Rời nhóm ?
-    </button>
+
+
     <div #scrollMe class="chat-history">
       <ul *ngFor="let message of websocketService.group">
         <li *ngIf="message.account1.id == account.id" class="clearfix">
           <div class="message-data align-right">
-            <span class="message-data-time">{{message.date}}, Today</span> &nbsp; &nbsp;
-            <span class="message-data-name">{{message.account1.username}}</span> <i class="fa fa-circle me"></i>
+            <span class="message-data-time">{{message.date}}</span> &nbsp; &nbsp;
+            <span class="message-data-name">{{message.account1.username}}</span> &nbsp;<i class="fa fa-circle me"></i>
           </div>
           <div class="message other-message float-right">
             {{message.content}}
@@ -98,8 +93,8 @@
 
         <li *ngIf="message.account1.id != account.id">
           <div class="message-data">
-            <span class="message-data-name"><i class="fa fa-circle online"></i>{{message.account1.username}}</span>
-            <span class="message-data-time">{{message.date}}, Today</span>
+            <span class="message-data-name"><i class="fa fa-circle online"></i>&nbsp;{{message.account1.username}}</span>
+            <span class="message-data-time">{{message.date}}</span>
           </div>
           <div class="message my-message">
             {{message.content}}
@@ -110,12 +105,8 @@
     </div> <!-- end chat-history -->
     <form #message="ngForm" (ngSubmit)="createChat(message)">
       <div class="chat-message clearfix">
-        <textarea name="content" id="message-to-send" placeholder="Type your message" rows="3" ngModel></textarea>
-
-        <i class="fa fa-file-o"></i> &nbsp;&nbsp;&nbsp;
-        <i class="fa fa-file-image-o"></i>
-
-        <button>Send</button>
+        <textarea name="content" id="message-to-send" placeholder="Soạn tin nhắn" rows="2" ngModel></textarea>
+        <button>Gửi</button>
       </div> <!-- end chat-message -->
     </form>
 
