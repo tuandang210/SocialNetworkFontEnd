@@ -31,6 +31,9 @@
             <div class="row-cols-4" *ngIf="username.errors?.required">
               Tên tài khoản không được để trống.
             </div>
+            <div *ngIf="username.errors?.pattern">
+              Không được để khoảng trắng
+            </div>
           </div>
 
         </div>

@@ -13,6 +13,7 @@ export class AccountListComponent implements OnInit {
   offset = 0;
   total: number;
   page = 0;
+  isDone = false;
 
   constructor(private accountService: AccountService) {
   }
@@ -39,9 +40,12 @@ export class AccountListComponent implements OnInit {
 
   block(id: number) {
     this.accountService.blockAccount(id).subscribe(() => {
-      alert('Đã block!');
+      this.isDone = true;
       this.ngOnInit();
       // this.getAll();
+      setTimeout(() => {
+        this.isDone = false;
+      }, 2000);
     });
   }
 
