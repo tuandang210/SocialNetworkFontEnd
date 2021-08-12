@@ -388,6 +388,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   createComment(commentForm, id1, statusId) {
     this.commentService.createComment(commentForm.value, id1, statusId).subscribe(() => {
       this.getComment(statusId);
+      commentForm.reset();
     });
   }
 

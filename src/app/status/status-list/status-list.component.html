@@ -158,7 +158,8 @@
           <div style="margin-left: 10px; margin-top: 10px">
 
             <p style=" text-align: justify"><b>{{s.account.username}}</b>&nbsp;{{s.content}}</p>
-            <a id="oklaaa" (click)="addIdStatus(s.id)" data-bs-toggle="modal" data-bs-target="#exampleModal11" style="font-size: 14px; color: darkgrey">Xem tất cả bình luận</a>
+            <a id="oklaaa" (click)="addIdStatus(s.id)" data-bs-toggle="modal" data-bs-target="#exampleModal11"
+               style="font-size: 14px; color: darkgrey">Xem tất cả bình luận</a>
             <hr style="width: 98%">
 
 
@@ -175,11 +176,11 @@
 
           <div *ngIf="s.time < 60" style="margin-left: 10px">
             <p style="margin-top: -3%; font-size: 13px; color: darkgrey">{{s.time}} Phút Trước
-             </p>
+            </p>
           </div>
           <div *ngIf=" s.time < 1440 && (s.time > 60 || s.time == 60)" style="margin-left: 10px">
             <p style="margin-top: -3%;font-size: 13px; color: darkgrey">{{(s.time - s.time % 60) / 60}} Giờ Trước
-              </p>
+            </p>
           </div>
           <div *ngIf="s.time > 1440 || s.time == 1440" style="margin-left: 10px">
             <p style="margin-top: -3%; font-size: 13px; color: darkgrey">{{(s.time - s.time % 1440) / 1440}} Ngày
@@ -234,7 +235,8 @@
         </td>
         <td>
           <p
-            style="margin-left:-5%; margin-top:10%;width: 150px;text-overflow: ellipsis; white-space: nowrap; overflow: hidden">sooyaaa<br><span style="font-size: 13px; color: darkgrey">Gợi ý kết bạn</span></p>
+            style="margin-left:-5%; margin-top:10%;width: 150px;text-overflow: ellipsis; white-space: nowrap; overflow: hidden">
+            sooyaaa<br><span style="font-size: 13px; color: darkgrey">Gợi ý kết bạn</span></p>
         </td>
         <td><a style="float: right ;font-size: 14px" [routerLink]="['/profile', 'sooyaaa']">Xem</a></td>
       </tr>
@@ -248,7 +250,8 @@
         </td>
         <td>
           <p
-            style="margin-left:-5%; margin-top:10%;width: 150px;text-overflow: ellipsis; white-space: nowrap; overflow: hidden">roses_are_rosie<br><span style="font-size: 13px; color: darkgrey">Gợi ý kết bạn</span></p>
+            style="margin-left:-5%; margin-top:10%;width: 150px;text-overflow: ellipsis; white-space: nowrap; overflow: hidden">
+            roses_are_rosie<br><span style="font-size: 13px; color: darkgrey">Gợi ý kết bạn</span></p>
         </td>
         <td><a style="float: right ;font-size: 14px" [routerLink]="['/profile', 'roses_are_rosie']">Xem</a></td>
       </tr>
@@ -262,13 +265,15 @@
         </td>
         <td>
           <p
-            style="margin-left:-5%; margin-top:10%;width: 150px;text-overflow: ellipsis; white-space: nowrap; overflow: hidden">actressquynkool<br><span style="font-size: 13px; color: darkgrey">Gợi ý kết bạn</span>
+            style="margin-left:-5%; margin-top:10%;width: 150px;text-overflow: ellipsis; white-space: nowrap; overflow: hidden">
+            actressquynkool<br><span style="font-size: 13px; color: darkgrey">Gợi ý kết bạn</span>
           </p>
         </td>
         <td><a style="float: right ;font-size: 14px" [routerLink]="['/profile', 'actressquynkool']">Xem</a></td>
       </tr>
     </table>
-    <div class="text-center p-1 fadeIn second" style="float: bottom;background-color: white;height: 15px; margin-top: 3%; font-size: 13px; color: darkgrey">
+    <div class="text-center p-1 fadeIn second"
+         style="float: bottom;background-color: white;height: 15px; margin-top: 3%; font-size: 13px; color: darkgrey">
       © 2021 Instagram from Fantastic4
     </div>
   </div>
@@ -282,33 +287,26 @@
         <h5 class="modal-title" id="createModalLabel" style="margin-left: 185px">Tạo bài viết</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form #statusForm="ngForm" (ngSubmit)="createStatus(statusForm, imgSrc1) ">
+      <form #statusForm="ngForm" (ngSubmit)="createStatus(statusForm, account.id,imgSrc1) ">
         <div class="modal-body">
           <div>
             <div style="margin-bottom: -10px">
               <select style="font-size: 14px; border: 1px solid lightgrey;height: 30px; border-radius: 5px"
-                      name="privacy" [(ngModel)]="status1">
-                <option *ngFor="let privacy of privacy" [value]="privacy.id">{{privacy.name}}</option>
+                      name="privacy" [(ngModel)]="privacy1.id">
+                <option *ngFor="let x of privacy" [value]="x.id">{{x.name}}</option>
               </select>
             </div>
             <div class="form-group">
               <label for="inputEmail"></label>
               <textarea class="form-control beautify-textarea" cols="100" rows="3"
-                        id="inputEmail" name="content" required ngModel
+                        id="inputEmail" name="content" required [(ngModel)]="contentStatus"
                         placeholder="Bạn đang nghĩ gì thế?"></textarea>
-              <a *ngIf="statusForm.invalid">
-              </a>
             </div>
             <div>
-              <input hidden ngModel name="imageStatuses" [value]="imgSrc1">
               <input type="file" (change)="showImagePreview($event);" #preview>
               <img *ngIf="imgSrc1" style="height: 100px; width: 100px; object-fit: cover" [src]="imgSrc1"
                    (click)="preview.click()">
             </div>
-            <div>
-              <input hidden type="text" name="account" [(ngModel)]="account">
-            </div>
-
           </div>
         </div>
         <div class="modal-footer">
@@ -415,38 +413,47 @@
                 <div *ngIf=" s.time< 60" style="margin-left: 10px">
                   <p style="margin-top: 12px; font-size: 13px; color: darkgrey">{{s.time}} Phút Trước
                     <!--                    sua comment-->
-                    <button style="font-size: 13px; color: darkgrey; margin-top: -1%" *ngIf="account.id == s.account.id" class="btn"
+                    <button style="font-size: 13px; color: darkgrey; margin-top: -1%" *ngIf="account.id == s.account.id"
+                            class="btn"
                             (click)="editComment(s.id, s.content)"
                             data-bs-toggle="modal" data-bs-target="#exampleModal66">Sửa
                     </button>
-                    <button style="font-size: 13px; color: darkgrey; margin-top: -1%" *ngIf="account.id == s.account.id" class="btn"
+                    <button style="font-size: 13px; color: darkgrey; margin-top: -1%" *ngIf="account.id == s.account.id || account.id == isStatus"
+                            class="btn"
                             (click)="deleteComment(s.id)">Xóa
-                    </button></p>
+                    </button>
+                  </p>
                 </div>
                 <div *ngIf=" s.time < 1440 && (s.time > 60 || s.time == 60)" style="margin-left: 10px">
                   <p style="margin-top: 12px; font-size: 13px; color: darkgrey">{{(s.time - s.time % 60) / 60}} Giờ
                     Trước
                     <!--                    sua comment-->
-                    <button style="font-size: 13px; color: darkgrey; margin-top: -1%" *ngIf="account.id == s.account.id" class="btn"
+                    <button style="font-size: 13px; color: darkgrey; margin-top: -1%" *ngIf="account.id == s.account.id"
+                            class="btn"
                             (click)="editComment(s.id, s.content)"
                             data-bs-toggle="modal" data-bs-target="#exampleModal66">Sửa
                     </button>
-                    <button style="font-size: 13px; color: darkgrey; margin-top: -1%" *ngIf="account.id == s.account.id" class="btn"
+                    <button style="font-size: 13px; color: darkgrey; margin-top: -1%" *ngIf="account.id == s.account.id || account.id == isStatus"
+                            class="btn"
                             (click)="deleteComment(s.id)">Xóa
-                    </button></p>
+                    </button>
+                  </p>
                 </div>
                 <div *ngIf="s.time > 1440 || s.time == 1440" style="margin-left: 10px">
                   <p style="margin-top: 12px; font-size: 13px; color: darkgrey">{{(s.time - s.time % 1440) / 1440}}
                     Ngày
                     Trước
                     <!--                    sua comment-->
-                    <button style="font-size: 13px; color: darkgrey; margin-top: -1%" *ngIf="account.id == s.account.id" class="btn"
+                    <button style="font-size: 13px; color: darkgrey; margin-top: -1%" *ngIf="account.id == s.account.id"
+                            class="btn"
                             (click)="editComment(s.id, s.content)"
                             data-bs-toggle="modal" data-bs-target="#exampleModal66">Sửa
                     </button>
-                    <button style="font-size: 13px; color: darkgrey; margin-top: -1%" *ngIf="account.id == s.account.id" class="btn"
+                    <button style="font-size: 13px; color: darkgrey; margin-top: -1%" *ngIf="account.id == s.account.id || account.id == isStatus"
+                            class="btn"
                             (click)="deleteComment(s.id)">Xóa
-                    </button></p>
+                    </button>
+                  </p>
                 </div>
               </div>
             </div>
@@ -493,7 +500,7 @@
 
 
           <div *ngFor="let x of likeStatuses11">
-            <p  *ngIf="account.id == x.account.id">
+            <p *ngIf="account.id == x.account.id">
               <button (click)="deleteLike(account.id, status1.id)"
                       style="border: 0 solid white; background-color: white; margin-left: 1%; margin-top: 2%"><img
                 style=" width: 33px; height: 30px"
@@ -512,7 +519,8 @@
 
 
           <form #commentForm="ngForm" (ngSubmit)="createComment(commentForm, account.id, status1.id)">
-            <input style="margin-top: -2%; background-color: #F8F8F8; width: 315px" class="input-group-text" ngModel name="content"
+            <input style="margin-top: -2%; background-color: #F8F8F8; width: 315px" class="input-group-text" ngModel
+                   name="content"
                    placeholder="Viết bình luận">
           </form>
         </div>

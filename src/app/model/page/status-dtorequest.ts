@@ -7,7 +7,7 @@ export interface StatusDTORequest {
 
   privacy?: any;
 
-  url?: string;
+  imageStatuses?: string;
 
   page?: any;
 }

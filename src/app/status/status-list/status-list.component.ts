@@ -17,6 +17,7 @@ import {LikeStatusService} from '../../service/likeStatus/like-status.service';
 import {LikeStatus} from '../../model/likeStatus/like-status';
 import {AccountRelationService} from '../../service/relation/account-relation.service';
 import {AuthenticationService} from '../../service/authentication/authentication.service';
+import {StatusDTORequest} from '../../model/page/status-dtorequest';
 
 
 @Component({
@@ -26,6 +27,7 @@ import {AuthenticationService} from '../../service/authentication/authentication
 })
 export class StatusListComponent implements OnInit, AfterViewInit {
   status: StatusCommentDto[] = [];
+  status2: Status = {};
   status1: StatusCommentDto = {};
   check = false;
   account: AccountToken = JSON.parse(localStorage.getItem('account'));
@@ -35,14 +37,13 @@ export class StatusListComponent implements OnInit, AfterViewInit {
   private isNearBottom = true;
   private loadAmount = 3;
   privacy: Privacy[] = [];
+  privacy1: Privacy = {};
   id: number;
   selectedImg: any = null;
   imgSrc1 = '';
   image: ImageStatus = {};
   comments: any = [];
-
   likeStatuses: any = [];
-
   likeStatus: LikeStatus = {};
   friends: any = [];
   detailAvatar = '';
@@ -53,6 +54,7 @@ export class StatusListComponent implements OnInit, AfterViewInit {
   contentStatus = '';
   idComment = '';
   contentComment = '';
+  isStatus = -1;
 
   constructor(private statusService: StatusService,
               private privacyService: PrivacyService,
@@ -135,6 +137,7 @@ export class StatusListComponent implements OnInit, AfterViewInit {
     status78.imageStatuses = imageUrl;
     this.statusService.editStatus(status78, this.status1.id).subscribe(() => {
       this.getStatus(id1);
+      this.contentStatus = '';
       // this.addIdStatus(this.status1.id);
     });
   }
@@ -145,12 +148,20 @@ export class StatusListComponent implements OnInit, AfterViewInit {
     });
   }
 
-  createStatus(formStatus, imageUrl) {
-    let status11: StatusDto = {};
-    formStatus.value.imageStatuses = imageUrl;
-    status11 = formStatus.value;
-    this.statusService.createStatus(status11).subscribe(() => {
-      this.getStatus(this.account.id);
+  createStatus(statusForm, id1, imageUrl) {
+    const statusDTORequest: StatusDTORequest = {};
+    statusDTORequest.privacy = {
+      id: this.privacy1.id
+    };
+    statusDTORequest.page = null;
+    statusDTORequest.content = this.contentStatus;
+    statusDTORequest.imageStatuses = imageUrl;
+    statusDTORequest.account = {
+      id: id1
+    };
+    this.statusService.createStatusVS2(statusDTORequest).subscribe(() => {
+      this.getStatus(id1);
+      this.contentStatus = '';
     });
   }
 
@@ -169,6 +180,7 @@ export class StatusListComponent implements OnInit, AfterViewInit {
       this.detailIdUser = status.account.id;
       this.contentStatus = status.content;
       this.imgSrc1 = status.imageStatuses[0].url;
+      this.isStatus = status.account.id;
       this.getComment(id);
       this.getAllLikeIn1Status(id);
     });
